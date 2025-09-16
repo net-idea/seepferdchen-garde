@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Hind:400,300,700");
 
 a {
   color: #9595aa;
@@ -9,6 +10,7 @@ a:hover {
 }
 
 body {
+  font-family: 'Hind', sans-serif !important;
   background-color: #080808;
   color: #eee;
   background-image:
