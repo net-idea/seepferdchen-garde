@@ -1,3 +1,13 @@
+
+a {
+  color: #9595aa;
+}
+
+a:hover {
+  color: #5d83a3;
+  text-decoration: underline;
+}
+
 body {
   background-color: #080808;
   color: #eee;
@@ -11,11 +21,26 @@ body {
   height: 400px;
 }
 
+.carousel-item-1 {
+  background: linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.55)), url('/assets/images/schwimmbad.jpg') center/cover no-repeat;
+}
+
+.carousel-item-2 {
+  background: linear-gradient(rgba(255,255,255,0.55), rgba(255,255,255,0.55)), url('/assets/images/kinder-schwimmen.jpg') center/cover no-repeat;
+}
+
 .carousel-item .container {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+#kontakt a[href^="https://wa.me/"] svg {
+  height: 2em;
+  width: auto;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .footer {

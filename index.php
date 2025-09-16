@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -57,19 +57,18 @@
     </script>
 
     <!-- Styles -->
-    <link href="./style/bootstrap.min.css" rel="stylesheet">
-    <link href="./style/main.css" rel="stylesheet">
+    <link href="/style/bootstrap.min.css" rel="stylesheet">
+    <link href="/style/main.css" rel="stylesheet">
 </head>
 <body>
 
 <a class="visually-hidden-focusable" href="#content">Direkt zum Inhalt springen</a>
 
-<?php
-/*
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Hauptnavigation">
     <div class="container">
-        <a class="navbar-brand" href="#content" aria-label="Startseite">🏊‍♂️</a>
+        <a class="navbar-brand" href="#content" aria-label="Startseite">Seepferdchen‑Garde</a>
+        <!--
         <button
             class="navbar-toggler"
             type="button"
@@ -81,7 +80,9 @@
         >
             <span class="navbar-toggler-icon"></span>
         </button>
+        -->
         <!-- Navigation links -->
+        <!--
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#kurse">Schwimmkurse</a></li>
@@ -90,32 +91,37 @@
                 <li class="nav-item"><a class="nav-link" href="#impressum">Impressum</a></li>
             </ul>
         </div>
+        -->
     </div>
 </nav>
-*/
-?>
 
-<!-- Slider (optional for hero) -->
-<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
+<!-- Carousel Slider as hero banner -->
+<div id="carouselStartseite" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselStartseite" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselStartseite" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    </div>
     <div class="carousel-inner">
-        <div class="carousel-item active bg-secondary text-light">
+        <div class="carousel-item carousel-item-1 bg-secondary text-dark active">
             <div class="container py-5">
                 <h1 class="h3">Seepferdchen-Garde — Schwimmschule in Herzogenrath</h1>
                 <p class="lead mb-0">Kleine Gruppen, kindgerechtes Lernen und offizielle Seepferdchen‑Prüfung.</p>
             </div>
         </div>
-        <div class="carousel-item bg-secondary text-light">
+        <div class="carousel-item carousel-item-2 bg-secondary text-dark">
             <div class="container py-5">
                 <h2 class="h3">Erfahrung, Sicherheit und Spaß im Wasser</h2>
                 <p class="mb-0">Individuelle Förderung für Kinder ab 5 Jahren.</p>
             </div>
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev" aria-label="Vorheriger Slide">
-        <span class="carousel-control-prev-icon"></span>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselStartseite" data-bs-slide="prev" aria-label="Vorheriger Slide">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next" aria-label="Nächster Slide">
-        <span class="carousel-control-next-icon"></span>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselStartseite" data-bs-slide="next" aria-label="Nächster Slide">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
     </button>
 </div>
 
@@ -156,31 +162,22 @@
     <section id="kontakt" class="py-5">
         <div class="container">
             <h2>Kontakt</h2>
+            <p>Bei Fragen zu Kursen oder zur Anmeldung erreichst du mich unter den folgenden Kontaktdaten:</p>
+            <p class="lead">Riccardo Nappa</p>
             <address class="mb-3">
                 Forensberger Str. 90<br>
                 52134 Herzogenrath
             </address>
             <p>
-                Tel: <span id="contact-phone"></span><br>
+                Telefon: <span id="contact-phone"></span>&nbsp;<span id="contact-whatsapp"></span><br>
                 E‑Mail: <span id="contact-email"></span>
                 <noscript>Bitte JavaScript aktivieren, um Kontakt‑Informationen zu sehen.</noscript>
-            </p>
-        </div>
-    </section>
-
-    <!-- Impressum -->
-    <section id="impressum" class="py-5 bg-dark">
-        <div class="container">
-            <h2>Impressum</h2>
-            <p>
-                Riccardo Nappa<br>
-                Forensberger Str. 90<br>
-                52134 Herzogenrath
             </p>
             <p>Identifikationsnummer: 92805123643</p>
         </div>
     </section>
 </main>
+
 <?php
 
 /*
@@ -232,8 +229,8 @@
 ?>
 
 <!-- Bootstrap JS -->
-<script src="./bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/scripts/bootstrap.bundle.min.js"></script>
 <!-- Reconstructs phone/e‑mail to deter basic scrapers -->
-<script src="./script/contact.js"></script>
+<script src="/scripts/contact.js"></script>
 </body>
 </html>
