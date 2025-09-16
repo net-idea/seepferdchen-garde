@@ -18,7 +18,7 @@ body {
 }
 
 .carousel-item {
-  height: 400px;
+  height: 500px;
 }
 
 .carousel-item-1 {
@@ -30,10 +30,23 @@ body {
 }
 
 .carousel-item .container {
+  padding-inline: 3rem;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+@media (min-width: 576px) {
+  .carousel-item .container {
+    padding-inline: 4rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .carousel-item .container {
+    padding-inline: 5rem;
+  }
 }
 
 #kontakt a[href^="https://wa.me/"] svg {
