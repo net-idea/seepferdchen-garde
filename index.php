@@ -57,6 +57,7 @@
     </script>
 
     <!-- Styles -->
+    <link href="/style/fonts.css" rel="stylesheet">
     <link href="/style/bootstrap.min.css" rel="stylesheet">
     <link href="/style/main.css" rel="stylesheet">
 </head>
@@ -104,13 +105,17 @@
     <div class="carousel-inner">
         <div class="carousel-item carousel-item-1 bg-secondary text-dark active">
             <div class="container py-5">
-                <h1 class="h3">Seepferdchen-Garde — Schwimmschule in Herzogenrath</h1>
+                <h1 class="h2">
+                    Seepferdchen-Garde<br>
+                    Schwimmschule<br>
+                    Riccardo Nappa
+                </h1>
                 <p class="lead mb-0">Kleine Gruppen, kindgerechtes Lernen und offizielle Seepferdchen‑Prüfung.</p>
             </div>
         </div>
         <div class="carousel-item carousel-item-2 bg-secondary text-dark">
             <div class="container py-5">
-                <h2 class="h3">Erfahrung, Sicherheit und Spaß im Wasser</h2>
+                <h2 class="h2">Erfahrung, Sicherheit und Spaß im Wasser</h2>
                 <p class="mb-0">Individuelle Förderung für Kinder ab 5 Jahren.</p>
             </div>
         </div>
