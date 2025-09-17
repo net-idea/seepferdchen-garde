@@ -60,6 +60,7 @@
     <link href="/style/fonts.css" rel="stylesheet">
     <link href="/style/bootstrap.min.css" rel="stylesheet">
     <link href="/style/main.css" rel="stylesheet">
+    <link href="/style/carousel.css" rel="stylesheet">
 </head>
 <body>
 
