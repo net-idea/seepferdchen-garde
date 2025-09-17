@@ -1,0 +1,117 @@
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <h1>Kontakt</h1>
+    <p class="lead mb-1">
+      Schön, dass Sie da sind! Nutzen Sie das Formular, um mir schnell und unkompliziert zu schreiben - ich melde mich
+      zeitnah zurück.
+    </p>
+    <p class="text-body-secondary mb-5">
+      Bitte nennen Sie Ihren Namen und eine gültige E-Mail-Adresse, damit ich Sie erreichen kann.
+    </p>
+
+    <div id="contact-success" class="visually-hidden" aria-hidden="true"></div>
+    <div id="contact-error" class="visually-hidden" aria-hidden="true"></div>
+
+    <form action="/contact.php" method="post" accept-charset="UTF-8" class="vstack gap-3 mt-3 needs-validation"
+          novalidate>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label for="cf-name" class="form-label">Name</label>
+          <input id="cf-name" name="name" type="text" class="form-control" required maxlength="120"
+                 autocomplete="name"/>
+          <div class="invalid-feedback">Bitte Namen angeben.</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <label for="cf-email" class="form-label">E‑Mail</label>
+          <input id="cf-email" name="email" type="email" class="form-control" required maxlength="200"
+                 autocomplete="email"/>
+          <div class="invalid-feedback">Bitte eine gültige E‑Mail angeben.</div>
+        </div>
+        <div class="col-12">
+          <label for="cf-phone" class="form-label">Telefon (<em>optional</em>)</label>
+          <input id="cf-phone" name="phone" type="tel" class="form-control" maxlength="40" autocomplete="tel"/>
+        </div>
+        <div class="col-12">
+          <label for="cf-message" class="form-label">Nachricht</label>
+          <textarea id="cf-message" name="message" class="form-control" rows="6" required maxlength="5000"
+                    placeholder="Ihre Nachricht ..."></textarea>
+          <div class="invalid-feedback">Bitte eine Nachricht eingeben.</div>
+        </div>
+        <!-- Honeypot -->
+        <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+          <label for="cf-website">Website</label>
+          <input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"/>
+        </div>
+        <div class="col-12 form-check">
+          <input id="cf-consent" name="consent" type="checkbox" class="form-check-input" required/>
+          <label for="cf-consent" class="form-check-label">
+            Ich habe die Datenschutzerklärung gelesen und willige in die Verarbeitung meiner Angaben zum Zweck der
+            Kontaktaufnahme ein.
+          </label>
+          <div class="invalid-feedback">Bitte stimmen Sie der Datenverarbeitung zu.</div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-primary">Nachricht senden</button>
+        <a class="btn btn-success"
+           href="https://wa.me/4917683239011?text=Hallo%2C%20ich%20habe%20eine%20Frage%20zu%20den%20Schwimmkursen."
+           target="_blank" rel="noopener nofollow">
+          Über WhatsApp schreiben
+        </a>
+      </div>
+      <p class="form-text mb-0">Hinweis: Ihre Daten werden zur Bearbeitung Ihrer Anfrage per E‑Mail verarbeitet.</p>
+    </form>
+
+    <noscript>Bitte JavaScript aktivieren, um die Formularvalidierung zu verbessern. Das Absenden ist auch ohne
+      JavaScript möglich.
+    </noscript>
+
+    <script>
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const successEl = document.getElementById('contact-success');
+        const errorEl = document.getElementById('contact-error');
+
+        function showAlert(el, message, cls) {
+          if (!el) return;
+          el.classList.remove('visually-hidden');
+          el.setAttribute('aria-hidden', 'false');
+          el.classList.add('alert', cls, 'mb-3');
+          el.setAttribute('role', 'alert');
+          el.innerHTML = message;
+        }
+
+        if (params.has('sent')) {
+          showAlert(successEl, 'Vielen Dank! Ihre Nachricht wurde erfolgreich versendet.', 'alert-success');
+        } else if (params.has('error')) {
+          const e = params.get('error');
+          let msg = 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.';
+          if (e === 'invalid') msg = 'Bitte füllen Sie alle erforderlichen Felder korrekt aus.';
+          else if (e === 'email') msg = 'Bitte geben Sie eine gültige E‑Mail‑Adresse an.';
+          else if (e === 'short') msg = 'Ihre Nachricht ist zu kurz. Bitte formulieren Sie etwas ausführlicher.';
+          else if (e === 'rate') msg = 'Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.';
+          else if (e === 'mail') msg = 'Der Versand der E‑Mail ist fehlgeschlagen. Bitte versuchen Sie es später erneut.';
+          showAlert(errorEl, msg, 'alert-danger');
+        }
+
+        // Clean query params but keep anchor for scrolling
+        if (params.has('sent') || params.has('error')) {
+          const hash = window.location.hash || (params.has('sent') ? '#contact-success' : '#contact-error');
+          window.history.replaceState({}, '', window.location.pathname + hash);
+        }
+
+        // Client-side validation feedback
+        const form = document.querySelector('form.needs-validation');
+        if (form) {
+          form.addEventListener('submit', function (ev) {
+            if (!form.checkValidity()) {
+              ev.preventDefault();
+              ev.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        }
+      })();
+    </script>
+  </div>
+</div>

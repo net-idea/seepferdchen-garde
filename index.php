@@ -1,181 +1,61 @@
-<!DOCTYPE html>
-<html lang="de" data-bs-theme="dark">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php
+declare(strict_types=1);
 
-    <title>Seepferdchen‑Garde — Schwimmschule Riccardo Nappa</title>
+use Website\PageRepository;
 
-    <!-- Canonical & hreflang -->
-    <link rel="canonical" href="https://seepferdchen-garde.de/">
-    <link rel="alternate" href="https://seepferdchen-garde.de/" hreflang="de-DE">
-    <link rel="alternate" href="https://seepferdchen-garde.de/" hreflang="x-default">
+if (is_file(__DIR__ . '/vendor/autoload.php')) {
+    $loader = require __DIR__ . '/vendor/autoload.php';
+} else {
+    die('The main autoloader not found! Did you forget to run "composer install"?');
+}
 
-    <!-- SEO basics -->
-    <meta name="author" content="Riccardo Nappa">
-    <meta name="description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45&nbsp;Min. Jetzt Kurs anfragen.">
-    <meta name="robots" content="index,follow">
-    <meta name="theme-color" content="#0d6efd">
+require __DIR__ . '/src/config.php';
 
-    <!-- Open Graph -->
-    <meta property="og:locale" content="de_DE">
-    <meta property="og:type" content="website">
-    <meta property="og:author" content="Riccardo Nappa">
-    <meta property="og:title" content="Seepferdchen‑Garde — Schwimmschule Riccardo Nappa">
-    <meta property="og:description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45&nbsp;Min.">
-    <meta property="og:url" content="https://seepferdchen-garde.de/">
-    <meta property="og:site_name" content="Seepferdchen‑Garde">
-    <meta property="og:image" content="https://seepferdchen-garde.de/assets/images/og-image.jpg">
-    <meta property="og:image:alt" content="Schwimmschule Seepferdchen‑Garde">
+$path = (string) parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+$path = trim($path, '/');
+// Strip on first '&' or '?' just in case they appear in the path
+$path = preg_replace('~[&?].*$~', '', $path) ?? '';
+// Collapse multiple slashes
+$path = preg_replace('~/+~', '/', $path) ?? '';
+// Keep only safe characters for slugs
+$path = preg_replace('~[^a-z0-9/_\-]~i', '', $path) ?? '';
+// Use the first segment as the slug
+$segments = array_values(array_filter(explode('/', $path)));
+$slug = $segments[0] ?? '';
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Seepferdchen‑Garde — Schwimmschule Riccardo Nappa">
-    <meta name="twitter:description" content="Schwimmkurse für Kinder ab 5 Jahren in Herzogenrath. Seepferdchen‑Vorbereitung in kleinen Gruppen.">
-    <meta name="twitter:image" content="https://seepferdchen-garde.de/assets/images/og-image.jpg">
+// Fallback to legacy "?p=" if no path slug present
+if ($slug === '' && isset($_GET['p'])) {
+    $slug = trim((string) $_GET['p'], '/');
+}
 
-    <!-- Sitemap hint -->
-    <link rel="sitemap" type="application/xml" href="https://seepferdchen-garde.de/sitemap.xml">
+if ($slug === '' || $slug === 'index.php') {
+    $slug = 'start';
+}
 
-    <!-- Structured data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "author": "Riccardo Nappa",
-      "name": "Seepferdchen‑Garde — Schwimmschule Riccardo Nappa",
-      "url": "https://seepferdchen-garde.de/",
-      "image": "https://seepferdchen-garde.de/assets/images/og-image.jpg",
-      "logo": "https://seepferdchen-garde.de/assets/images/logo.png",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Forensberger Str. 90",
-        "postalCode": "52134",
-        "addressLocality": "Herzogenrath",
-        "addressCountry": "DE"
-      },
-      "areaServed": "Herzogenrath",
-      "founder": "Riccardo Nappa",
-      "sameAs": []
+$repo  = new PageRepository(CMS_CONTENT_DIR);
+$container = true;
+
+if (!$repo->exists($slug)) {
+    http_response_code(404);
+    $pageTitle   = 'Seite nicht gefunden';
+    $description = 'Die gewünschte Seite wurde nicht gefunden.';
+    $htmlContent = '<h1>Fehler 404</h1><p>Die gewünschte Seite wurde nicht gefunden.</p>';
+} else {
+    $pageTitle   = $repo->titleFor($slug);
+    $description = $repo->descriptionFor($slug);
+    $markdown    = $repo->get($slug);
+
+    if ($markdown !== '') {
+        $parsedown   = new Parsedown();
+        $htmlContent = $parsedown->text($markdown);
+    } else {
+        $container = false;
+        // Static or non CMS-managed page...
+        $htmlContent = file_get_contents(__DIR__ . "/content/{$slug}.html");
     }
-    </script>
+}
 
-    <link href="/style/fonts.css" rel="stylesheet">
-    <link href="/style/bootstrap.min.css" rel="stylesheet">
-    <link href="/style/main.css" rel="stylesheet">
-    <link href="/style/carousel.css" rel="stylesheet">
-</head>
-<body>
+$navItems = $repo->navItems();
+$currentMeta = $repo->pageMeta($slug);
 
-<a class="visually-hidden-focusable" href="#content">Direkt zum Inhalt springen</a>
-
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark" aria-label="Hauptnavigation">
-    <div class="container">
-        <a class="navbar-brand" href="https://seepferdchen-garde.de/" aria-label="Seepferdchen‑Garde">Seepferdchen‑Garde</a>
-    </div>
-</nav>
-
-<!-- Carousel Slider as hero banner -->
-<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item carousel-item-1 bg-secondary text-dark active" aria-label="Schwimmschule Vorstellung">
-            <div class="container py-5">
-                <h1 class="display-heading">
-                    Seepferdchen-Garde<br>
-                    Schwimmschule<br>
-                    Riccardo Nappa
-                </h1>
-                <p class="lead mb-0">Kleine Gruppen, kindgerechtes Lernen und offizielle Seepferdchen‑Prüfung.</p>
-            </div>
-        </div>
-        <div class="carousel-item carousel-item-2 bg-secondary text-dark" aria-label="Erfahrung und Sicherheit">
-            <div class="container py-5">
-                <h2 class="h1 display-heading">Erfahrung, Sicherheit und Spaß im Wasser</h2>
-                <p class="lead mb-0">Individuelle Förderung für Kinder ab 5 Jahren.</p>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev" aria-label="Vorheriger Slide">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next" aria-label="Nächster Slide">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-
-<main id="content">
-    <!-- Kurse -->
-    <section id="kurse" class="py-5 section-anchor">
-        <div class="container">
-            <h2>Schwimmkurse</h2>
-            <p>In 10&nbsp;Einheiten à 45&nbsp;Minuten bereiten wir dein Kind sicher auf das Seepferdchen vor.</p>
-            <h3 class="mt-3">Kursinhalte</h3>
-            <ul>
-                <li><strong>Wassergewöhnung:</strong> Tauchen, Gleiten, Atmen unter Wasser</li>
-                <li><strong>Grundtechniken:</strong> erste Schwimmbewegungen in Bauch‑ und Rückenlage</li>
-                <li><strong>Sicherheit im Wasser:</strong> Springen vom Beckenrand, Schweben, kurze Strecken schwimmen</li>
-                <li><strong>Seepferdchen‑Abzeichen:</strong> Offizielle Prüfung am Kursende</li>
-            </ul>
-            <h3 class="mt-3">Kursdetails</h3>
-            <ul>
-                <li>Alter: ab 5&nbsp;Jahren</li>
-                <li>Dauer: 10&nbsp;Einheiten à 45&nbsp;Minuten</li>
-                <li>Gruppen: klein für individuelle Betreuung</li>
-                <li>Ort: <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" rel="noopener nofollow" target="_blank">Regenbogenschule in Herzogenrath</a></li>
-                <li>Kosten: 200&nbsp;€</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- Über mich -->
-    <section id="ueber-mich" class="py-5 bg-dark section-anchor">
-        <div class="container">
-            <h2>Über mich</h2>
-            <p>Ich bin <strong>Riccardo Nappa</strong>, ausgebildeter Fachangestellter für Bäderbetriebe und seit vielen Jahren im Schwimmbad aktiv. Mit viel Erfahrung und Freude begleite ich Kinder beim Schwimmenlernen.</p>
-            <p><strong>Meine Ziele:</strong> Sicherheit, Spaß und individuelle Förderung — damit jedes Kind im eigenen Tempo schwimmen lernt.</p>
-        </div>
-    </section>
-
-    <!-- Kontakt -->
-    <section id="kontakt" class="py-5 section-anchor">
-        <div class="container">
-            <h2>Kontakt</h2>
-            <p>Bei Fragen zu Kursen oder Anmeldung bin ich unter folgenden Kontaktdaten zu erreichen:</p>
-            <p class="lead">Riccardo Nappa</p>
-            <address class="mb-3">
-                Forensberger Str. 90<br>
-                52134 Herzogenrath
-            </address>
-            <p>
-                Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target"></span><br>
-                E‑Mail: <span id="contact-email" class="tap-target"></span>
-                <noscript>Bitte JavaScript aktivieren, um Kontakt‑Informationen zu sehen.</noscript>
-            </p>
-            <p>Identifikationsnummer: 92805123643</p>
-        </div>
-    </section>
-</main>
-
-<!-- Footer -->
-<footer class="footer mt-5">
-    <div class="container py-4">
-        <div class="row text-center text-md-start">
-            <div class="col-12 text-center">
-                <p class="small">© 2025 Riccardo Nappa</p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script src="/scripts/bootstrap.bundle.min.js"></script>
-<script src="/scripts/contact.js"></script>
-
-</body>
-</html>
+require __DIR__ . '/templates/layout.php';
