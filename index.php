@@ -22,14 +22,14 @@
     <meta property="og:description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45 Min.">
     <meta property="og:url" content="https://seepferdchen-garde.de/">
     <meta property="og:site_name" content="Seepferdchen‑Garde">
-    <meta property="og:image" content="https://seepferdchen-garde.de/assets/og-image.jpg">
+    <meta property="og:image" content="https://seepferdchen-garde.de/assets/images/og-image.jpg">
     <meta property="og:image:alt" content="Kind im Wasser mit Seepferdchen‑Abzeichen.">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Seepferdchen‑Garde – Schwimmschule Riccardo Nappa">
     <meta name="twitter:description" content="Schwimmkurse für Kinder ab 5 Jahren in Herzogenrath. Seepferdchen‑Vorbereitung in kleinen Gruppen.">
-    <meta name="twitter:image" content="https://seepferdchen-garde.de/assets/og-image.jpg">
+    <meta name="twitter:image" content="https://seepferdchen-garde.de/assets/images/og-image.jpg">
 
     <!-- Sitemap hint -->
     <link rel="sitemap" type="application/xml" href="https://seepferdchen-garde.de/sitemap.xml">
@@ -41,8 +41,8 @@
       "@type": "LocalBusiness",
       "name": "Seepferdchen‑Garde – Schwimmschule Riccardo Nappa",
       "url": "https://seepferdchen-garde.de/",
-      "image": "https://seepferdchen-garde.de/assets/og-image.jpg",
-      "logo": "https://seepferdchen-garde.de/assets/logo.png",
+      "image": "https://seepferdchen-garde.de/assets/images/og-image.jpg",
+      "logo": "https://seepferdchen-garde.de/assets/images/logo.png",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Forensberger Str. 90",
