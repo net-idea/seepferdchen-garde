@@ -11,7 +11,7 @@
     <link rel="alternate" href="https://seepferdchen-garde.de/" hreflang="x-default">
 
     <!-- SEO basics -->
-    <meta name="description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45 Min. Jetzt Kurs anfragen.">
+    <meta name="description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45&nbsp;Min. Jetzt Kurs anfragen.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0d6efd">
 
@@ -19,7 +19,7 @@
     <meta property="og:locale" content="de_DE">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Seepferdchen‑Garde – Schwimmschule Riccardo Nappa in Herzogenrath">
-    <meta property="og:description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45 Min.">
+    <meta property="og:description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45&nbsp;Min.">
     <meta property="og:url" content="https://seepferdchen-garde.de/">
     <meta property="og:site_name" content="Seepferdchen‑Garde">
     <meta property="og:image" content="https://seepferdchen-garde.de/assets/images/og-image.jpg">
@@ -136,7 +136,7 @@
     <section id="kurse" class="py-5">
         <div class="container">
             <h2>Schwimmkurse</h2>
-            <p>In 10 Einheiten à 45 Minuten bereiten wir dein Kind sicher auf das Seepferdchen vor.</p>
+            <p>In 10&nbsp;Einheiten à 45&nbsp;Minuten bereiten wir dein Kind sicher auf das Seepferdchen vor.</p>
             <h3 class="h5 mt-3">Kursinhalte</h3>
             <ul>
                 <li><strong>Wassergewöhnung:</strong> Tauchen, Gleiten, Atmen unter Wasser</li>
@@ -146,11 +146,11 @@
             </ul>
             <h3 class="h5 mt-3">Kursdetails</h3>
             <ul>
-                <li>Alter: ab 5 Jahren</li>
-                <li>Dauer: 10 Einheiten à 45 Minuten</li>
+                <li>Alter: ab 5&nbsp;Jahren</li>
+                <li>Dauer: 10&nbsp;Einheiten à 45&nbsp;Minuten</li>
                 <li>Gruppen: klein für individuelle Betreuung</li>
                 <li>Ort: <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" rel="noopener nofollow" target="_blank">Regenbogenschule in Herzogenrath</a></li>
-                <li>Kosten: 200 €</li>
+                <li>Kosten: 200&nbsp;€</li>
             </ul>
         </div>
     </section>
