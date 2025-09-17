@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Seepferdchen‑Garde – Schwimmschule Riccardo Nappa in Herzogenrath</title>
+    <title>Seepferdchen‑Garde – Schwimmschule Riccardo Nappa</title>
 
     <!-- Canonical & hreflang -->
     <link rel="canonical" href="https://seepferdchen-garde.de/">
@@ -11,6 +11,7 @@
     <link rel="alternate" href="https://seepferdchen-garde.de/" hreflang="x-default">
 
     <!-- SEO basics -->
+    <meta name="author" content="Riccardo Nappa">
     <meta name="description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45&nbsp;Min. Jetzt Kurs anfragen.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0d6efd">
@@ -18,12 +19,13 @@
     <!-- Open Graph -->
     <meta property="og:locale" content="de_DE">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Seepferdchen‑Garde – Schwimmschule Riccardo Nappa in Herzogenrath">
+    <meta property="og:author" content="Riccardo Nappa">
+    <meta property="og:title" content="Seepferdchen‑Garde – Schwimmschule Riccardo Nappa">
     <meta property="og:description" content="Schwimmschule in Herzogenrath: Wassergewöhnung, Grundtechniken und Seepferdchen‑Abzeichen. Kleine Gruppen, 10 Einheiten à 45&nbsp;Min.">
     <meta property="og:url" content="https://seepferdchen-garde.de/">
     <meta property="og:site_name" content="Seepferdchen‑Garde">
     <meta property="og:image" content="https://seepferdchen-garde.de/assets/images/og-image.jpg">
-    <meta property="og:image:alt" content="Kind im Wasser mit Seepferdchen‑Abzeichen.">
+    <meta property="og:image:alt" content="Schwimmschule Seepferdchen‑Garde">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
@@ -39,6 +41,7 @@
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
+      "author": "Riccardo Nappa",
       "name": "Seepferdchen‑Garde – Schwimmschule Riccardo Nappa",
       "url": "https://seepferdchen-garde.de/",
       "image": "https://seepferdchen-garde.de/assets/images/og-image.jpg",
