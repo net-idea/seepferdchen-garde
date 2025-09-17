@@ -73,30 +73,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Hauptnavigation">
     <div class="container">
         <a class="navbar-brand" href="https://seepferdchen-garde.de/" aria-label="Seepferdchen‑Garde">Seepferdchen‑Garde</a>
-        <!--
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Navigation umschalten"
-        >
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        -->
-        <!-- Navigation links -->
-        <!--
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="#kurse">Schwimmkurse</a></li>
-                <li class="nav-item"><a class="nav-link" href="#ueber-mich">Über mich</a></li>
-                <li class="nav-item"><a class="nav-link" href="#kontakt">Kontakt</a></li>
-                <li class="nav-item"><a class="nav-link" href="#impressum">Impressum</a></li>
-            </ul>
-        </div>
-        -->
     </div>
 </nav>
 
@@ -187,45 +163,9 @@
     </section>
 </main>
 
-<?php
-
-/*
 <!-- Footer -->
 <footer class="footer mt-5">
     <div class="container py-4">
-        <div class="row text-center text-md-start">
-            <div class="col-md-4 mb-3">
-                <h5>Kontakt</h5>
-                <p>
-                    Forensberger Str. 90<br>
-                    52134 Herzogenrath
-                </p>
-                <p>
-                    Tel: <span id="contact-phone"></span><br>
-                    E‑Mail: <span id="contact-email"></span>
-                    <noscript>Bitte aktiviere <strong>JavaScript</strong> um Kontakt‑Informationen sehen zu können.</noscript>
-                </p>
-            </div>
-            <div class="col-md-4 mb-3">
-                <h5>Navigation</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#content" class="text-decoration-none text-light">Startseite</a></li>
-                    <li><a href="#kurse" class="text-decoration-none text-light">Schwimmkurse</a></li>
-                    <li><a href="#ueber-mich" class="text-decoration-none text-light">Über mich</a></li>
-                    <li><a href="#impressum" class="text-decoration-none text-light">Impressum</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4 mb-3">
-                <h5>Über diese Seite</h5>
-                <p>Schwimmen lernen — spielerisch, sicher und mit Freude.</p>
-                <p>Folge mir auf:</p>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-light me-2" rel="me nofollow">Facebook</a></li>
-                    <li><a href="#" class="text-light me-2" rel="me nofollow">Instagram</a></li>
-                    <li><a href="#" class="text-light me-2" rel="me nofollow">WhatsApp</a></li>
-                </ul>
-            </div>
-        </div>
         <div class="row text-center text-md-start">
             <div class="col-12 text-center">
                 <p class="small">© 2025 Riccardo Nappa</p>
@@ -233,10 +173,9 @@
         </div>
     </div>
 </footer>
-*/
 
-?>
 <script src="/scripts/bootstrap.bundle.min.js"></script>
 <script src="/scripts/contact.js"></script>
+
 </body>
 </html>
