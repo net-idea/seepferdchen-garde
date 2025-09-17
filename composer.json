@@ -1,0 +1,48 @@
+{
+    "name": "net-idea/seepferdchen-garde",
+    "description": "Website with small management for the swimming school 'Seepferdchen Garde' by Riccardo Nappa",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adam Ibrom",
+            "email": "adam@net-i.de"
+        },
+        {
+            "name": "Riccardo Nappa",
+            "email": "mail@seepferdchen-garde.de"
+        }
+    ],
+    "config": {
+        "vendor-dir": "vendor"
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=8.2",
+        "ext-dom": "*",
+        "ext-json": "*",
+        "ext-xml": "*",
+        "ext-xmlwriter": "*",
+        "psr/log": "3.*.*",
+        "monolog/monolog": "3.5.*",
+        "pimple/pimple": "v3.5.*",
+        "erusev/parsedown": "dev-master"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "10.5.x-dev",
+        "friendsofphp/php-cs-fixer": "dev-master",
+        "phpstan/phpstan": "2.0.x-dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "Website\\": "src/"
+        },
+        "files": ["src/helpers.php"]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Website\\Tests\\": "tests/"
+        }
+    }
+}
