@@ -69,7 +69,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark" aria-label="Hauptnavigation">
     <div class="container">
-        <a class="navbar-brand" href="#content" aria-label="Startseite">Seepferdchen‑Garde</a>
+        <a class="navbar-brand" href="https://seepferdchen-garde.de/" aria-label="Seepferdchen‑Garde">Seepferdchen‑Garde</a>
         <!--
         <button
             class="navbar-toggler"
