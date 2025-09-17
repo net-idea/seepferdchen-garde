@@ -97,10 +97,10 @@
 </nav>
 
 <!-- Carousel Slider as hero banner -->
-<div id="carouselStartseite" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
+<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
     <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselStartseite" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselStartseite" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
     </div>
     <div class="carousel-inner">
         <div class="carousel-item carousel-item-1 bg-secondary text-dark active">
@@ -116,15 +116,15 @@
         <div class="carousel-item carousel-item-2 bg-secondary text-dark">
             <div class="container py-5">
                 <h2 class="h2">Erfahrung, Sicherheit und Spaß im Wasser</h2>
-                <p class="mb-0">Individuelle Förderung für Kinder ab 5 Jahren.</p>
+                <p class="lead mb-0">Individuelle Förderung für Kinder ab 5 Jahren.</p>
             </div>
         </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselStartseite" data-bs-slide="prev" aria-label="Vorheriger Slide">
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev" aria-label="Vorheriger Slide">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselStartseite" data-bs-slide="next" aria-label="Nächster Slide">
+    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next" aria-label="Nächster Slide">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
