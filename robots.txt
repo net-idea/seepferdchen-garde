@@ -1,0 +1,13 @@
+# robots.txt for https://seepferdchen-garde.de/
+# Allow all well-behaved crawlers to access the site.
+
+User-agent: *
+Disallow:
+
+# Explicitly allow CSS, JS (normally redundant but kept for clarity)
+Allow: /assets/
+Allow: /style/
+Allow: /scripts/
+
+# Sitemap location
+Sitemap: https://seepferdchen-garde.de/sitemap.xml
