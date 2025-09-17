@@ -172,7 +172,7 @@
     <section id="kontakt" class="py-5 section-anchor">
         <div class="container">
             <h2>Kontakt</h2>
-            <p>Bei Fragen zu Kursen oder zur Anmeldung erreichst du mich unter den folgenden Kontaktdaten:</p>
+            <p>Bei Fragen zu Kursen oder Anmeldung bin ich unter folgenden Kontaktdaten zu erreichen:</p>
             <p class="lead">Riccardo Nappa</p>
             <address class="mb-3">
                 Forensberger Str. 90<br>
