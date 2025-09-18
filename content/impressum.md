@@ -1,10 +1,13 @@
 # Impressum
 
-Angaben gemäß § 5 TMG
+**Angaben gemäß § 5 TMG**
 
-Riccardo Nappa  
-Forensberger Str. 90  
-52134 Herzogenrath
+<p class="lead">Riccardo Nappa</p>
+
+<address class="mb-3">
+    Forensberger Str. 90<br>
+    52134 Herzogenrath
+</address>
 
 ## Kontakt
 
@@ -12,14 +15,12 @@ Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="cont
 E‑Mail: <span id="contact-email" class="tap-target"></span>  
 Kontaktformular: [Zum Kontaktformular](/kontakt)
 
-**Vertreten durch**: Riccardo Nappa
-
-**Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV**
+**Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV**  
 Riccardo Nappa, Forensberger Str. 90, 52134 Herzogenrath
 
 ## Steuer‑Identifikationsnummer
 
-USt‑IdNr.: 92805123643
+Identifikationsnummer: 92805123643
 
 ## EU‑Streitschlichtung
 

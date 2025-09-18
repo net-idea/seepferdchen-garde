@@ -1,30 +1,24 @@
 <div class="container my-4">
   <div class="row justify-content-center">
     <h1>Kontakt</h1>
-    <p class="lead mb-1">
-      Schön, dass Sie da sind! Nutzen Sie das Formular, um mir schnell und unkompliziert zu schreiben - ich melde mich
-      zeitnah zurück.
-    </p>
+    <p class="lead mb-1">Ich freue mich sehr über Interesse an meinen Leistungen! Um mit mir schnell und unkompliziert in kontakt zu treten bin ich telefonisch, über WhatsApp, E-Mail oder dieses Kontaktformular erreichbar - ich melde mich zeitnah zurück.</p>
     <p class="text-body-secondary mb-5">
-      Bitte nennen Sie Ihren Namen und eine gültige E-Mail-Adresse, damit ich Sie erreichen kann.
+      Damit ich zuverlässig auf die Anfrage reagieren kann bitte ich eine gültige E-Mail-Adresse zu nennen.
     </p>
 
     <div id="contact-success" class="visually-hidden" aria-hidden="true"></div>
     <div id="contact-error" class="visually-hidden" aria-hidden="true"></div>
 
-    <form action="/contact.php" method="post" accept-charset="UTF-8" class="vstack gap-3 mt-3 needs-validation"
-          novalidate>
+    <form action="/contact.php" method="post" accept-charset="UTF-8" class="vstack gap-3 mt-3 needs-validation" novalidate>
       <div class="row g-3">
         <div class="col-12 col-md-6">
           <label for="cf-name" class="form-label">Name</label>
-          <input id="cf-name" name="name" type="text" class="form-control" required maxlength="120"
-                 autocomplete="name"/>
+          <input id="cf-name" name="name" type="text" class="form-control" required maxlength="120" autocomplete="name"/>
           <div class="invalid-feedback">Bitte Namen angeben.</div>
         </div>
         <div class="col-12 col-md-6">
           <label for="cf-email" class="form-label">E‑Mail</label>
-          <input id="cf-email" name="email" type="email" class="form-control" required maxlength="200"
-                 autocomplete="email"/>
+          <input id="cf-email" name="email" type="email" class="form-control" required maxlength="200" autocomplete="email"/>
           <div class="invalid-feedback">Bitte eine gültige E‑Mail angeben.</div>
         </div>
         <div class="col-12">
@@ -33,8 +27,7 @@
         </div>
         <div class="col-12">
           <label for="cf-message" class="form-label">Nachricht</label>
-          <textarea id="cf-message" name="message" class="form-control" rows="6" required maxlength="5000"
-                    placeholder="Ihre Nachricht ..."></textarea>
+          <textarea id="cf-message" name="message" class="form-control" rows="6" required maxlength="5000" placeholder="Nachricht..."></textarea>
           <div class="invalid-feedback">Bitte eine Nachricht eingeben.</div>
         </div>
         <!-- Honeypot -->
@@ -45,26 +38,21 @@
         <div class="col-12 form-check">
           <input id="cf-consent" name="consent" type="checkbox" class="form-check-input" required/>
           <label for="cf-consent" class="form-check-label">
-            Ich habe die Datenschutzerklärung gelesen und willige in die Verarbeitung meiner Angaben zum Zweck der
-            Kontaktaufnahme ein.
+            Ich habe die Datenschutzerklärung gelesen und willige in die Verarbeitung meiner Angaben zum Zweck der Kontaktaufnahme ein.
           </label>
-          <div class="invalid-feedback">Bitte stimmen Sie der Datenverarbeitung zu.</div>
+          <div class="invalid-feedback">Bitte der Datenverarbeitung zustimmen.</div>
         </div>
       </div>
       <div class="d-flex flex-wrap gap-2">
         <button type="submit" class="btn btn-primary">Nachricht senden</button>
-        <a class="btn btn-success"
-           href="https://wa.me/4917683239011?text=Hallo%2C%20ich%20habe%20eine%20Frage%20zu%20den%20Schwimmkursen."
-           target="_blank" rel="noopener nofollow">
+        <a class="btn btn-success" href="https://wa.me/4917683239011?text=Hallo%2C%20ich%20habe%20eine%20Frage%20zu%20den%20Schwimmkursen." target="_blank" rel="noopener nofollow">
           Über WhatsApp schreiben
         </a>
       </div>
-      <p class="form-text mb-0">Hinweis: Ihre Daten werden zur Bearbeitung Ihrer Anfrage per E‑Mail verarbeitet.</p>
+      <p class="form-text mb-0">Hinweis: Die eingegebenen Daten werden zur Bearbeitung der Anfrage per E‑Mail verarbeitet.</p>
     </form>
 
-    <noscript>Bitte JavaScript aktivieren, um die Formularvalidierung zu verbessern. Das Absenden ist auch ohne
-      JavaScript möglich.
-    </noscript>
+    <noscript>Bitte JavaScript aktivieren, um die Formularvalidierung zu verbessern. Das Absenden ist auch ohne JavaScript möglich.</noscript>
 
     <script>
       (function () {
@@ -82,15 +70,15 @@
         }
 
         if (params.has('sent')) {
-          showAlert(successEl, 'Vielen Dank! Ihre Nachricht wurde erfolgreich versendet.', 'alert-success');
+          showAlert(successEl, 'Vielen Dank! Die Nachricht wurde erfolgreich versendet.', 'alert-success');
         } else if (params.has('error')) {
           const e = params.get('error');
-          let msg = 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.';
-          if (e === 'invalid') msg = 'Bitte füllen Sie alle erforderlichen Felder korrekt aus.';
-          else if (e === 'email') msg = 'Bitte geben Sie eine gültige E‑Mail‑Adresse an.';
-          else if (e === 'short') msg = 'Ihre Nachricht ist zu kurz. Bitte formulieren Sie etwas ausführlicher.';
-          else if (e === 'rate') msg = 'Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.';
-          else if (e === 'mail') msg = 'Der Versand der E‑Mail ist fehlgeschlagen. Bitte versuchen Sie es später erneut.';
+          let msg = 'Es ist ein Fehler aufgetreten. Ein erneuter versuch lohnt sich.';
+          if (e === 'invalid') msg = 'Bitte das Formular mit den erforderlichen Felder korrekt ausfüllen.';
+          else if (e === 'email') msg = 'Bitte eine gültige E‑Mail‑Adresse angeben.';
+          else if (e === 'short') msg = 'Die Nachricht ist zu kurz. Bitte eine Nachricht formulieren, damit ich weiß was das Anliegen ist.';
+          else if (e === 'rate') msg = 'Bitte einen Moment warten, bevor das Formular erneut abgesendet wird.';
+          else if (e === 'mail') msg = 'Der Versand der E‑Mail ist fehlgeschlagen. Ein erneuter versuch lohnt sich.';
           showAlert(errorEl, msg, 'alert-danger');
         }
 

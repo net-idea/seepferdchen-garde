@@ -2,20 +2,24 @@
 
 ## Einleitung
 
-Der Schutz Ihrer personenbezogenen Daten ist uns wichtig. Wir verarbeiten Ihre Daten vertraulich und gemäß den gesetzlichen Vorschriften der DSGVO und des BDSG.
+Der Schutz von personenbezogenen Daten ist mir wichtig. Ich verarbeite Daten vertraulich und gemäß den gesetzlichen Vorschriften der DSGVO und des BDSG.
 
 ## Verantwortliche Stelle
 
-Riccardo Nappa  
-Forensberger Str. 90  
-52134 Herzogenrath
+<p class="lead">Riccardo Nappa</p>
 
-E‑Mail: mail@seepferdchen-garde.de  
-Telefon: 01768 3239011
+<address class="mb-3">
+    Forensberger Str. 90<br>
+    52134 Herzogenrath
+</address>
+
+E‑Mail: <span id="contact-email" class="tap-target"></span>  
+Telefon: <span id="contact-phone" class="tap-target"></span>
 
 ## Hosting und Server‑Logfiles
 
-Beim Aufruf dieser Website werden automatisch Informationen erfasst, die Ihr Browser übermittelt:
+Beim Aufruf dieser Website werden automatisch Informationen erfasst, die der Browser übermittelt:
+
 - IP‑Adresse
 - Datum und Uhrzeit der Anfrage
 - Zeitzonendifferenz zur GMT
@@ -25,31 +29,32 @@ Beim Aufruf dieser Website werden automatisch Informationen erfasst, die Ihr Bro
 - Referrer‑URL
 - Browser, Betriebssystem und Oberfläche
 
-Zweck: technische Bereitstellung, Stabilität, Sicherheit, Missbrauchsabwehr.  
-Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).  
-Speicherdauer: i.\,d.\,R. 7 bis 30 Tage, länger bei sicherheitsrelevanten Vorfällen.
+**Zweck:** technische Bereitstellung, Stabilität, Sicherheit, Missbrauchsabwehr.  
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).  
+**Speicherdauer:** i.d.R. 7 bis 30 Tage, länger bei sicherheitsrelevanten Vorfällen.
 
 ## Kontaktformular
 
-Wenn Sie uns per Formular kontaktieren, verarbeiten wir die von Ihnen eingegebenen Daten:
+Bei Kontakt über das [Kontaktformular](/kontakt) verarbeite ich folgende eingegebene Daten:
+
 - Name
-- E‑Mail
-- Telefon \[optional\]
+- E‑Mail-Adresse
+- Telefonnummer (_optional_)
 - Nachricht
 
-Zwecke: Bearbeitung Ihrer Anfrage und etwaiger Anschlussfragen.  
-Rechtsgrundlagen: Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) und Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).  
-Speicherdauer: bis zur abschließenden Bearbeitung Ihrer Anfrage; darüber hinaus nach gesetzlichen Aufbewahrungspflichten oder zur Abwehr bzw. Geltendmachung von Ansprüchen.
+**Zwecke:** Bearbeitung Ihrer Anfrage und etwaiger Anschlussfragen.  
+**Rechtsgrundlagen:** Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) und Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).  
+**Speicherdauer:** bis zur abschließenden Bearbeitung Ihrer Anfrage; darüber hinaus nach gesetzlichen Aufbewahrungspflichten oder zur Abwehr bzw. Geltendmachung von Ansprüchen.
 
-Hinweis: Ihre Nachricht wird per E‑Mail an uns übermittelt.
+**Hinweis:** Die Nachricht wird per E‑Mail an uns übermittelt.
 
 ## WhatsApp‑Kontakt
 
-Wir bieten die Möglichkeit, uns per WhatsApp zu kontaktieren. Anbieter ist WhatsApp Ireland Limited. Bei Nutzung können Metadaten \& Inhalte an WhatsApp/Meta übermittelt werden.  
-Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) und ggf. lit. b (vorvertragliche Kommunikation).  
-Weitere Informationen: https://www.whatsapp.com/legal/privacy-policy-eea
+Wir bieten die Möglichkeit, uns per **WhatsApp** zu kontaktieren. Anbieter ist **WhatsApp** Ireland Limited. Bei Nutzung können Metadaten & Inhalte an **WhatsApp**/**Meta** übermittelt werden.  
+**Rechtsgrundlage:** Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) und ggf. lit. b (vorvertragliche Kommunikation).  
+**Weitere Informationen:** https://www.whatsapp.com/legal/privacy-policy-eea
 
-Wenn Sie dies nicht wünschen, nutzen Sie bitte das Kontaktformular oder die E‑Mail‑Adresse.
+Wenn die Kommunikation über **WhatsApp** nicht gewünscht ist, dann bitte ich mein [Kontaktformular](/kontakt) oder die E‑Mail‑Adresse <span id="contact-email" class="tap-target"></span> zu nutzen.
 
 ## Empfänger von Daten
 
@@ -62,11 +67,11 @@ Mit Dienstleistern bestehen Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO
 ## Ihre Rechte
 
 Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21). Außerdem haben Sie das Recht, erteilte Einwilligungen jederzeit für die Zukunft zu widerrufen (Art. 7 Abs. 3).  
-Beschwerderecht bei einer Aufsichtsbehörde, z.\,B. LDI NRW: https://www.ldi.nrw.de/
+Beschwerderecht bei einer Aufsichtsbehörde, z.B. LDI NRW: https://www.ldi.nrw.de/
 
 ## Datensicherheit
 
-Die Übertragung erfolgt nach Stand der Technik verschlüsselt \([TLS/HTTPS]\). Wir treffen geeignete technische und organisatorische Maßnahmen zum Schutz Ihrer Daten.
+Die Übertragung erfolgt nach Stand der Technik verschlüsselt (HTTPS). Wir treffen geeignete technische und organisatorische Maßnahmen zum Schutz Ihrer Daten.
 
 ## Aktualisierung
 
@@ -76,4 +81,4 @@ Diese Datenschutzerklärung wird bei Bedarf aktualisiert.
 
 ## Kontakt
 
-Sie können uns über [unser Kontakt-Formular](/kontakt) kontaktieren oder direkt über WhatsApp anschreiben.
+Ich bin immer über mein [Kontaktformular](/kontakt) oder direkt über **WhatsApp** erreichbar.

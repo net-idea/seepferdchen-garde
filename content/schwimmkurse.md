@@ -9,11 +9,11 @@ Kursinhalte:
 
 Kursdetails:
 
-* Alter: ab 5 Jahren
-* Dauer: 10 Einheiten à 45 Minuten
+* Alter: ab 5&nbsp;Jahren
+* Dauer: 10&nbsp;Einheiten à 45&nbsp;Minuten
 * Teilnehmerzahl: kleine Gruppen für individuelle Betreuung
 * Ort: [Regenbogenschule in Herzogenrath](https://maps.app.goo.gl/dDAyGnimfYUQYJHU9)
-* Kosten: 200€ (10 Stunden á 20€)
+* Kosten: 200&nbsp;€ (10 Stunden á 20&nbsp;€)
 
 Unser Ziel:
 

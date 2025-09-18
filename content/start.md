@@ -23,7 +23,7 @@ In 10&nbsp;Einheiten à 45&nbsp;Minuten bereiten wir dein Kind sicher auf das Se
 - Dauer: 10&nbsp;Einheiten à 45&nbsp;Minuten
 - Gruppen: klein für individuelle Betreuung
 - Ort: [Regenbogenschule in Herzogenrath](https://maps.app.goo.gl/dDAyGnimfYUQYJHU9)
-- Kosten: 200&nbsp;€
+- Kosten: 200&nbsp;€ (10 Stunden á 20&nbsp;€)
 
 ## Über mich
 
