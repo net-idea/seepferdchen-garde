@@ -13,8 +13,8 @@ Der Schutz von personenbezogenen Daten ist mir wichtig. Ich verarbeite Daten ver
     52134 Herzogenrath
 </address>
 
-E‑Mail: <span id="contact-email" class="tap-target"></span>  
-Telefon: <span id="contact-phone" class="tap-target"></span>
+Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target text-decoration-none"></span>  
+E‑Mail: <span id="contact-email" class="tap-target"></span>
 
 ## Hosting und Server‑Logfiles
 
@@ -54,7 +54,7 @@ Wir bieten die Möglichkeit, uns per **WhatsApp** zu kontaktieren. Anbieter ist 
 **Rechtsgrundlage:** Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) und ggf. lit. b (vorvertragliche Kommunikation).  
 **Weitere Informationen:** https://www.whatsapp.com/legal/privacy-policy-eea
 
-Wenn die Kommunikation über **WhatsApp** nicht gewünscht ist, dann bitte ich mein [Kontaktformular](/kontakt) oder die E‑Mail‑Adresse <span id="contact-email" class="tap-target"></span> zu nutzen.
+Wenn die Kommunikation über **WhatsApp** nicht gewünscht ist, dann bitte ich mein [Kontaktformular](/kontakt) oder die E‑Mail‑Adresse <span class="contact-email" class="tap-target"></span> zu nutzen.
 
 ## Empfänger von Daten
 

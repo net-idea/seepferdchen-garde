@@ -40,7 +40,7 @@ Bei Fragen zu Kursen oder Anmeldung bin ich unter folgenden Kontaktdaten zu erre
 Forensberger Str. 90  
 52134 Herzogenrath
 
-Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target"></span>  
+Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target text-decoration-none"></span>  
 E‑Mail: <span id="contact-email" class="tap-target"></span>  
 <noscript>Bitte JavaScript aktivieren, um Kontakt‑Informationen zu sehen.</noscript>
 

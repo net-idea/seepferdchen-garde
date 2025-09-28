@@ -1,0 +1,32 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    mail.from_address: '%env(string:MAIL_FROM_ADDRESS)%'
+    mail.from_name: '%env(default::string:MAIL_FROM_NAME)%'
+    mail.to_address: '%env(string:MAIL_TO_ADDRESS)%'
+    mail.to_name: '%env(string:MAIL_TO_NAME)%'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+
+    # MailMan configured via env
+    App\Service\MailManService:
+        arguments:
+            $fromAddress: '%mail.from_address%'
+            $fromName: '%mail.from_name%'
+            $toAddress: '%mail.to_address%'
+            $toName: '%mail.to_name%'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

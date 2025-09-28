@@ -11,7 +11,7 @@
 
 ## Kontakt
 
-Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target"></span>  
+Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target text-decoration-none"></span>  
 E‑Mail: <span id="contact-email" class="tap-target"></span>  
 Kontaktformular: [Zum Kontaktformular](/kontakt)
 

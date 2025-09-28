@@ -1,0 +1,200 @@
+/* ===== Nunito Static Weights ===== */
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../fonts/nunito-extralight-1.woff2') format('woff2'),
+       url('../fonts/nunito-extralight-1.woff') format('woff'),
+       url('../fonts/nunito-extralight-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url('../fonts/nunito-extralightitalic-1.woff2') format('woff2'),
+       url('../fonts/nunito-extralightitalic-1.woff') format('woff'),
+       url('../fonts/nunito-extralightitalic-1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/nunito-light-1.woff2') format('woff2'),
+       url('../fonts/nunito-light-1.woff') format('woff'),
+       url('../fonts/nunito-light-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../fonts/nunito-lightitalic-1.woff2') format('woff2'),
+       url('../fonts/nunito-lightitalic-1.woff') format('woff'),
+       url('../fonts/nunito-lightitalic-1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/nunito-regular-1.woff2') format('woff2'),
+       url('../fonts/nunito-regular-1.woff') format('woff'),
+       url('../fonts/nunito-regular-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/nunito-italic-1.woff2') format('woff2'),
+       url('../fonts/nunito-italic-1.woff') format('woff'),
+       url('../fonts/nunito-italic-1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/nunito-medium-1.woff2') format('woff2'),
+       url('../fonts/nunito-medium-1.woff') format('woff'),
+       url('../fonts/nunito-medium-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/nunito-mediumitalic-1.woff2') format('woff2'),
+       url('../fonts/nunito-mediumitalic-1.woff') format('woff'),
+       url('../fonts/nunito-mediumitalic-1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/nunito-semibold-1.woff2') format('woff2'),
+       url('../fonts/nunito-semibold-1.woff') format('woff'),
+       url('../fonts/nunito-semibold-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/nunito-semibolditalic-1.woff2') format('woff2'),
+       url('../fonts/nunito-semibolditalic-1.woff') format('woff'),
+       url('../fonts/nunito-semibolditalic-1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/nunito-bold-1.woff2') format('woff2'),
+       url('../fonts/nunito-bold-1.woff') format('woff'),
+       url('../fonts/nunito-bold-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/nunito-bolditalic-1.woff2') format('woff2'),
+       url('../fonts/nunito-bolditalic-1.woff') format('woff'),
+       url('../fonts/nunito-bolditalic-1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/nunito-extrabold-1.woff2') format('woff2'),
+       url('../fonts/nunito-extrabold-1.woff') format('woff'),
+       url('../fonts/nunito-extrabold-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../fonts/nunito-extrabolditalic-1.woff2') format('woff2'),
+       url('../fonts/nunito-extrabolditalic-1.woff') format('woff'),
+       url('../fonts/nunito-extrabolditalic-1.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../fonts/nunito-black-1.woff2') format('woff2'),
+       url('../fonts/nunito-black-1.woff') format('woff'),
+       url('../fonts/nunito-black-1.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Nunito';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../fonts/nunito-blackitalic-1.woff2') format('woff2'),
+       url('../fonts/nunito-blackitalic-1.woff') format('woff'),
+       url('../fonts/nunito-blackitalic-1.ttf') format('truetype');
+}
+
+/* ===== Nunito Variable (weight 200–900) ===== */
+@font-face {
+  font-family: 'NunitoVariable';
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('../fonts/nunito-variablefontwght.woff2') format('woff2'),
+       url('../fonts/nunito-variablefontwght.woff') format('woff'),
+       url('../fonts/nunito-variablefontwght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NunitoVariable';
+  font-style: italic;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url('../fonts/nunito-italic-variablefontwght.woff2') format('woff2'),
+       url('../fonts/nunito-italic-variablefontwght.woff') format('woff'),
+       url('../fonts/nunito-italic-variablefontwght.ttf') format('truetype');
+}
+
+/* ===== Nunito Sans Variable (supports ytlc, opsz, wdth, wght) ===== */
+@font-face {
+  font-family: 'NunitoSansVariable';
+  font-style: normal;
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+  src: url('../fonts/nunitosans-variablefontytlcopszwdthwght.woff2') format('woff2'),
+       url('../fonts/nunitosans-variablefontytlcopszwdthwght.woff') format('woff'),
+       url('../fonts/nunitosans-variablefontytlcopszwdthwght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NunitoSansVariable';
+  font-style: italic;
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+  src: url('../fonts/nunitosans-italic-variablefontytlcopszwdthwght.woff2') format('woff2'),
+       url('../fonts/nunitosans-italic-variablefontytlcopszwdthwght.woff') format('woff'),
+       url('../fonts/nunitosans-italic-variablefontytlcopszwdthwght.ttf') format('truetype');
+}
+
+/* ===== Usage Examples ===== */
+/* body { font-family: 'NunitoVariable', 'Nunito', sans-serif; } */
+/* h1 { font-family: 'NunitoSansVariable', sans-serif; font-variation-settings: 'wght' 700; } */

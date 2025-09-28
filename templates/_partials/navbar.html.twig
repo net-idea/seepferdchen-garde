@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg border-bottom" aria-label="Hauptnavigation">
+  <div class="container">
+    <a class="navbar-brand" href="/" aria-label="Seepferdchen‑Garde">Seepferdchen‑Garde</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Navigation umschalten">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        {# navItems: array of { slug, label, url, order } #}
+        {% for item in navItems %}
+          {% set is_active = item.slug == current_slug %}
+          <li class="nav-item">
+            <a class="nav-link{{ is_active ? ' active' : '' }}" href="{{ item.url }}">{{ item.label }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</nav>

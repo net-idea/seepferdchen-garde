@@ -1,0 +1,23 @@
+Hallo!
+
+Das Kontaktformular wurde ausgefüllt und dabei wurden folgende Daten eingegeben:
+
+Name: {{ contact.name }}
+E‑Mail-Adresse: {{ contact.emailAddress }}
+Telefon: {{ contact.phone|default('') }}
+
+Nachricht:
+
+{{ contact.message }}
+
+— Meta —
+IP: {{ contact.meta.ip }}
+User-Agent: {{ contact.meta.ua }}
+Zeit: {{ contact.meta.time }}
+Host: {{ contact.meta.host }}
+
+Bitte setzen Sie sich mit dem Absender in Verbindung.
+
+Beste Grüße
+
+Das Kontakt-Formular auf seepferdchen-garde.de

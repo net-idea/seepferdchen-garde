@@ -1,0 +1,40 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: '${APP_NAME}_mariadb'
+    hostname: mariadb
+    restart: unless-stopped
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci',
+      '--transaction-isolation=READ-COMMITTED',
+      '--log-bin=binlog',
+      '--binlog-format=ROW',
+    ]
+    environment:
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-nopassword}"
+      MYSQL_DATABASE: "${DB_DATABASE:-seepferdchen-garde}"
+      MYSQL_USER: "${DB_USER:-seepferdchen-garde}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:-nopassword}"
+    volumes:
+      - ./mariadb/data:/var/lib/mysql
+      - ./log:/var/log/mysql
+      - ./mariadb/fixtures:/docker-entrypoint-initdb.d:ro,delegated
+    networks:
+      - internal
+
+  mariadb-backup:
+    image: dsteinkopf/backup-all-mysql:latest
+    container_name: '${APP_NAME}_mariadb_backup'
+    hostname: mariadb-backup
+    restart: unless-stopped
+    environment:
+      BACKUP_INTERVAL: 86400
+      BACKUP_FIRSTDELAY: 4000
+      MYSQL_CONNECTION_PARAMS: "--user=${DB_PASSWORD:-nopassword} --host=mariadb --password=${DB_PASSWORD:-nopassword}"
+    depends_on:
+      - mariadb
+    volumes:
+      - ./mariadb/backup:/var/dbdumps
+    networks:
+      - internal

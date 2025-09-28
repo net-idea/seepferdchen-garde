@@ -1,0 +1,22 @@
+{% extends 'email/base.html.twig' %}
+
+{% block title %}Ihre Kontaktanfrage{% endblock %}
+{% block header_title %}Seepferdchen Garde{% endblock %}
+
+{% block body %}
+  <h2 class="h1">Vielen Dank für Ihre Nachricht</h2>
+  <p class="p">Hallo {{ contact.name|e }},</p>
+  <p class="p">wir haben Ihre Anfrage über das Kontaktformular erhalten und melden uns so schnell wie möglich zurück.</p>
+
+  <h3 class="h2">Ihre Angaben</h3>
+  <p class="p"><span class="label">Name:</span> {{ contact.name|e }}</p>
+  <p class="p"><span class="label">E‑Mail:</span> {{ contact.emailAddress|e }}</p>
+  {% if contact.phone %}
+    <p class="p"><span class="label">Telefon:</span> {{ contact.phone|e }}</p>
+  {% endif %}
+
+  <h3 class="h2">Ihre Nachricht</h3>
+  <div class="box">{{ contact.messageHtml|raw }}</div>
+
+  <p class="meta">Hinweis: Diese E‑Mail ist eine Bestätigung Ihrer Anfrage. Bitte antworten Sie bei Rückfragen einfach auf diese E‑Mail.</p>
+{% endblock %}

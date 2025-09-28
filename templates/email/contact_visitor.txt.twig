@@ -1,0 +1,18 @@
+Hallo {{ contact.name }}!
+
+vielen Dank für Ihre Nachricht über das Kontaktformular. Wir haben Ihre Anfrage erhalten und melden uns so schnell wie möglich zurück.
+
+— Ihre Angaben —
+Name: {{ contact.name }}
+E‑Mail-Adresse: {{ contact.emailAddress }}
+{% if contact.phone %}Telefon: {{ contact.phone }}
+{% endif %}
+
+Nachricht:
+
+{{ contact.message }}
+
+Hinweis: Diese E‑Mail ist eine Bestätigung Ihrer Anfrage. Bei Rückfragen können Sie einfach auf diese E‑Mail antworten.
+
+Mit freundlichen Grüßen
+Seepferdchen Garde
