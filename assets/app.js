@@ -12,4 +12,5 @@ import './bootstrap.js';
 
 // Import TypeScript
 import './scripts/contacts.ts';
+import './scripts/booking-form.ts';
 import './scripts/contact-form.ts';

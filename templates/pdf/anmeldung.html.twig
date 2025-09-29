@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Anmeldung Schwimmkurs – Seepferdchen</title>
+  <style>
+    @page { size: A4; margin: 16mm 14mm; }
+    html, body { font-family: DejaVu Sans, Arial, sans-serif; font-size: 11pt; color: #000; }
+    h1 { font-size: 18pt; margin: 0 0 6pt 0; }
+    h2 { font-size: 12pt; margin: 12pt 0 6pt 0; }
+    .muted { color: #333; font-size: 10pt; }
+    .hr { height: 1px; background: #000; opacity: 0.3; margin: 8pt 0 10pt; }
+    .row { display: table; width: 100%; table-layout: fixed; margin: 6pt 0; }
+    .label { display: table-cell; width: 42%; vertical-align: bottom; font-weight: 600; padding-right: 8pt; }
+    .field { display: table-cell; border-bottom: 1px solid #000; height: 16pt; }
+    .field.tall { height: 32pt; }
+    .checkline { margin: 4pt 0; }
+    .box { display: inline-block; width: 10pt; height: 10pt; border: 1.2pt solid #000; margin-right: 6pt; vertical-align: middle; }
+    .grid3 { display: table; width: 100%; table-layout: fixed; }
+    .grid3 > div { display: table-cell; }
+    .spacer { height: 8pt; }
+    .small { font-size: 9pt; }
+  </style>
+</head>
+<body>
+  <h1>Anmeldung Schwimmkurs – Seepferdchen</h1>
+  <div class="muted">Kursbeginn: 04.11.2025 bis 27.01.2026</div>
+  <div class="muted"><em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt.</em></div>
+  <div class="hr"></div>
+
+  <h2>Kinderdaten</h2>
+  <div class="row"><div class="label">Vor- und Nachname</div><div class="field"></div></div>
+  <div class="row"><div class="label">Geburtsdatum</div><div class="field"></div></div>
+  <div class="row"><div class="label">Adresse</div><div class="field"></div></div>
+
+  <h2>Gesundheitliche Angaben</h2>
+  <div class="row"><div class="label">Schwimmerfahrung</div>
+    <div>
+      <span class="box"></span> Ja &nbsp;&nbsp;&nbsp; <span class="box"></span> Nein
+    </div>
+  </div>
+  <div class="row"><div class="label">Falls ja, welche</div><div class="field"></div></div>
+  <div class="row"><div class="label">Einschränkungen (Asthma, Epilepsie, Allergien)</div><div class="field tall"></div></div>
+  <div class="row"><div class="label">Ohne Schwimmhilfe ins Wasser</div>
+    <div>
+      <span class="box"></span> Ja &nbsp;&nbsp;&nbsp; <span class="box"></span> Nein
+    </div>
+  </div>
+
+  <h2>Eltern / Erziehungsberechtigte</h2>
+  <div class="row"><div class="label">Name</div><div class="field"></div></div>
+  <div class="row"><div class="label">Telefonnummer</div><div class="field"></div></div>
+  <div class="row"><div class="label">E‑Mail‑Adresse</div><div class="field"></div></div>
+
+  <h2>Organisatorisches</h2>
+  <div class="row"><div class="label">Gewünschter Kurszeitraum</div>
+    <div>
+      <div class="checkline"><span class="box"></span> 15:00 Uhr bis 15:45 Uhr</div>
+      <div class="checkline"><span class="box"></span> 16:00 Uhr bis 16:45 Uhr</div>
+    </div>
+  </div>
+  <div class="row"><div class="label">Mitglied im Verein/Bad</div>
+    <div>
+      <span class="box"></span> Ja &nbsp;&nbsp;&nbsp; <span class="box"></span> Nein
+    </div>
+  </div>
+  <div class="row"><div class="label">Zahlungsart</div>
+    <div class="grid3">
+      <div><span class="box"></span> Barzahlung</div>
+      <div><span class="box"></span> Überweisung</div>
+      <div><span class="box"></span> PayPal</div>
+    </div>
+  </div>
+
+  <h2>Einverständnisse</h2>
+  <div class="checkline"><span class="box"></span> Ich bestätige, dass mein Kind am Schwimmkurs teilnehmen darf.</div>
+  <div class="checkline"><span class="box"></span> Ich habe den Haftungsausschluss zur Kenntnis genommen.</div>
+  <div class="checkline"><span class="box"></span> Ich erkläre mich einverstanden, dass Fotos/Videos zu Vereinszwecken genutzt werden dürfen.</div>
+
+  <h2>Datenschutz</h2>
+  <div class="small">Die angegebenen Daten werden ausschließlich zur Organisation und Durchführung des Kurses verwendet und nicht an Dritte weitergegeben.</div>
+  <div class="spacer"></div>
+  <div class="row"><div class="label">Ort, Datum</div><div class="field"></div></div>
+  <div class="row"><div class="label">Unterschrift</div><div class="field"></div></div>
+</body>
+</html>

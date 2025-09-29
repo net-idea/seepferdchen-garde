@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Booking;
 use App\Entity\ContactFormEntity;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -75,5 +76,60 @@ readonly class MailManService
 
             throw $e;
         }
+    }
+
+    /**
+     * Send a confirmation request to the visitor with a unique link.
+     * @throws TransportExceptionInterface|RuntimeError|LoaderError|SyntaxError
+     */
+    public function sendBookingVisitorConfirmationRequest(Booking $booking, string $confirmUrl): void
+    {
+        $from = new Address($this->fromAddress, $this->fromName);
+        $toVisitor = new Address($booking->getParentEmail(), $booking->getParentName());
+
+        $context = [
+            'booking'    => $booking,
+            'confirmUrl' => $confirmUrl,
+        ];
+
+        $subject = 'Seepferdchen Garde — Bitte bestätigen Sie Ihre Anmeldung';
+        $text = $this->twig->render('email/booking_visitor_confirm_request.txt.twig', $context);
+        $html = $this->twig->render('email/booking_visitor_confirm_request.html.twig', $context);
+
+        $email = (new Email())
+            ->from($from)
+            ->to($toVisitor)
+            ->replyTo(new Address($this->toAddress, $this->toName))
+            ->subject($subject)
+            ->text($text)
+            ->html($html);
+
+        $this->mailer->send($email);
+    }
+
+    /**
+     * Notify the owner when a booking was confirmed by the visitor.
+     * @throws TransportExceptionInterface|RuntimeError|LoaderError|SyntaxError
+     */
+    public function sendBookingOwnerNotification(Booking $booking): void
+    {
+        $from = new Address($this->fromAddress, $this->fromName);
+        $toOwner = new Address($this->toAddress, $this->toName);
+
+        $context = ['booking' => $booking];
+
+        $subject = 'Seepferdchen Garde — Buchung bestätigt';
+        $text = $this->twig->render('email/booking_owner_confirmed.txt.twig', $context);
+        $html = $this->twig->render('email/booking_owner_confirmed.html.twig', $context);
+
+        $email = (new Email())
+            ->from($from)
+            ->to($toOwner)
+            ->replyTo(new Address($booking->getParentEmail(), $booking->getParentName()))
+            ->subject($subject)
+            ->text($text)
+            ->html($html);
+
+        $this->mailer->send($email);
     }
 }

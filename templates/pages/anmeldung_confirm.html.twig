@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Anmeldung bestätigen — Seepferdchen‑Garde{% endblock %}
+
+{% block body %}
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <h1>Anmeldung bestätigen</h1>
+
+    {% if status == 'ok' %}
+      <div class="alert alert-success mt-3">
+        Vielen Dank! Ihre Anmeldung wurde bestätigt. Sie erhalten in Kürze weitere Informationen.
+      </div>
+    {% elseif status == 'already' %}
+      <div class="alert alert-info mt-3">
+        Diese Anmeldung wurde bereits bestätigt. Vielen Dank!
+      </div>
+    {% else %}
+      <div class="alert alert-danger mt-3">
+        Der Bestätigungslink ist ungültig oder abgelaufen. Bitte starten Sie die Anmeldung erneut.
+      </div>
+    {% endif %}
+
+    <div class="mt-4">
+      <a class="btn btn-primary" href="/">Zur Startseite</a>
+      <a class="btn btn-outline-secondary" href="/kontakt">Kontakt</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

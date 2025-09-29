@@ -1,0 +1,36 @@
+# Symfony front controller (Apache)
+# Place this file in the public/ web root so Apache rewrites "pretty" URLs to index.php
+
+# Use the front controller as the directory index
+DirectoryIndex index.php
+
+# Avoid content negotiation side-effects
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Preserve Authorization header for apps (e.g. API, admin, etc.)
+    RewriteCond %{HTTP:Authorization} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Block access to hidden files (e.g. .env, .git)
+    RewriteRule "(^|/)\." - [F]
+
+    # If the requested resource exists as a file or directory, serve it directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Otherwise, route all requests to the front controller
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
+
+# Optional fallback when mod_rewrite is not available (rare on shared hosts)
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        RedirectMatch 307 ^/$ /index.php/
+    </IfModule>
+</IfModule>

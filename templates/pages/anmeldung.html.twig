@@ -1,0 +1,236 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageMeta.title|default('Anmeldung') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
+
+{% block body %}
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <h1>Anmeldung</h1>
+      <p class="lead mb-1">Melden Sie Ihr Kind hier für den nächsten Schwimmkurs an. Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink.</p>
+      <p class="text-body-secondary mb-4">Erst nach Klick auf den Link ist die Anmeldung verbindlich.</p>
+
+      {# anchors used by redirects #}
+      <div id="booking-success" class="visually-hidden" aria-hidden="true"></div>
+      <div id="booking-error" class="visually-hidden" aria-hidden="true"></div>
+
+      {# Server-rendered success summary (if available) #}
+      {% set sent = app.request.query.get('sent') %}
+      {% if sent and bookingSummary is defined and bookingSummary %}
+        {% set pm = {
+          'barzahlung': 'Barzahlung',
+          'ueberweisung': 'Überweisung',
+          'paypal': 'PayPal'
+        } %}
+        <div id="booking-success-summary" class="alert alert-success mb-3" role="alert">
+          <h2 class="h5 mb-2">Vielen Dank! Ihre Anmeldung ist eingegangen.</h2>
+          <p class="mb-2">Bitte bestätigen Sie die Anmeldung noch über den Link in der E‑Mail, die wir Ihnen soeben gesendet haben.</p>
+          <hr>
+          <h3 class="h6 mt-2">Zusammenfassung</h3>
+          <ul class="mb-3">
+            <li>
+              <strong>Kurszeitraum:</strong> {{ bookingSummary.coursePeriod }}<br>
+              <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
+            </li>
+            <li><strong>Gewünschte Zeit:</strong> {{ bookingSummary.desiredTimeSlot }}</li>
+            <li><strong>Kind:</strong> {{ bookingSummary.childName }} (geb. {{ bookingSummary.childBirthdate|date('d.m.Y') }})</li>
+            <li><strong>Adresse:</strong> {{ bookingSummary.childAddress|nl2br }}</li>
+            <li><strong>Schwimmerfahrung:</strong> {{ bookingSummary.hasSwimExperience ? 'Ja' : 'Nein' }}{% if bookingSummary.swimExperienceDetails %} — {{ bookingSummary.swimExperienceDetails }}{% endif %}</li>
+            <li><strong>Ohne Schwimmhilfe:</strong> {{ bookingSummary.maySwimWithoutAid ? 'Ja' : 'Nein' }}</li>
+            <li><strong>Elternteil:</strong> {{ bookingSummary.parentName }} — {{ bookingSummary.parentEmail }}{% if bookingSummary.parentPhone %} — {{ bookingSummary.parentPhone }}{% endif %}</li>
+            <li><strong>Mitglied:</strong> {{ bookingSummary.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
+            <li><strong>Zahlungsart:</strong> {{ pm[bookingSummary.paymentMethod]|default(bookingSummary.paymentMethod) }}</li>
+            <li><strong>Einverständnisse:</strong>
+              <ul class="mb-0">
+                <li>Teilnahme {{ bookingSummary.participationConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Haftung {{ bookingSummary.liabilityAcknowledged ? 'Ja' : 'Nein' }}</li>
+                <li>Foto {{ bookingSummary.photoConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Datenschutz {{ bookingSummary.dataConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Anmeldung {{ bookingSummary.bookingConfirmation ? 'Ja' : 'Nein' }}</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="d-flex gap-2">
+            <button id="booking-print" type="button" class="btn btn-outline-secondary btn-sm">Drucken / als PDF speichern</button>
+          </div>
+        </div>
+      {% endif %}
+
+      {# flash/redirect messages (server-side fallback when JS is deaktiviert) #}
+      {% set error = app.request.query.get('error') %}
+
+      <noscript>
+        {% if sent %}
+          <div class="alert alert-success">
+            Vielen Dank! Bitte prüfen Sie Ihr Postfach und bestätigen Sie Ihre Anmeldung über den Link in der E‑Mail.
+          </div>
+        {% elseif error %}
+          <div class="alert alert-danger">
+            {% if error == 'rate' %}
+              Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
+            {% elseif error == 'mail' %}
+              Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+            {% else %}
+              Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
+            {% endif %}
+          </div>
+        {% endif %}
+      </noscript>
+
+      {{ form_start(form, {
+        action: path('app_anmeldung'),
+        attr: { class: 'vstack gap-3 mt-3 needs-validation', novalidate: 'novalidate' }
+      }) }}
+
+      <h2 class="h4 mt-2">Kurszeitraum</h2>
+      <div class="row g-3">
+        <div class="col-12">
+          <p class="lead"><strong>Kursbeginn:</strong> 04.11.2025 bis 27.01.2026<br>
+          <em class="text-info">In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em></p>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="form-floating">
+            {{ form_widget(form.desiredTimeSlot) }}
+            {{ form_label(form.desiredTimeSlot) }}
+          </div>
+          {{ form_errors(form.desiredTimeSlot) }}
+        </div>
+        {{ form_widget(form.coursePeriod) }}
+      </div>
+
+      <h2 class="h4 mt-3">Kinderdaten</h2>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          {{ form_label(form.childName) }}
+          {{ form_widget(form.childName) }}
+          {{ form_errors(form.childName) }}
+        </div>
+        <div class="col-12 col-md-6">
+          {{ form_label(form.childBirthdate) }}
+          {{ form_widget(form.childBirthdate) }}
+          {{ form_errors(form.childBirthdate) }}
+        </div>
+        <div class="col-12">
+          {{ form_label(form.childAddress) }}
+          {{ form_widget(form.childAddress) }}
+          {{ form_errors(form.childAddress) }}
+        </div>
+      </div>
+
+      <h2 class="h4 mt-3">Gesundheitliche Angaben</h2>
+      <div class="row g-3">
+        <div class="col-12">
+          {{ form_label(form.hasSwimExperience) }}<br>
+          {{ form_widget(form.hasSwimExperience) }}
+          {{ form_errors(form.hasSwimExperience) }}
+        </div>
+        <div class="col-12">
+          {{ form_label(form.swimExperienceDetails) }}
+          {{ form_widget(form.swimExperienceDetails) }}
+          {{ form_errors(form.swimExperienceDetails) }}
+        </div>
+        <div class="col-12">
+          {{ form_label(form.healthNotes) }}
+          {{ form_widget(form.healthNotes) }}
+          {{ form_errors(form.healthNotes) }}
+        </div>
+        <div class="col-12">
+          {{ form_label(form.maySwimWithoutAid) }}<br>
+          {{ form_widget(form.maySwimWithoutAid) }}
+          {{ form_errors(form.maySwimWithoutAid) }}
+        </div>
+      </div>
+
+      <h2 class="h4 mt-3">Eltern / Erziehungsberechtigte</h2>
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          {{ form_label(form.parentName) }}
+          {{ form_widget(form.parentName) }}
+          {{ form_errors(form.parentName) }}
+        </div>
+        <div class="col-12 col-md-6">
+          {{ form_label(form.parentEmail) }}
+          {{ form_widget(form.parentEmail) }}
+          {{ form_errors(form.parentEmail) }}
+        </div>
+        <div class="col-12">
+          {{ form_label(form.parentPhone) }}
+          {{ form_widget(form.parentPhone) }}
+          {{ form_errors(form.parentPhone) }}
+        </div>
+      </div>
+
+      <h2 class="h4 mt-3">Organisatorisches</h2>
+      <div class="row g-3">
+        <div class="col-12">
+          {{ form_label(form.isMemberOfClub) }}<br>
+          {{ form_widget(form.isMemberOfClub) }}
+          {{ form_errors(form.isMemberOfClub) }}
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="form-floating">
+            {{ form_widget(form.paymentMethod) }}
+            {{ form_label(form.paymentMethod) }}
+          </div>
+          {{ form_errors(form.paymentMethod) }}
+        </div>
+      </div>
+
+      <h2 class="h4 mt-3">Einverständnisse</h2>
+      <div class="row g-2">
+        <div class="col-12 form-check">
+          {{ form_widget(form.participationConsent) }}
+          {{ form_label(form.participationConsent) }}
+          {{ form_errors(form.participationConsent) }}
+        </div>
+        <div class="col-12 form-check">
+          {{ form_widget(form.liabilityAcknowledged) }}
+          {{ form_label(form.liabilityAcknowledged) }}
+          {{ form_errors(form.liabilityAcknowledged) }}
+        </div>
+        <div class="col-12 form-check">
+          {{ form_widget(form.photoConsent) }}
+          {{ form_label(form.photoConsent) }}
+          {{ form_errors(form.photoConsent) }}
+        </div>
+        <div class="col-12 form-check">
+          {{ form_widget(form.dataConsent) }}
+          {{ form_label(form.dataConsent) }}
+          {{ form_errors(form.dataConsent) }}
+        </div>
+        <div class="col-12 form-check">
+          {{ form_widget(form.bookingConfirmation) }}
+          {{ form_label(form.bookingConfirmation) }}
+          {{ form_errors(form.bookingConfirmation) }}
+        </div>
+      </div>
+
+      {# Honeypots (visually hidden) #}
+      <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+        {{ form_row(form.website) }}
+        {{ form_row(form.emailrep) }}
+      </div>
+
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <button type="submit" class="btn btn-cta">Anmeldung absenden</button>
+        <a href="/docs/2025.09-anmeldung-schwimmkurs-seepferdchen.pdf" class="btn btn-outline-secondary" target="_blank" rel="noopener">Formular als Dokument</a>
+      </div>
+      <p class="form-text mb-0">Hinweis: Sie erhalten eine E‑Mail mit einem Bestätigungslink. Erst nach Bestätigung ist die Anmeldung verbindlich.</p>
+
+      {{ form_rest(form) }}
+      {{ form_end(form) }}
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('booking-print');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          window.print();
+        });
+      }
+    })();
+  </script>
+{% endblock %}

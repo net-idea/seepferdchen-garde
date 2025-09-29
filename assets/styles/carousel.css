@@ -50,6 +50,13 @@
   0 0 4px rgba(255, 255, 255, 0.6);
 }
 
+/* Remove glow on interactive elements for crisp readability */
+.carousel-item a,
+.carousel-item .btn {
+  -webkit-text-stroke-width: 0 !important;
+  text-shadow: none !important;
+}
+
 /* Fallback when stroke unsupported: simulate outline with multi‑direction shadows */
 @supports not (-webkit-text-stroke: 1px #fff) {
   .carousel-item h1,
@@ -64,6 +71,10 @@
     -1px 1px 0 #fff,
     1px -1px 0 #fff,
     -1px -1px 0 #fff;
+  }
+  .carousel-item a,
+  .carousel-item .btn {
+    text-shadow: none !important;
   }
 }
 
@@ -86,4 +97,39 @@
     1px -1px 0 #fff,
     -1px -1px 0 #fff;
   }
+}
+
+/* === Improve link visibility in carousel === */
+.carousel-item a:not(.btn) {
+  color: #084298; /* darker, higher-contrast link color */
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+.carousel-item a:not(.btn):hover,
+.carousel-item a:not(.btn):focus {
+  color: #052c65;
+}
+
+/* === CTA button with signal color === */
+.btn-cta {
+  color: #fff;
+  background-color: #ff6b00; /* signal orange */
+  border-color: #ff6b00;
+  box-shadow: 0 0.25rem 0.75rem rgba(255, 107, 0, 0.3);
+}
+.btn-cta:hover,
+.btn-cta:focus {
+  color: #fff;
+  background-color: #e65f00;
+  border-color: #e65f00;
+}
+.btn-cta:active {
+  color: #fff;
+  background-color: #cc5400;
+  border-color: #cc5400;
+}
+.btn-cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.35);
 }
