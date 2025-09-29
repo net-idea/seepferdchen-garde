@@ -1,0 +1,16 @@
+Neue bestätigte Anmeldung
+
+Zusammenfassung:
+
+- Kurszeitraum: {{ booking.coursePeriod }}
+- Gewünschte Zeit: {{ booking.desiredTimeSlot }}
+- Kind: {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})
+- Adresse: {{ booking.childAddress|replace({'\n': ', '}) }}
+- Elternteil: {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}
+- Mitglied: {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}
+- Zahlungsart: {{ booking.paymentMethod }}
+- Fotoeinverständnis: {{ booking.hasPhotoConsent ? 'Ja' : 'Nein' }}
+
+Bestätigt am: {{ booking.confirmedAt|date('d.m.Y H:i') }}
+
+Das Anmelde-Formular auf seepferdchen-garde.de

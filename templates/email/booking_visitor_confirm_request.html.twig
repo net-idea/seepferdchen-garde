@@ -1,0 +1,24 @@
+{% extends 'email/base.html.twig' %}
+
+{% block title %}Ihre Anmeldebestätigung{% endblock %}
+{% block header_title %}Seepferdchen Garde Schwimmschule Riccardo Nappa{% endblock %}
+
+{% block body %}
+  <h2 class="h1">Bitte bestätigen Sie Ihre Anmeldung</h2>
+  <p class="p">Hallo {{ booking.parentName }},</p>
+  <p class="p">vielen Dank für Ihre Anmeldung zum Schwimmkurs für <strong>{{ booking.childName }}</strong>.</p>
+  <p class="p">Bitte bestätigen Sie Ihre Anmeldung mit einem Klick auf den folgenden Link:</p>
+  <p class="p"><a href="{{ confirmUrl }}" class="btn btn-primary">Anmeldung bestätigen</a></p>
+  <p class="p">Oder öffnen Sie diesen Link in Ihrem Browser:<br><a href="{{ confirmUrl }}">{{ confirmUrl }}</a></p>
+
+  <h3 class="h2">Zusammenfassung</h3>
+  <ul>
+    <li><strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}</li>
+    <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
+    <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
+    <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }} </li>
+    <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
+  </ul>
+
+  <p class="p muted">Falls Sie diese Anmeldung nicht veranlasst haben, ignorieren Sie bitte diese E‑Mail.</p>
+{% endblock %}

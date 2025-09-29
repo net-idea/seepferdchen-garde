@@ -1,0 +1,23 @@
+{% extends 'email/base.html.twig' %}
+
+{% block title %}Ihre Anmeldebestätigung{% endblock %}
+{% block header_title %}Seepferdchen Garde Schwimmschule Riccardo Nappa{% endblock %}
+
+{% block body %}
+  <h2 class="h1">Neue bestätigte Anmeldung</h2>
+  <p>Eine Anmeldung wurde soeben bestätigt.</p>
+
+  <h3 class="h2">Zusammenfassung</h3>
+  <ul>
+    <li><strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}</li>
+    <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
+    <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
+    <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }}</li>
+    <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
+    <li><strong>Mitglied:</strong> {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
+    <li><strong>Zahlungsart:</strong> {{ booking.paymentMethod }}</li>
+    <li><strong>Fotoeinverständnis:</strong> {{ booking.hasPhotoConsent ? 'Ja' : 'Nein' }}</li>
+  </ul>
+
+  <p>Bestätigt am: {{ booking.confirmedAt|date('d.m.Y H:i') }}</p>
+{% endblock %}
