@@ -22,7 +22,7 @@ class ContactFormType extends AbstractType
                 'label'       => 'Name',
                 'required'    => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Bitte Namen angeben.'),
+                    new Assert\NotBlank(message: 'Bitte geben Sie Ihren Namen an.'),
                     new Assert\Length(max: 120, maxMessage: 'Bitte verwenden Sie höchstens {{ limit }} Zeichen.'),
                 ],
                 'attr' => [
@@ -37,8 +37,8 @@ class ContactFormType extends AbstractType
                 'required'      => true,
                 'property_path' => 'emailAddress',
                 'constraints'   => [
-                    new Assert\NotBlank(message: 'Bitte eine E‑Mail angeben.'),
-                    new Assert\Email(message: 'Bitte eine gültige E‑Mail angeben.'),
+                    new Assert\NotBlank(message: 'Bitte geben Sie Ihre E‑Mail‑Adresse an.'),
+                    new Assert\Email(message: 'Bitte geben Sie eine gültige E‑Mail‑Adresse an.'),
                     new Assert\Length(max: 200, maxMessage: 'Bitte verwenden Sie höchstens {{ limit }} Zeichen.'),
                 ],
                 'attr' => [
@@ -66,7 +66,7 @@ class ContactFormType extends AbstractType
                 'label'       => 'Nachricht',
                 'required'    => true,
                 'constraints' => [
-                    new Assert\NotBlank(message: 'Bitte eine Nachricht eingeben.'),
+                    new Assert\NotBlank(message: 'Bitte geben Sie eine Nachricht ein.'),
                     new Assert\Length(min: 10, max: 5000, minMessage: 'Bitte geben Sie mindestens {{ limit }} Zeichen ein.', maxMessage: 'Bitte verwenden Sie höchstens {{ limit }} Zeichen.'),
                 ],
                 'attr' => [
@@ -84,7 +84,7 @@ class ContactFormType extends AbstractType
                 'required'    => true,
                 'mapped'      => true,
                 'constraints' => [
-                    new Assert\IsTrue(message: 'Bitte der Datenverarbeitung zustimmen.'),
+                    new Assert\IsTrue(message: 'Bitte stimmen Sie der Datenverarbeitung zu.'),
                 ],
                 'attr'       => ['class' => 'form-check-input'],
                 'label_attr' => ['class' => 'form-check-label'],

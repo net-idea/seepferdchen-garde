@@ -14,15 +14,15 @@
   }
 
   if (params.has('sent')) {
-    showAlert(successEl, 'Vielen Dank! Die Nachricht wurde erfolgreich versendet.', 'alert-success');
+    showAlert(successEl, 'Vielen Dank! Ihre Nachricht wurde erfolgreich versendet. Ich melde mich zeitnah bei Ihnen.', 'alert-success');
   } else if (params.has('error')) {
     const e = params.get('error');
-    let msg = 'Es ist ein Fehler aufgetreten. Ein erneuter versuch lohnt sich.';
-    if (e === 'invalid') msg = 'Bitte das Formular mit den erforderlichen Felder korrekt ausfüllen.';
-    else if (e === 'email') msg = 'Bitte eine gültige E‑Mail‑Adresse angeben.';
+    let msg = 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es in Kürze erneut.';
+    if (e === 'invalid') msg = 'Bitte füllen Sie die erforderlichen Felder korrekt aus.';
+    else if (e === 'email') msg = 'Bitte geben Sie eine gültige E‑Mail‑Adresse an.';
     else if (e === 'short') msg = 'Die Nachricht ist zu kurz. Bitte eine Nachricht formulieren, damit ich weiß was das Anliegen ist.';
     else if (e === 'rate') msg = 'Bitte einen Moment warten, bevor das Formular erneut abgesendet wird.';
-    else if (e === 'mail') msg = 'Der Versand der E‑Mail ist fehlgeschlagen. Ein erneuter versuch lohnt sich.';
+    else if (e === 'mail') msg = 'Der Versand der E‑Mail ist fehlgeschlagen. Ein erneuter Versuch lohnt sich.';
     showAlert(errorEl, msg, 'alert-danger');
   }
 

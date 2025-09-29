@@ -1,18 +1,18 @@
 # Anmeldung
 
-Aktuell sind keine Kurse buchbar. Sobald neue Kurse angeboten werden, erscheint hier die direkte Online‑Anmeldung.
+<p class="lead mb-5">Derzeit biete ich keine buchbaren Kurse an. Sobald neue Termine verfügbar sind, finden Sie hier die direkte Online‑Anmeldung.</p>
 
 ## Voranmeldung per Kontaktformular
 
-Bei Interesse besteht die Möglichkeit mich direkt zu kontaktieren. Hierzu bitte um eine Nachricht über mein [Kontaktformular](/kontakt). Dabei benötige ich folgende Informationen:
+Wenn Sie Interesse haben, können Sie mir gerne eine Nachricht über mein [Kontaktformular](/kontakt) senden. Für eine schnelle Einschätzung helfen mir folgende Angaben:
 
-- Name des Kindes bzw. des Teilnehmers
-- Alter des Kindes bzw. des Teilnehmers
+- Name des Kindes bzw. der teilnehmenden Person
+- Alter des Kindes bzw. der teilnehmenden Person
 - Schwimmniveau (z.B. Anfänger/in, Fortgeschritten, Seepferdchen)
 - Gewünschter Kurs (z.B. Kinderkurs, Erwachsenenkurs, Einzelunterricht)
 - Bevorzugte Tage/Uhrzeiten
-- Telefonnummer für eventuelle Rückfragen
+- Telefonnummer für Rückfragen
 
-Ich versuche möglichst Zeitnah eine Rückmeldung zu geben, sobald passende Plätze verfügbar sind.
+Ich melde mich zeitnah bei Ihnen, sobald passende Plätze verfügbar sind.
 
-_**Hinweis zum Datenschutz:** Details zur Verarbeitung der Angaben sind in meiner [Datenschutzerklärung](/datenschutz) zu finden._
+_**Hinweis zum Datenschutz:** Informationen zur Verarbeitung Ihrer Angaben finden Sie in meiner [Datenschutzerklärung](/datenschutz)._

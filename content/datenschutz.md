@@ -31,14 +31,14 @@ Beim Aufruf dieser Website werden automatisch Informationen erfasst, die der Bro
 
 **Zweck:** technische Bereitstellung, Stabilität, Sicherheit, Missbrauchsabwehr.  
 **Rechtsgrundlage:** Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse).  
-**Speicherdauer:** i.d.R. 7 bis 30 Tage, länger bei sicherheitsrelevanten Vorfällen.
+**Speicherdauer:** in der Regel 7 bis 30 Tage, länger bei sicherheitsrelevanten Vorfällen.
 
 ## Kontaktformular
 
 Bei Kontakt über das [Kontaktformular](/kontakt) verarbeite ich folgende eingegebene Daten:
 
 - Name
-- E‑Mail-Adresse
+- E‑Mail‑Adresse
 - Telefonnummer (_optional_)
 - Nachricht
 
@@ -46,15 +46,15 @@ Bei Kontakt über das [Kontaktformular](/kontakt) verarbeite ich folgende eingeg
 **Rechtsgrundlagen:** Art. 6 Abs. 1 lit. b DSGVO (vorvertragliche Maßnahmen) und Art. 6 Abs. 1 lit. a DSGVO (Einwilligung).  
 **Speicherdauer:** bis zur abschließenden Bearbeitung Ihrer Anfrage; darüber hinaus nach gesetzlichen Aufbewahrungspflichten oder zur Abwehr bzw. Geltendmachung von Ansprüchen.
 
-**Hinweis:** Die Nachricht wird per E‑Mail an uns übermittelt.
+**Hinweis:** Die Nachricht wird per E‑Mail an mich übermittelt.
 
 ## WhatsApp‑Kontakt
 
-Wir bieten die Möglichkeit, uns per **WhatsApp** zu kontaktieren. Anbieter ist **WhatsApp** Ireland Limited. Bei Nutzung können Metadaten & Inhalte an **WhatsApp**/**Meta** übermittelt werden.  
+Ich biete die Möglichkeit, mich per **WhatsApp** zu kontaktieren. Anbieter ist **WhatsApp Ireland Limited**. Bei Nutzung können Metadaten und Inhalte an **WhatsApp**/**Meta** übermittelt werden.  
 **Rechtsgrundlage:** Art. 6 Abs. 1 lit. a DSGVO (Einwilligung) und ggf. lit. b (vorvertragliche Kommunikation).  
 **Weitere Informationen:** https://www.whatsapp.com/legal/privacy-policy-eea
 
-Wenn die Kommunikation über **WhatsApp** nicht gewünscht ist, dann bitte ich mein [Kontaktformular](/kontakt) oder die E‑Mail‑Adresse <span class="contact-email" class="tap-target"></span> zu nutzen.
+Wenn die Kommunikation über **WhatsApp** nicht gewünscht ist, bitte ich, mein [Kontaktformular](/kontakt) oder die E‑Mail‑Adresse <span class="contact-email" class="tap-target"></span> zu nutzen.
 
 ## Empfänger von Daten
 
@@ -67,11 +67,11 @@ Mit Dienstleistern bestehen Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO
 ## Ihre Rechte
 
 Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21). Außerdem haben Sie das Recht, erteilte Einwilligungen jederzeit für die Zukunft zu widerrufen (Art. 7 Abs. 3).  
-Beschwerderecht bei einer Aufsichtsbehörde, z.B. LDI NRW: https://www.ldi.nrw.de/
+Beschwerderecht bei einer Aufsichtsbehörde, z. B. LDI NRW: https://www.ldi.nrw.de/
 
 ## Datensicherheit
 
-Die Übertragung erfolgt nach Stand der Technik verschlüsselt (HTTPS). Wir treffen geeignete technische und organisatorische Maßnahmen zum Schutz Ihrer Daten.
+Die Übertragung erfolgt nach dem Stand der Technik verschlüsselt (HTTPS). Ich treffe geeignete technische und organisatorische Maßnahmen zum Schutz Ihrer Daten.
 
 ## Aktualisierung
 
@@ -81,4 +81,4 @@ Diese Datenschutzerklärung wird bei Bedarf aktualisiert.
 
 ## Kontakt
 
-Ich bin immer über mein [Kontaktformular](/kontakt) oder direkt über **WhatsApp** erreichbar.
+Ich bin jederzeit über mein [Kontaktformular](/kontakt) oder direkt über **WhatsApp** erreichbar.
