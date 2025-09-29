@@ -39,8 +39,8 @@ yarn-error.log
 ###< phpunit/phpunit ###
 
 ###> symfony/asset-mapper ###
-/public/assets/*
-!/public/assets/.gitignore
+#/public/assets/*
+#!/public/assets/.gitignore
 /assets/vendor/*
 !/assets/vendor/.gitignore
 ###< symfony/asset-mapper ###

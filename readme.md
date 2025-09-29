@@ -82,3 +82,11 @@ vendor/bin/phpunit
 ./lint.sh
 ./phpunit.sh
 ```
+
+## OG Image Generation
+
+Steps:
+
+* Install sharp: `yarn add -D sharp`
+* Run: `node generate-og.js`
+* The images will be written to `public/assets/og/` and match the paths already used in `content/_pages.php`.
