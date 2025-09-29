@@ -4,11 +4,13 @@ Ich freue mich sehr, Ihnen einen neuen Schwimmkurs anbieten zu können. Vielen D
 
 ## Kurszeitraum
 
-* Kursbeginn: 04.11.2025 bis 27.01.2026  
-  _In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt_
-* Gewünschter Kurszeitraum:
-    * 15:00–15:45 Uhr
-    * 16:00–16:45 Uhr
+<p class="lead"><strong>Kursbeginn:</strong> 04.11.2025 bis 27.01.2026<br>
+<em class="text-info">In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em></p>
+
+<strong class="lead">Zeiten:</strong>
+
+* 15:00–15:45 Uhr
+* 16:00–16:45 Uhr
 
 ## Kursinhalte
 
