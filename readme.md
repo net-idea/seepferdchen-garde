@@ -79,5 +79,6 @@ vendor/bin/phpunit
 
 ```shell
 ./php-cs-fixer.sh
+./lint.sh
 ./phpunit.sh
 ```

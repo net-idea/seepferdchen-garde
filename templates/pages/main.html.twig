@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Seepferdchen‑Garde — Schwimmschule{% endblock %}
+{% block title %}{{ pageMeta.title|default('Start') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
 
 {% block body %}
 <!-- Carousel Slider as hero banner -->

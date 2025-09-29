@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Seepferdchen‑Garde — {{ slug|default('Seite')|title }}{% endblock %}
+{% block title %}{{ pageMeta.title|default('Seite') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
 
 {% block body %}
   <main id="content" class="py-5">

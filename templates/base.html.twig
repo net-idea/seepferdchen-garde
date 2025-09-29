@@ -2,13 +2,84 @@
 <html lang="de" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}Seepferdchen Garde {% endblock %}</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  {# SEO constants and computed values #}
+  {% set baseUrl = 'https://seepferdchen-garde.de' %}
+  {% set brandName = 'Seepferdchen‑Garde' %}
+  {% set siteName = 'Seepferdchen‑Garde Schwimmschule' %}
+  {% set defaultDescription = 'Seepferdchen‑Garde Schwimmschule in Herzogenrath Region Aachen: Kurse für Kinder ab 5 Jahren – 10× 45 Minuten, individuelle Förderung, Sicherheit und Spaß. Offizielle Seepferdchen‑Prüfung.' %}
+  {% set effectiveSlug = slug|default('start') %}
+  {% if effectiveSlug in ['', 'start', 'main'] %}
+    {% set computedCanonical = '/' %}
+  {% else %}
+    {% set computedCanonical = '/' ~ effectiveSlug %}
+  {% endif %}
+  {% set canonicalPath = pageMeta.canonical|default(computedCanonical) %}
+  {% set pageDesc = pageMeta.description|default(defaultDescription) %}
+  {% set robots = pageMeta.robots|default('index,follow') %}
+  {% set ogImagePath = pageMeta.og_image|default('/assets/og/start.jpg') %}
+  {% set absolutCanonical = baseUrl ~ canonicalPath %}
+  {% set absolutOgImage = baseUrl ~ ogImagePath %}
+  {% set absolutLogo = baseUrl ~ '/assets/logo.png' %}
+  {% set fullTitle = (pageMeta.title|default('Start')) ~ ' — ' ~ brandName %}
+
+  <title>{% block title %}{{ fullTitle }}{% endblock %}</title>
+  <meta name="description" content="{{ pageDesc }}">
+  <meta name="robots" content="{{ robots }}">
+  <link rel="canonical" href="{{ absolutCanonical }}">
+  <meta name="theme-color" content="#0b1220">
+
+  {# Open Graph #}
+  <meta property="og:site_name" content="{{ siteName }}">
+  <meta property="og:title" content="{{ fullTitle }}">
+  <meta property="og:description" content="{{ pageDesc }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ absolutCanonical }}">
+  <meta property="og:image" content="{{ absolutOgImage }}">
+  <meta property="og:locale" content="de_DE">
+
+  {# Twitter Card #}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ fullTitle }}">
+  <meta name="twitter:description" content="{{ pageDesc }}">
+  <meta name="twitter:image" content="{{ absolutOgImage }}">
+
+  {# JSON-LD: LocalBusiness #}
+  <script type="application/ld+json">
+    {{ {
+      '@context': 'https://schema.org',
+      '@type': 'LocalBusiness',
+      name: siteName,
+      url: absolutCanonical,
+      image: [absolutOgImage],
+      logo: absolutLogo,
+      email: 'mail@seepferdchen-garde.de',
+      telephone: '+49 176 83239011',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Forensberger Str. 90',
+        postalCode: '52134',
+        addressLocality: 'Herzogenrath',
+        addressCountry: 'DE'
+      },
+      areaServed: 'Herzogenrath',
+      priceRange: '€€',
+      slogan: 'Kleine Gruppen, kindgerechtes Lernen und offizielle Seepferdchen‑Prüfung.',
+      makesOffer: {
+        '@type': 'Offer',
+        name: 'Seepferdchen‑Schwimmkurs (10×45 Min.)',
+        price: 200,
+        priceCurrency: 'EUR',
+        availability: 'https://schema.org/InStock'
+      }
+    }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE'))|raw }}
+  </script>
+
   {% block stylesheets %}
     {{ encore_entry_link_tags('app') }}
   {% endblock %}</head>
 <body>
-{% include '_partials/navbar.html.twig' with { navItems: navItems|default([]), current_slug: slug|default('') } %}
+{% include '_partials/navbar.html.twig' with { navItems: navItems|default([]), currentSlug: slug|default('') } %}
 
 {% block body %}{% endblock %}
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Seepferdchen‑Garde — Schwimmschule{% endblock %}
+{% block title %}{{ pageMeta.title|default('Kontakt') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
 
 {% block body %}
   <div class="container my-4">

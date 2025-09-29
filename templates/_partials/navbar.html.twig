@@ -8,7 +8,7 @@
       <ul class="navbar-nav ms-auto">
         {# navItems: array of { slug, label, url, order } #}
         {% for item in navItems %}
-          {% set is_active = item.slug == current_slug %}
+          {% set is_active = item.slug == currentSlug %}
           <li class="nav-item">
             <a class="nav-link{{ is_active ? ' active' : '' }}" href="{{ item.url }}">{{ item.label }}</a>
           </li>

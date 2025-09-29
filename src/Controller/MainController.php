@@ -38,6 +38,20 @@ class MainController extends AbstractController
         $projectDir = (string)$this->getParameter('kernel.project_dir');
         $navItems = $this->navigation->getItems();
 
+        // Load page metadata
+        $pagesFile = $projectDir . '/content/_pages.php';
+        $pages = is_file($pagesFile) ? (require $pagesFile) : [];
+        $metaSlug = ('' === $slug || 'main' === $slug) ? 'start' : $slug;
+
+        /** @var array<string,mixed> $pageMeta */
+        $pageMeta = $pages[$metaSlug] ?? [
+            'title'       => ucfirst($metaSlug ?: 'Start'),
+            'description' => 'Seepferdchen‑Garde Schwimmschule in Herzogenrath Region Aachen: Kurse für Kinder ab 5 Jahren – individuell, sicher und mit Spaß.',
+            'canonical'   => '/' . ('start' === $metaSlug ? '' : $metaSlug),
+            'robots'      => 'index,follow',
+            'og_image'    => '/assets/og/start.jpg',
+        ];
+
         // 1) If a Markdown file exists under content/{slug}.md, render it via Parsedown
         $contentFile = $projectDir . '/content/' . ('' !== $slug ? $slug : 'start') . '.md';
 
@@ -52,6 +66,7 @@ class MainController extends AbstractController
                     'content'  => $html,
                     'slug'     => $slug,
                     'navItems' => $navItems,
+                    'pageMeta' => $pageMeta,
                 ]
             );
         }
@@ -65,6 +80,7 @@ class MainController extends AbstractController
                 [
                     'slug'     => $slug,
                     'navItems' => $navItems,
+                    'pageMeta' => $pageMeta,
                 ]
             );
         }
