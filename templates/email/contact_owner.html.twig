@@ -1,0 +1,25 @@
+{% extends 'email/base.html.twig' %}
+
+{% block title %}Neue Kontaktanfrage{% endblock %}
+{% block header_title %}Seepferdchen Garde{% endblock %}
+
+{% block body %}
+  <h2 class="h1">Neue Kontaktanfrage</h2>
+
+  <p class="p"><span class="label">Name:</span> {{ contact.name|e }}</p>
+  <p class="p"><span class="label">E‑Mail:</span> {{ contact.emailAddress|e }}</p>
+  <p class="p"><span class="label">Telefon:</span> {{ contact.phone|default('')|e }}</p>
+
+  <h3 class="h2">Nachricht</h3>
+  <div class="box">{{ contact.messageHtml|raw }}</div>
+
+  <h3 class="h2">Meta</h3>
+  <div class="meta">
+    <ul>
+      <li>IP: {{ contact.meta.ip|e }}</li>
+      <li>User‑Agent: {{ contact.meta.ua|e }}</li>
+      <li>Zeit: {{ contact.meta.time|e }}</li>
+      <li>Host: {{ contact.meta.host|e }}</li>
+    </ul>
+  </div>
+{% endblock %}

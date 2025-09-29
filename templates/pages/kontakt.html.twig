@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageMeta.title|default('Kontakt') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
+
+{% block body %}
+  <div class="container my-4">
+    <div class="row justify-content-center">
+      <h1>Kontakt</h1>
+      <p class="lead mb-1">Ich freue mich über Ihr Interesse an meinen Angeboten. Sie erreichen mich telefonisch, per WhatsApp, per E‑Mail oder ganz einfach über dieses Kontaktformular. Ich melde mich zeitnah persönlich bei Ihnen.</p>
+      <p class="text-body-secondary mb-5">Damit ich zuverlässig antworten kann, geben Sie bitte eine gültige E‑Mail‑Adresse an.</p>
+
+      {# anchors used by redirects #}
+      <div id="contact-success" class="visually-hidden" aria-hidden="true"></div>
+      <div id="contact-error" class="visually-hidden" aria-hidden="true"></div>
+
+      {# flash/redirect messages (server-side fallback when JS is disabled) #}
+      {% set sent = app.request.query.get('sent') %}
+      {% set error = app.request.query.get('error') %}
+
+      <noscript>
+        {% if sent %}
+          <div class="alert alert-success">
+            Vielen Dank! Ihre Nachricht wurde erfolgreich versendet. Ich melde mich zeitnah bei Ihnen.
+          </div>
+        {% elseif error %}
+          <div class="alert alert-danger">
+            {% if error == 'rate' %}
+              Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
+            {% elseif error == 'mail' %}
+              Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+            {% else %}
+              Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
+            {% endif %}
+          </div>
+        {% endif %}
+      </noscript>
+
+      {{ form_start(form, {
+        action: path('app_contact'),
+        attr: { class: 'vstack gap-3 mt-3 needs-validation', novalidate: 'novalidate' }
+      }) }}
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          {{ form_label(form.name) }}
+          {{ form_widget(form.name) }}
+          <div class="invalid-feedback">Bitte geben Sie Ihren Namen an.</div>
+          {{ form_errors(form.name) }}
+        </div>
+        <div class="col-12 col-md-6">
+          {{ form_label(form.email) }}
+          {{ form_widget(form.email) }}
+          <div class="invalid-feedback">Bitte geben Sie eine gültige E‑Mail‑Adresse an.</div>
+          {{ form_errors(form.email) }}
+        </div>
+        <div class="col-12">
+          {{ form_label(form.phone, 'Telefon (optional)') }}
+          {{ form_widget(form.phone) }}
+          <div class="invalid-feedback">Bitte geben Sie eine gültige Telefonnummer an.</div>
+          {{ form_errors(form.phone) }}
+        </div>
+        <div class="col-12">
+          {{ form_label(form.message) }}
+          {{ form_widget(form.message) }}
+          <div class="invalid-feedback">Bitte geben Sie mindestens 10 Zeichen ein.</div>
+          {{ form_errors(form.message) }}
+        </div>
+        {# Honeypots (visually hidden) #}
+        <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
+          {{ form_row(form.website) }}
+          {{ form_row(form.emailrep) }}
+        </div>
+        <div class="col-12 form-check">
+          {{ form_widget(form.consent) }}
+          {{ form_label(form.consent) }}
+          <div class="invalid-feedback">Bitte stimmen Sie der Datenverarbeitung zu.</div>
+          {{ form_errors(form.consent) }}
+        </div>
+        <div class="col-12 form-check">
+          {{ form_widget(form.copy) }}
+          {{ form_label(form.copy) }}
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <button type="submit" class="btn btn-primary">Nachricht senden</button>
+        <span class="contact-whatsapp btn btn-success">Über WhatsApp kontaktieren</span>
+      </div>
+      <p class="form-text mb-0">Hinweis: Ihre Angaben werden zur Bearbeitung Ihrer Anfrage per E‑Mail verarbeitet.</p>
+      {{ form_rest(form) }}
+      {{ form_end(form) }}
+
+      <noscript>Bitte aktivieren Sie JavaScript, um die Formularvalidierung zu verbessern. Das Absenden ist auch ohne JavaScript möglich.</noscript>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,21 @@
+Bitte bestätigen Sie Ihre Anmeldung
+
+Hallo {{ booking.parentName }},
+
+danke für Ihre Anmeldung zum Schwimmkurs „Seepferdchen‑Garde“ für {{ booking.childName }}.
+
+Bitte bestätigen Sie Ihre Anmeldung über den folgenden Link:
+
+{{ confirmUrl }}
+
+Zusammenfassung:
+
+- Kurszeitraum: {{ booking.coursePeriod }}
+- Gewünschte Zeit: {{ booking.desiredTimeSlot }}
+- Kind: {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})
+- Elternteil: {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}
+
+Wenn Sie diese Anmeldung nicht veranlasst haben, ignorieren Sie diese E‑Mail.
+
+Mit besten Grüßen,
+Riccardo Nappa

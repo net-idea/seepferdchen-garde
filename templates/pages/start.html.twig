@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageMeta.title|default('Start') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
+
+{% block body %}
+<!-- Carousel Slider as hero banner -->
+<div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item carousel-item-1 bg-secondary text-dark active" aria-label="Schwimmschule Vorstellung">
+      <div class="container py-5">
+        <h1 class="display-heading">
+          Seepferdchen-Garde<br>
+          Schwimmschule Riccardo Nappa
+        </h1>
+        <p class="lead mb-0">Kleine Gruppen, kindgerechtes Lernen und die offizielle Seepferdchen‑Prüfung.</p>
+      </div>
+    </div>
+    <div class="carousel-item carousel-item-2 bg-secondary text-dark" aria-label="Erfahrung und Sicherheit">
+      <div class="container py-5">
+        <h2 class="h1 display-heading">Nächster Kursstart am 04.11.2025</h2>
+        <p class="lead mb-0">Jetzt anmelden und einen Platz sichern.</p>
+        <a href="/anmeldung" class="btn btn-cta btn-lg mt-3" role="button" aria-label="Zur Anmeldung">Jetzt anmelden</a>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev" aria-label="Vorheriger Slide">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Zurück</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next" aria-label="Nächster Slide">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Weiter</span>
+  </button>
+</div>
+
+<main id="content">
+  <!-- Kurse -->
+  <section id="kurse" class="py-5 section-anchor">
+    <div class="container">
+      <h2>Schwimmkurse</h2>
+      <p>In 10&nbsp;Einheiten à 45&nbsp;Minuten bereite ich Kinder sicher auf das Seepferdchen‑Abzeichen vor.</p>
+
+      <h3 class="mt-3">Kurszeitraum</h3>
+      <ul>
+        <li class="lead">
+          <strong>Kursbeginn:</strong> 04.11.2025 bis 27.01.2026<br>
+          <em class="text-info">In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
+        </li>
+        <li class="lead"><strong>Zeiten:</strong> 15:00–15:45&nbsp;Uhr oder 16:00–16:45&nbsp;Uhr</li>
+      </ul>
+
+      <h3 class="mt-3">Kursinhalte</h3>
+      <ul>
+        <li><strong>Wassergewöhnung:</strong> Tauchen, Gleiten, richtiges Atmen im Wasser</li>
+        <li><strong>Grundtechniken:</strong> erste Schwimmbewegungen in Bauch‑ und Rückenlage</li>
+        <li><strong>Sicherheit im Wasser:</strong> Springen vom Beckenrand, Schweben, kurze Strecken schwimmen</li>
+        <li><strong>Seepferdchen‑Abzeichen:</strong> Offizielle Prüfung am Kursende</li>
+      </ul>
+
+      <h3 class="mt-3">Kursdetails</h3>
+      <ul>
+        <li><strong>Alter:</strong> ab 5&nbsp;Jahren</li>
+        <li><strong>Dauer:</strong> 10&nbsp;Einheiten à 45&nbsp;Minuten</li>
+        <li><strong>Gruppen:</strong> klein für individuelle Betreuung</li>
+        <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" rel="noopener nofollow" target="_blank">Regenbogenschule in Herzogenrath</a></li>
+        <li><strong>Kosten:</strong> 200&nbsp;€ (10 Stunden á 20&nbsp;€)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Über mich -->
+  <section id="ueber-mich" class="py-5 bg-dark section-anchor">
+    <div class="container">
+      <h2>Über mich</h2>
+      <p>Ich bin <strong>Riccardo Nappa</strong>, ausgebildeter Fachangestellter für Bäderbetriebe und seit vielen Jahren im Schwimmbad aktiv. Mit viel Erfahrung und Freude begleite ich Kinder beim Schwimmenlernen.</p>
+      <p><strong>Mein Ziel:</strong> Sicherheit, Spaß und individuelle Förderung — damit Ihr Kind im eigenen Tempo schwimmen lernt.</p>
+    </div>
+  </section>
+
+  <!-- Kontakt -->
+  <section id="kontakt" class="py-5 section-anchor">
+    <div class="container">
+      <h2>Kontakt</h2>
+      <p>Bei Fragen zu Kursen oder zur Anmeldung bin ich jederzeit erreichbar:</p>
+      <p>
+        Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target text-decoration-none"></span><br>
+        E‑Mail: <span id="contact-email" class="tap-target"></span><br>
+        Kontaktformular: <a href="/kontakt" class="tap-target">Zum Kontaktformular</a>
+        <noscript>Bitte aktivieren Sie JavaScript, um Kontakt‑Informationen zu sehen.</noscript>
+      </p>
+    </div>
+  </section>
+</main>
+{% endblock %}

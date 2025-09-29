@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>https://seepferdchen-garde.de/</loc>
+        <priority>1.00</priority>
+    </url>
+    <url>
+        <loc>https://seepferdchen-garde.de/schwimmkurse</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://seepferdchen-garde.de/ueber-mich</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://seepferdchen-garde.de/kontakt</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://seepferdchen-garde.de/anmeldung</loc>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>https://seepferdchen-garde.de/impressum</loc>
+        <priority>0.50</priority>
+    </url>
+    <url>
+        <loc>https://seepferdchen-garde.de/datenschutz</loc>
+        <priority>0.10</priority>
+    </url>
+</urlset>

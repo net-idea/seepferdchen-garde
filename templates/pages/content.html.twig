@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ pageMeta.title|default('Seite') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
+
+{% block body %}
+  <main id="content" class="py-5">
+    <div class="container">
+      <article class="markdown-body">
+        {{ content|raw }}
+      </article>
+    </div>
+  </main>
+{% endblock %}

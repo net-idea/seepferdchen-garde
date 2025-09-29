@@ -1,0 +1,135 @@
+.carousel-item {
+  height: 500px;
+  font-weight: 900;
+  font-variation-settings: 'wght' 900;
+}
+
+.carousel-item-1 {
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1)), url('../images/schwimmbad.jpg') center/cover no-repeat;
+}
+
+.carousel-item-2 {
+  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1)), url('../images/kinder-schwimmen.jpg') center/cover no-repeat;
+}
+
+/* override Bootstrap's lighter lead weight */
+.carousel-item .lead {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #505050;
+}
+
+.carousel-item .container {
+  padding-inline: 3rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (min-width: 576px) {
+  .carousel-item .container {
+    padding-inline: 4rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .carousel-item .container {
+    padding-inline: 5rem;
+  }
+}
+
+/* === White outline for carousel text (better readability) === */
+.carousel-item h1,
+.carousel-item h2,
+.carousel-item p,
+.carousel-item .lead {
+  -webkit-text-stroke: 1px #fff;
+  paint-order: stroke fill;
+  text-shadow: 0 0 2px #fff,
+  0 0 4px rgba(255, 255, 255, 0.6);
+}
+
+/* Remove glow on interactive elements for crisp readability */
+.carousel-item a,
+.carousel-item .btn {
+  -webkit-text-stroke-width: 0 !important;
+  text-shadow: none !important;
+}
+
+/* Fallback when stroke unsupported: simulate outline with multi‑direction shadows */
+@supports not (-webkit-text-stroke: 1px #fff) {
+  .carousel-item h1,
+  .carousel-item h2,
+  .carousel-item p,
+  .carousel-item .lead {
+    text-shadow: 1px 0 0 #fff,
+    -1px 0 0 #fff,
+    0 1px 0 #fff,
+    0 -1px 0 #fff,
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff;
+  }
+  .carousel-item a,
+  .carousel-item .btn {
+    text-shadow: none !important;
+  }
+}
+
+/* Optional utility class for other elements */
+.text-outline-white {
+  -webkit-text-stroke: 1px #fff;
+  paint-order: stroke fill;
+  text-shadow: 0 0 2px #fff,
+  0 0 4px rgba(255, 255, 255, 0.6);
+}
+
+@supports not (-webkit-text-stroke: 1px #fff) {
+  .text-outline-white {
+    text-shadow: 1px 0 0 #fff,
+    -1px 0 0 #fff,
+    0 1px 0 #fff,
+    0 -1px 0 #fff,
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px -1px 0 #fff;
+  }
+}
+
+/* === Improve link visibility in carousel === */
+.carousel-item a:not(.btn) {
+  color: #084298; /* darker, higher-contrast link color */
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+.carousel-item a:not(.btn):hover,
+.carousel-item a:not(.btn):focus {
+  color: #052c65;
+}
+
+/* === CTA button with signal color === */
+.btn-cta {
+  color: #fff;
+  background-color: #ff6b00; /* signal orange */
+  border-color: #ff6b00;
+  box-shadow: 0 0.25rem 0.75rem rgba(255, 107, 0, 0.3);
+}
+.btn-cta:hover,
+.btn-cta:focus {
+  color: #fff;
+  background-color: #e65f00;
+  border-color: #e65f00;
+}
+.btn-cta:active {
+  color: #fff;
+  background-color: #cc5400;
+  border-color: #cc5400;
+}
+.btn-cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.35);
+}
