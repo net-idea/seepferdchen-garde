@@ -43,6 +43,31 @@ This application is developed to be agnostic to the environment running on. For 
 php -S localhost:8000
 ```
 
+### Database Setup
+
+This application uses SQLite as database. The database file is located in `var/data.db`. To create the database schema run:
+
+```shell
+php bin/console doctrine:schema:update --force
+```
+
+### Email Setup
+
+Send a test email to verify your email configuration:
+
+```shell
+php bin/console --no-ansi app:mail:test -vvv
+php bin/console --no-ansi app:mail:preview -vvv
+```
+
+To send real emails you need to configure the `MAILER_DSN` environment variable in your `.env` file.
+
+If the messengaer transport fails the failure que can be shown using:
+
+```shell
+php bin/console messenger:failed:show --env=prod
+```
+
 ## Development
 
 How to run the development environment with hot module replacement (HMR) and file watchers for assets and templates:

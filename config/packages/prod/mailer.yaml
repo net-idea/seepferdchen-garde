@@ -1,0 +1,4 @@
+framework:
+  mailer:
+    # Disable Messenger integration for emails in prod so mail is sent synchronously
+    message_bus: false
