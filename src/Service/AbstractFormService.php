@@ -13,6 +13,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class AbstractFormService
 {
+    // 1 hour sliding window
+    protected const RATE_WINDOW_SECONDS = 3600;
+    // at most 1 submission every 30 seconds
+    protected const RATE_MIN_INTERVAL_SECONDS = 30;
+    // max 10 submissions per window
+    protected const RATE_MAX_PER_WINDOW = 10;
+
     /**
      * Child services must provide a form instance.
      */
@@ -137,5 +144,39 @@ abstract class AbstractFormService
         $session->set($key, $times);
 
         return $times;
+    }
+
+    /**
+     * Centralized rate-limit check. If blocked, stores form data and returns a RedirectResponse to the given route with error=rate.
+     * On success, returns null and the caller may proceed.
+     */
+    protected function enforceRateLimitOrRedirect(
+        SessionInterface $session,
+        string $rateKey,
+        int $minIntervalSeconds,
+        int $maxPerWindow,
+        int $windowSeconds,
+        FormInterface $form,
+        UrlGeneratorInterface $urls,
+        string $route,
+        string $hash
+    ): ?RedirectResponse {
+        $rl = $this->rateLimitCheck($session, $rateKey, $minIntervalSeconds, $maxPerWindow, $windowSeconds);
+        if ($rl['blocked']) {
+            return $this->makeErrorRedirectWithFormData($urls, $form, $route, ['error' => 'rate'], $hash);
+        }
+
+        return null;
+    }
+
+    /**
+     * Centralized rate-limit tick using current time.
+     *
+     * @param string $rateKey The session key to store rate-limit timestamps under (must be provided by child service).
+     */
+    protected function rateLimitTickNow(SessionInterface $session, string $rateKey, int $windowSeconds = self::RATE_WINDOW_SECONDS): void
+    {
+        $rl = $this->rateLimitCheck($session, $rateKey, 0, PHP_INT_MAX, $windowSeconds);
+        $this->rateLimitTick($session, $rateKey, $rl['times'], time());
     }
 }

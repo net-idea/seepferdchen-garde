@@ -77,29 +77,6 @@ class FormBookingServiceTest extends TestCase
         $this->assertSame('Bob', $summary->getChildName());
     }
 
-    public function testGetSummaryBookingFromQueryParam(): void
-    {
-        $session = new Session(new MockArraySessionStorage());
-        $session->start();
-
-        $request = new Request(['bid' => 42]);
-        $request->setSession($session);
-        $stack = new RequestStack();
-        $stack->push($request);
-
-        $booking = new FormBookingEntity();
-        $booking->setChildName('FromRepo');
-
-        $repo = $this->createMock(FormBookingRepository::class);
-        $repo->method('find')->with(42)->willReturn($booking);
-
-        $svc = $this->makeService($stack, $repo);
-
-        $resolved = $svc->getFormBooking();
-        $this->assertInstanceOf(FormBookingEntity::class, $resolved);
-        $this->assertSame('FromRepo', $resolved->getChildName());
-    }
-
     public function testAssertSessionStartedThrowsWhenSessionCannotStart(): void
     {
         $session = $this->createMock(SessionInterface::class);
@@ -117,6 +94,56 @@ class FormBookingServiceTest extends TestCase
         $this->expectException(\RuntimeException::class);
         // triggers restore -> assertSessionStarted -> throws
         $svc->getForm();
+    }
+
+    public function testFormIsEmptyAfterSentFlagAndSummaryAvailable(): void
+    {
+        $session = new Session(new MockArraySessionStorage());
+        $session->start();
+        $session->set('bf_data', [
+            'coursePeriod'          => '04.11.2025 bis 27.01.2026',
+            'desiredTimeSlot'       => '16:00–16:45',
+            'childName'             => 'Alice',
+            'childBirthdate'        => '2017-05-10',
+            'childAddress'          => 'Street 1\nCity',
+            'hasSwimExperience'     => true,
+            'swimExperienceDetails' => '1 Kurs',
+            'healthNotes'           => 'ok',
+            'maySwimWithoutAid'     => true,
+            'parentName'            => 'Parent A',
+            'parentPhone'           => '0123',
+            'parentEmail'           => 'a@example.com',
+            'isMemberOfClub'        => false,
+            'paymentMethod'         => 'ueberweisung',
+            'participationConsent'  => true,
+            'liabilityAcknowledged' => true,
+            'photoConsent'          => false,
+            'dataConsent'           => true,
+            'bookingConfirmation'   => true,
+        ]);
+
+        $request = new Request(['sent' => 1]);
+        $request->setSession($session);
+        $stack = new RequestStack();
+        $stack->push($request);
+
+        $svc = $this->makeService($stack);
+
+        $form = $svc->getForm();
+        /** @var FormBookingEntity $formData */
+        $formData = $form->getData();
+
+        // Form should be empty (new entity) after sent=1
+        $this->assertSame('', $formData->getChildName());
+        $this->assertSame('', $formData->getDesiredTimeSlot());
+        $this->assertSame('', $formData->getParentName());
+        $this->assertSame('', $formData->getParentEmail());
+
+        // Summary should still be available from restored snapshot
+        $summary = $svc->getFormBooking();
+        $this->assertInstanceOf(FormBookingEntity::class, $summary);
+        $this->assertSame('Alice', $summary->getChildName());
+        $this->assertSame('Parent A', $summary->getParentName());
     }
 
     private function makeFormFactory(): FormFactoryInterface

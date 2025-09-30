@@ -41,7 +41,7 @@ class BookingController extends AbstractBaseController
                 'pageMeta' => $pageMeta,
                 'form'     => $form->createView(),
                 // Provide a single, consistent booking source (cached restored booking or DB by id)
-                'booking'  => $this->bookingService->getFormBooking(),
+                'booking' => $this->bookingService->getFormBooking(),
             ]
         );
     }

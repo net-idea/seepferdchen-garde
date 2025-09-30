@@ -10,61 +10,80 @@
       <p class="text-body-secondary mb-4">Erst nach Klick auf den Link ist die Anmeldung verbindlich.</p>
 
       {# anchors used by redirects #}
-      <div id="booking-success" class="visually-hidden" aria-hidden="true"></div>
-      <div id="booking-error" class="visually-hidden" aria-hidden="true"></div>
+      {% set submit = app.request.query.get('submit') %}
+      {% set error = app.request.query.get('error') %}
+      {% set success = submit %}
 
-      {# Server-rendered success summary (if available) #}
-      {% set sent = app.request.query.get('sent') %}
-      {% if sent and booking is defined and booking %}
-        {% set pm = {
-          'barzahlung': 'Barzahlung',
-          'ueberweisung': 'Überweisung',
-          'paypal': 'PayPal'
-        } %}
-        <div id="booking-success-summary" class="alert alert-success mb-3" role="alert">
+      <div id="booking-success"
+           class="{{ success ? 'alert alert-success mb-3' : 'visually-hidden' }}"
+           aria-hidden="{{ success ? 'false' : 'true' }}"
+           {% if success %}role="alert"{% endif %}>
+        {% if success %}
           <h2 class="h5 mb-2">Vielen Dank! Ihre Anmeldung ist eingegangen.</h2>
           <p class="mb-2">Bitte bestätigen Sie die Anmeldung noch über den Link in der E‑Mail, die wir Ihnen soeben gesendet haben.</p>
-          <hr>
-          <h3 class="h6 mt-2">Zusammenfassung</h3>
-          <ul class="mb-3">
-            <li>
-              <strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}<br>
-              <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
-            </li>
-            <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
-            <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></li>
-            <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
-            <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
-            <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }}</li>
-            <li><strong>Schwimmerfahrung:</strong> {{ booking.hasSwimExperience ? 'Ja' : 'Nein' }}{% if booking.swimExperienceDetails %} — {{ booking.swimExperienceDetails }}{% endif %}</li>
-            <li><strong>Ohne Schwimmhilfe:</strong> {{ booking.maySwimWithoutAid ? 'Ja' : 'Nein' }}</li>
-            {% if booking.healthNotes %}
-              <li><strong>Gesundheitliche Hinweise:</strong> {{ booking.healthNotes }}</li>
-            {% endif %}
-            <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
-            <li><strong>Mitglied:</strong> {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
-            <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
-            <li><strong>Einverständnisse:</strong>
-              <ul class="mb-0">
-                <li>Teilnahme: {{ booking.participationConsent ? 'Ja' : 'Nein' }}</li>
-                <li>Haftungsausschluss: {{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</li>
-                <li>Fotos/Videos: {{ booking.photoConsent ? 'Ja' : 'Nein' }}</li>
-                <li>Datenverarbeitung: {{ booking.dataConsent ? 'Ja' : 'Nein' }}</li>
-                <li>Verbindliche Anmeldung: {{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</li>
-              </ul>
-            </li>
-          </ul>
-          <div class="d-flex gap-2">
-            <button id="booking-print" type="button" class="btn btn-outline-secondary btn-sm">Drucken / als PDF speichern</button>
-          </div>
-        </div>
-      {% endif %}
+
+          {# Detailed summary if available #}
+          {% if booking is defined and booking %}
+            {% set pm = {
+              'barzahlung': 'Barzahlung',
+              'ueberweisung': 'Überweisung',
+              'paypal': 'PayPal'
+            } %}
+            <hr>
+            <h3 class="h6 mt-2">Zusammenfassung</h3>
+            <ul class="mb-3">
+              <li>
+                <strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}<br>
+                <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
+              </li>
+              <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
+              <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></li>
+              <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
+              <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
+              <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }}</li>
+              <li><strong>Schwimmerfahrung:</strong> {{ booking.hasSwimExperience ? 'Ja' : 'Nein' }}{% if booking.swimExperienceDetails %} — {{ booking.swimExperienceDetails }}{% endif %}</li>
+              <li><strong>Ohne Schwimmhilfe:</strong> {{ booking.maySwimWithoutAid ? 'Ja' : 'Nein' }}</li>
+              {% if booking.healthNotes %}
+                <li><strong>Gesundheitliche Hinweise:</strong> {{ booking.healthNotes }}</li>
+              {% endif %}
+              <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
+              <li><strong>Mitglied:</strong> {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
+              <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
+              <li><strong>Einverständnisse:</strong>
+                <ul class="mb-0">
+                  <li>Teilnahme: {{ booking.participationConsent ? 'Ja' : 'Nein' }}</li>
+                  <li>Haftungsausschluss: {{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</li>
+                  <li>Fotos/Videos: {{ booking.photoConsent ? 'Ja' : 'Nein' }}</li>
+                  <li>Datenverarbeitung: {{ booking.dataConsent ? 'Ja' : 'Nein' }}</li>
+                  <li>Verbindliche Anmeldung: {{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</li>
+                </ul>
+              </li>
+            </ul>
+            <div class="d-flex gap-2">
+              <button id="booking-print" type="button" class="btn btn-outline-secondary btn-sm">Drucken / als PDF speichern</button>
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <div id="booking-error"
+           class="{{ error ? 'alert alert-danger mb-3' : 'visually-hidden' }}"
+           aria-hidden="{{ error ? 'false' : 'true' }}"
+           {% if error %}role="alert"{% endif %}>
+        {% if error %}
+          {% if error == 'rate' %}
+            Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
+          {% elseif error == 'mail' %}
+            Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+          {% else %}
+            Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
+          {% endif %}
+        {% endif %}
+      </div>
 
       {# flash/redirect messages (server-side fallback when JS is deaktiviert) #}
-      {% set error = app.request.query.get('error') %}
-
       <noscript>
-        {% if sent %}
+        {% if success %}
           <div class="alert alert-success">
             Vielen Dank! Bitte prüfen Sie Ihr Postfach und bestätigen Sie Ihre Anmeldung über den Link in der E‑Mail.
           </div>

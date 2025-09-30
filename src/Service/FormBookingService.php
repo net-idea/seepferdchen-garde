@@ -24,13 +24,11 @@ class FormBookingService extends AbstractFormService
     private const ROUTE_BOOKING = 'app_anmeldung';
     private const ROUTE_BOOKING_CONFIRM = 'app_anmeldung_confirm';
 
-    private const SESSION_DATA_KEY = 'bf_data';
-    private const SESSION_RATE_KEY = 'bf_times';
-    private const SESSION_LAST_ID_KEY = 'bf_last_id';
+    // Separate keys for form repopulation and success summary
+    private const SESSION_FORM_DATA_KEY = 'bf_form';
+    private const SESSION_SUMMARY_KEY = 'bf_summary';
 
-    private const RATE_WINDOW_SECONDS = 3600; // 1 hour sliding window
-    private const RATE_MIN_INTERVAL_SECONDS = 30; // at most 1 submission every 30 seconds
-    private const RATE_MAX_PER_WINDOW = 5; // max 5 submissions per window
+    private const SESSION_RATE_KEY = 'bf_times';
 
     private const CONFIRM_STATUS_OK = 'ok';
     private const CONFIRM_STATUS_ALREADY = 'already';
@@ -53,9 +51,17 @@ class FormBookingService extends AbstractFormService
     public function getForm(): FormInterface
     {
         if (null === $this->form) {
-            // Cache restored snapshot once to avoid consuming session twice
-            $this->restoredBooking = $this->restoreFormData();
-            $entity = $this->restoredBooking ?? new FormBookingEntity();
+            $submitted = $this->isSubmitFlag();
+
+            // Load one-time snapshot for this request (summary on submit; form data otherwise)
+            $this->restoredBooking = $submitted
+                ? $this->restoreSummaryData()
+                : $this->restoreFormData();
+
+            // After successful submission (submit=1), show an empty form
+            $entity = $submitted
+                ? new FormBookingEntity()
+                : ($this->restoredBooking ?? new FormBookingEntity());
 
             if (!$entity->getCoursePeriod()) {
                 $entity->setCoursePeriod($this->coursePeriod);
@@ -69,41 +75,51 @@ class FormBookingService extends AbstractFormService
 
     public function handle(): ?RedirectResponse
     {
-        $bootstrap = $this->bootstrapFormHandling($this->requests);
-        if (null === $bootstrap) {
+        $boot = $this->bootstrapFormHandling($this->requests);
+        if (null === $boot) {
             return null;
         }
 
-        [$request, $form, $session] = $bootstrap;
+        [$request, $form, $session] = $boot;
 
-        // Apply rate limit: 1 per 30s, max 5 per hour (sliding 1h window)
-        $rl = $this->rateLimitCheck($session, self::SESSION_RATE_KEY, self::RATE_MIN_INTERVAL_SECONDS, self::RATE_MAX_PER_WINDOW, self::RATE_WINDOW_SECONDS);
-
-        if ($rl['blocked']) {
-            return $this->makeErrorRedirectWithFormData($this->urls, $form, self::ROUTE_BOOKING, ['error' => 'rate'], '#booking-error');
+        // Centralized rate limit
+        if ($redirect = $this->enforceRateLimitOrRedirect(
+            $session,
+            self::SESSION_RATE_KEY,
+            self::RATE_MIN_INTERVAL_SECONDS,
+            self::RATE_MAX_PER_WINDOW,
+            self::RATE_WINDOW_SECONDS,
+            $form,
+            $this->urls,
+            self::ROUTE_BOOKING,
+            '#booking-error'
+        )) {
+            return $redirect;
         }
 
-        // Honeypot check
-        $honey = $this->getHoneypotValue($form, 'website');
+        // Honeypots
+        $honey = trim($this->getHoneypotValue($form, 'website'));
+        $honeyAlt = trim($this->getHoneypotValue($form, 'emailrep'));
 
         /** @var FormBookingEntity $formBooking */
         $formBooking = $form->getData();
 
-        // If honeypot filled, pretend success but do not persist
-        if ('' !== $honey) {
-            $this->rateLimitTick($session, self::SESSION_RATE_KEY, $rl['times'], $rl['now']);
+        if ('' !== $honey || '' !== $honeyAlt) {
+            // Pretend success without persist; show summary from session
+            $this->storeSummarySnapshot($formBooking);
+            $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
 
-            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['sent' => 1], '#booking-success');
+            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['submit' => 1], '#booking-success');
         }
 
         if (!$form->isValid()) {
+            // Repopulate on error
+            $this->storeFormSnapshot($formBooking);
+
             return null;
         }
 
-        // Store snapshot before attempting to send mail (in case of failure)
-        $this->storeFormDataForRedirect($formBooking);
-
-        // Attach submission meta
+        // Meta
         $meta = (new FormSubmissionMetaEntity())
             ->setIp((string)$request->server->get('REMOTE_ADDR', ''))
             ->setUserAgent((string)$request->server->get('HTTP_USER_AGENT', ''))
@@ -111,35 +127,31 @@ class FormBookingService extends AbstractFormService
             ->setHost($request->getHost());
         $formBooking->setMeta($meta);
 
-        // Persist booking form data
+        // Persist
         $this->em->persist($formBooking);
         $this->em->flush();
 
-        // Remember last booking id for summary
-        $session->set(self::SESSION_LAST_ID_KEY, $formBooking->getId());
-
-        // Build email confirmation link
+        // Email
         $confirmUrl = $this->urls->generate(
             self::ROUTE_BOOKING_CONFIRM,
-            [
-                'token' => $formBooking->getConfirmationToken(),
-            ],
+            ['token' => $formBooking->getConfirmationToken()],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
 
         try {
             $this->mailMan->sendBookingVisitorConfirmationRequest($formBooking, $confirmUrl);
         } catch (TransportExceptionInterface) {
-            return $this->makeErrorRedirectWithFormData($this->urls, $form, self::ROUTE_BOOKING, ['error' => 'mail'], '#booking-error');
+            // Repopulate on mail failure
+            $this->storeFormSnapshot($formBooking);
+
+            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'mail'], '#booking-error');
         }
 
-        // Success: tick rate limiter; keep snapshot so the next GET can render a summary via restoreFormData().
-        $this->rateLimitTick($session, self::SESSION_RATE_KEY, $rl['times'], $rl['now']);
+        // Success: snapshot summary and tick RL
+        $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
+        $this->storeSummarySnapshot($formBooking);
 
-        // Do not clear SESSION_DATA_KEY here. restoreFormData() consumes it on the next request.
-
-        // Include booking id as a robust fallback for the success summary (session-less environments)
-        return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['sent' => 1, 'bid' => $formBooking->getId()], '#booking-success');
+        return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['submit' => 1], '#booking-success');
     }
 
     public function confirmByToken(string $token): string
@@ -172,39 +184,16 @@ class FormBookingService extends AbstractFormService
             return $this->restoredBooking;
         }
 
-        $request = $this->requests->getCurrentRequest();
+        $this->restoredBooking = $this->isSubmitFlag()
+            ? $this->restoreSummaryData()
+            : $this->restoreFormData();
 
-        if (!$request) {
-            return null;
-        }
-
-        // Try query parameter first (robust fallback included in redirect)
-        $bid = (int)($request->query->get('bid', 0));
-
-        if ($bid > 0) {
-            $booking = $this->bookings->find($bid);
-
-            if ($booking instanceof FormBookingEntity) {
-                return $booking;
-            }
-        }
-
-        // Fallback: session last id (may be unavailable in stateless environments)
-        $session = $request->getSession();
-        $this->assertSessionStarted($session);
-        $lastId = (int)($session->get(self::SESSION_LAST_ID_KEY, 0));
-
-        if ($lastId > 0) {
-            $booking = $this->bookings->find($lastId);
-
-            if ($booking instanceof FormBookingEntity) {
-                return $booking;
-            }
-        }
-
-        return null;
+        return $this->restoredBooking;
     }
 
+    /**
+     * Restore one-time form data snapshot for repopulating the form after errors.
+     */
     public function restoreFormData(): ?FormBookingEntity
     {
         $request = $this->requests->getCurrentRequest();
@@ -216,14 +205,54 @@ class FormBookingService extends AbstractFormService
         $session = $request->getSession();
         $this->assertSessionStarted($session);
 
-        if (!$session->has(self::SESSION_DATA_KEY)) {
+        // Backward compatibility: read old key 'bf_data' if present
+        $key = $session->has(self::SESSION_FORM_DATA_KEY) ? self::SESSION_FORM_DATA_KEY : 'bf_data';
+        if (!$session->has($key)) {
             return null;
         }
 
         /** @var array<string,mixed> $data */
-        $data = (array)$session->get(self::SESSION_DATA_KEY, []);
-        $session->remove(self::SESSION_DATA_KEY); // one-time restore
+        $data = (array)$session->get($key, []);
+        $session->remove($key); // one-time restore
 
+        return $this->hydrateBookingFromArray($data);
+    }
+
+    /**
+     * Restore one-time summary snapshot for success page after redirect.
+     */
+    public function restoreSummaryData(): ?FormBookingEntity
+    {
+        $request = $this->requests->getCurrentRequest();
+
+        if (!$request) {
+            return null;
+        }
+
+        $session = $request->getSession();
+        $this->assertSessionStarted($session);
+
+        if (!$session->has(self::SESSION_SUMMARY_KEY)) {
+            return null;
+        }
+
+        /** @var array<string,mixed> $data */
+        $data = (array)$session->get(self::SESSION_SUMMARY_KEY, []);
+        $session->remove(self::SESSION_SUMMARY_KEY); // one-time restore
+
+        return $this->hydrateBookingFromArray($data);
+    }
+
+    protected function storeFormDataForRedirect(mixed $data): void
+    {
+        // Legacy no-op to avoid accidental use; use storeFormSnapshot/storeSummarySnapshot directly
+        if ($data instanceof FormBookingEntity) {
+            $this->storeFormSnapshot($data);
+        }
+    }
+
+    private function hydrateBookingFromArray(array $data): FormBookingEntity
+    {
         $booking = new FormBookingEntity();
         $booking->setCoursePeriod($data['coursePeriod'] ?? $this->coursePeriod);
         $booking->setDesiredTimeSlot($data['desiredTimeSlot'] ?? '');
@@ -252,30 +281,13 @@ class FormBookingService extends AbstractFormService
         return $booking;
     }
 
-    protected function storeFormDataForRedirect(mixed $data): void
+    /**
+     * Convert a booking entity into a session-safe array snapshot.
+     * @return array<string,mixed>
+     */
+    private function dehydrateBookingToArray(FormBookingEntity $data): array
     {
-        if ($data instanceof FormBookingEntity) {
-            $this->storeFormData($data);
-        }
-    }
-
-    private function storeFormData(?FormBookingEntity $data): void
-    {
-        $request = $this->requests->getCurrentRequest();
-        if (!$request) {
-            return;
-        }
-
-        $session = $request->getSession();
-        $this->assertSessionStarted($session);
-
-        if (!$data) {
-            $session->remove(self::SESSION_DATA_KEY);
-
-            return;
-        }
-
-        $session->set(self::SESSION_DATA_KEY, [
+        return [
             'coursePeriod'          => $data->getCoursePeriod(),
             'desiredTimeSlot'       => $data->getDesiredTimeSlot(),
             'childName'             => $data->getChildName(),
@@ -295,6 +307,59 @@ class FormBookingService extends AbstractFormService
             'photoConsent'          => $data->hasPhotoConsent(),
             'dataConsent'           => $data->hasDataConsent(),
             'bookingConfirmation'   => $data->hasBookingConfirmation(),
-        ]);
+        ];
+    }
+
+    private function storeFormSnapshot(?FormBookingEntity $data): void
+    {
+        $request = $this->requests->getCurrentRequest();
+        if (!$request) {
+            return;
+        }
+
+        $session = $request->getSession();
+        $this->assertSessionStarted($session);
+
+        if (!$data) {
+            $session->remove(self::SESSION_FORM_DATA_KEY);
+
+            return;
+        }
+
+        $session->set(self::SESSION_FORM_DATA_KEY, $this->dehydrateBookingToArray($data));
+    }
+
+    private function storeSummarySnapshot(?FormBookingEntity $data): void
+    {
+        $request = $this->requests->getCurrentRequest();
+        if (!$request) {
+            return;
+        }
+
+        $session = $request->getSession();
+        $this->assertSessionStarted($session);
+
+        // Clear any stale form snapshot to ensure empty form on success
+        $session->remove(self::SESSION_FORM_DATA_KEY);
+
+        if (!$data) {
+            $session->remove(self::SESSION_SUMMARY_KEY);
+
+            return;
+        }
+
+        $session->set(self::SESSION_SUMMARY_KEY, $this->dehydrateBookingToArray($data));
+    }
+
+    private function isSubmitFlag(): bool
+    {
+        $request = $this->requests->getCurrentRequest();
+        if (!$request) {
+            return false;
+        }
+
+        $submit = $request->query->get('submit');
+
+        return null !== $submit && '0' !== $submit && 0 !== $submit && false !== $submit && '' !== $submit;
     }
 }

@@ -363,4 +363,45 @@ class FormBookingEntity
     {
         return null !== $this->confirmedAt;
     }
+
+    // Boolean getter aliases for Twig attribute access
+    public function getHasSwimExperience(): bool
+    {
+        return $this->hasSwimExperience();
+    }
+
+    public function getMaySwimWithoutAid(): bool
+    {
+        return $this->maySwimWithoutAid();
+    }
+
+    public function getParticipationConsent(): bool
+    {
+        return $this->hasParticipationConsent();
+    }
+
+    public function getLiabilityAcknowledged(): bool
+    {
+        return $this->hasLiabilityAcknowledged();
+    }
+
+    public function getPhotoConsent(): bool
+    {
+        return $this->hasPhotoConsent();
+    }
+
+    public function getDataConsent(): bool
+    {
+        return $this->hasDataConsent();
+    }
+
+    public function getBookingConfirmation(): bool
+    {
+        return $this->hasBookingConfirmation();
+    }
+
+    public function getIsMemberOfClub(): bool
+    {
+        return $this->isMemberOfClub();
+    }
 }
