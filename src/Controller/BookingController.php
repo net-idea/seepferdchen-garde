@@ -38,11 +38,11 @@ class BookingController extends AbstractBaseController
         return $this->render(
             'pages/anmeldung.html.twig',
             [
-                'slug'           => 'anmeldung',
-                'navItems'       => $navItems,
-                'pageMeta'       => $pageMeta,
-                'form'           => $form->createView(),
-                'bookingSummary' => $this->bookingService->getLastSubmittedBooking(),
+                'slug'     => 'anmeldung',
+                'navItems' => $navItems,
+                'pageMeta' => $pageMeta,
+                'form'     => $form->createView(),
+                'booking'  => $this->bookingService->getLastSubmittedBooking(),
             ]
         );
     }

@@ -25,7 +25,7 @@ class BookingFormType extends AbstractType
                 'required' => true,
             ])
             ->add('desiredTimeSlot', ChoiceType::class, [
-                'label'       => 'Gewünschter Kurszeitraum',
+                'label'       => 'Gewünschte Kurszeit',
                 'required'    => true,
                 'placeholder' => 'Bitte wählen…',
                 'choices'     => [
@@ -157,7 +157,8 @@ class BookingFormType extends AbstractType
                 'label_attr'  => ['class' => 'form-check-label'],
             ])
             ->add('liabilityAcknowledged', CheckboxType::class, [
-                'label'       => 'Ich habe den Haftungsausschluss zur Kenntnis genommen.',
+                'label'       => 'Ich habe den <a href="/haftungsausschluss" target="_blank" rel="noopener">Haftungsausschluss</a> zur Kenntnis genommen.',
+                'label_html'  => true,
                 'required'    => true,
                 'constraints' => [new Assert\IsTrue(message: 'Bitte bestätigen Sie den Haftungsausschluss.')],
                 'attr'        => ['class' => 'form-check-input'],
@@ -170,7 +171,8 @@ class BookingFormType extends AbstractType
                 'label_attr' => ['class' => 'form-check-label'],
             ])
             ->add('dataConsent', CheckboxType::class, [
-                'label'       => 'Ich stimme der Verarbeitung meiner Daten zur Kursorganisation zu.',
+                'label'       => 'Ich stimme der Verarbeitung meiner Daten gemäß <a href="/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a> zu.',
+                'label_html'  => true,
                 'required'    => true,
                 'constraints' => [new Assert\IsTrue(message: 'Bitte stimmen Sie der Datenverarbeitung zu.')],
                 'attr'        => ['class' => 'form-check-input'],

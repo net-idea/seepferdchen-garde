@@ -1,0 +1,119 @@
+/* Print styles: exclude forms from print and improve readability */
+@media print {
+    @page {
+        size: a4;
+        margin: 12mm;
+    }
+
+    html, body {
+        font-size: 11pt !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Hide navigation and non-essential UI */
+    .navbar, header, .breadcrumb, .carousel, .alert-dismissible .btn-close {
+        display: none !important;
+    }
+
+    /* Hide all forms and form UI */
+    form,
+    .form-control,
+    .form-floating,
+    .form-check,
+    .form-select,
+    .input-group,
+    .form-text,
+    .contact-whatsapp,
+    .btn {
+        display: none !important;
+    }
+
+    /* Keep the server-rendered success summary visible */
+    #booking-success-summary {
+        display: block !important;
+    }
+
+    #booking-success-summary .btn {
+        display: none !important;
+    }
+
+    /* Hide anchor placeholders */
+    #booking-success, #booking-error {
+        display: none !important;
+    }
+
+    /* Layout compaction */
+    .container {
+        max-width: none !important;
+        width: auto !important;
+        padding: 0 !important;
+    }
+
+    .row, .col, .col-12, .col-md-6 {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    h1 {
+        font-size: 16pt !important;
+        margin: 0 0 6pt !important;
+    }
+
+    h2 {
+        font-size: 14pt !important;
+        margin: 8pt 0 4pt !important;
+    }
+
+    h3, .h3, .h4, .h5, .h6 {
+        font-size: 12pt !important;
+        margin: 6pt 0 3pt !important;
+    }
+
+    p, li {
+        margin: 2pt 0 !important;
+    }
+
+    ul {
+        padding-left: 18pt !important;
+        margin: 4pt 0 !important;
+    }
+
+    /* Force white background and black text for print */
+    body {
+        background: #fff !important;
+        color: #000 !important;
+    }
+
+    a {
+        color: #000 !important;
+        text-decoration: underline !important;
+    }
+
+    /* Simplify alert visuals for print */
+    .alert {
+        background: transparent !important;
+        border: 1px solid #000 !important;
+        color: #000 !important;
+        padding: 8pt 10pt !important;
+        margin: 6pt 0 !important;
+    }
+
+    /* Footer should be printed */
+    .footer {
+        background: transparent !important;
+        color: #000 !important;
+        border-top: 1px solid #000 !important;
+        padding-top: 6pt !important;
+    }
+
+    .footer a {
+        color: #000 !important;
+        text-decoration: underline !important;
+    }
+
+    /* Show target URLs after links for print context */
+    a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 9pt;
+    }
+}

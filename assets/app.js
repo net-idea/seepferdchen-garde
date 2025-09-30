@@ -1,9 +1,15 @@
-import './styles/app.scss';
+import 'bootstrap/scss/bootstrap.scss';
 import './styles/fonts.css';
-import './styles/main.css';
 import './styles/carousel.css';
-import './styles/sections.css';
-import './styles/footer.css';
+
+// Shared theme styles (must be first)
+import './styles/theme.css';
+// Theme styles
+import './styles/theme-light.css';
+import './styles/theme-dark.css';
+
+// Print styles
+import './styles/print.css';
 
 // Bootstrap JS (bundle includes Popper)
 import 'bootstrap/dist/js/bootstrap.bundle';
@@ -14,3 +20,4 @@ import './bootstrap.js';
 import './scripts/contacts.ts';
 import './scripts/booking-form.ts';
 import './scripts/contact-form.ts';
+import './scripts/theme-toggle.ts';

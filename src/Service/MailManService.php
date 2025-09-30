@@ -104,7 +104,17 @@ readonly class MailManService
             ->text($text)
             ->html($html);
 
+        // Log before sending for observability in prod
+        $this->logger->info('Sending booking visitor confirmation request', [
+            'to' => $toVisitor->getAddress(),
+            'name' => $toVisitor->getName(),
+            'token' => substr($booking->getConfirmationToken(), 0, 6) . '…',
+        ]);
+
         $this->mailer->send($email);
+
+        // Log after successful send
+        $this->logger->info('Booking visitor confirmation request sent');
     }
 
     /**
@@ -130,6 +140,14 @@ readonly class MailManService
             ->text($text)
             ->html($html);
 
+        $this->logger->info('Sending booking owner notification', [
+            'to' => $toOwner->getAddress(),
+            'name' => $toOwner->getName(),
+            'bookingId' => $booking->getId(),
+        ]);
+
         $this->mailer->send($email);
+
+        $this->logger->info('Booking owner notification sent');
     }
 }

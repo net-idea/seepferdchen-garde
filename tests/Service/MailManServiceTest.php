@@ -59,6 +59,7 @@ class MailManServiceTest extends TestCase
             'from@example.com',
             'From Name',
             'to@example.com',
+            'To Name',
             new NullLogger(),
         );
     }

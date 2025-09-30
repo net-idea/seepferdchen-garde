@@ -1,6 +1,6 @@
 /* ===== Nunito Static Weights ===== */
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 200;
   font-display: swap;
@@ -8,8 +8,9 @@
        url('../fonts/nunito-extralight-1.woff') format('woff'),
        url('../fonts/nunito-extralight-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 200;
   font-display: swap;
@@ -19,7 +20,7 @@
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 300;
   font-display: swap;
@@ -27,8 +28,9 @@
        url('../fonts/nunito-light-1.woff') format('woff'),
        url('../fonts/nunito-light-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 300;
   font-display: swap;
@@ -38,7 +40,7 @@
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -46,8 +48,9 @@
        url('../fonts/nunito-regular-1.woff') format('woff'),
        url('../fonts/nunito-regular-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 400;
   font-display: swap;
@@ -57,7 +60,7 @@
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 500;
   font-display: swap;
@@ -65,8 +68,9 @@
        url('../fonts/nunito-medium-1.woff') format('woff'),
        url('../fonts/nunito-medium-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 500;
   font-display: swap;
@@ -76,7 +80,7 @@
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -84,8 +88,9 @@
        url('../fonts/nunito-semibold-1.woff') format('woff'),
        url('../fonts/nunito-semibold-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 600;
   font-display: swap;
@@ -95,7 +100,7 @@
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -103,8 +108,9 @@
        url('../fonts/nunito-bold-1.woff') format('woff'),
        url('../fonts/nunito-bold-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 700;
   font-display: swap;
@@ -114,7 +120,7 @@
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 800;
   font-display: swap;
@@ -122,8 +128,9 @@
        url('../fonts/nunito-extrabold-1.woff') format('woff'),
        url('../fonts/nunito-extrabold-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 800;
   font-display: swap;
@@ -133,7 +140,7 @@
 }
 
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: normal;
   font-weight: 900;
   font-display: swap;
@@ -141,8 +148,9 @@
        url('../fonts/nunito-black-1.woff') format('woff'),
        url('../fonts/nunito-black-1.ttf') format('truetype');
 }
+
 @font-face {
-  font-family: 'Nunito';
+  font-family: Nunito;
   font-style: italic;
   font-weight: 900;
   font-display: swap;
@@ -153,7 +161,7 @@
 
 /* ===== Nunito Variable (weight 200–900) ===== */
 @font-face {
-  font-family: 'NunitoVariable';
+  font-family: NunitoVariable;
   font-style: normal;
   font-weight: 200 900;
   font-display: swap;
@@ -163,7 +171,7 @@
 }
 
 @font-face {
-  font-family: 'NunitoVariable';
+  font-family: NunitoVariable;
   font-style: italic;
   font-weight: 200 900;
   font-display: swap;
@@ -174,7 +182,7 @@
 
 /* ===== Nunito Sans Variable (supports ytlc, opsz, wdth, wght) ===== */
 @font-face {
-  font-family: 'NunitoSansVariable';
+  font-family: NunitoSansVariable;
   font-style: normal;
   font-weight: 200 900;
   font-stretch: 75% 125%;
@@ -185,7 +193,7 @@
 }
 
 @font-face {
-  font-family: 'NunitoSansVariable';
+  font-family: NunitoSansVariable;
   font-style: italic;
   font-weight: 200 900;
   font-stretch: 75% 125%;
@@ -196,5 +204,7 @@
 }
 
 /* ===== Usage Examples ===== */
+
 /* body { font-family: 'NunitoVariable', 'Nunito', sans-serif; } */
+
 /* h1 { font-family: 'NunitoSansVariable', sans-serif; font-variation-settings: 'wght' 700; } */

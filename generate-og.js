@@ -6,7 +6,9 @@ const sharp = require('sharp');
 const OUT_DIR = path.join(process.cwd(), 'public', 'assets', 'og');
 const WIDTH = 1200;
 const HEIGHT = 630;
-const BRAND = 'Seepferdchen‑Garde | Schwimmschule Riccardo Nappa';
+const BRAND = 'Seepferdchen‑Garde';
+const BRAND_SUBLINE = 'Schwimmschule Riccardo Nappa';
+
 
 const pages = [
   {slug: 'start', title: 'Startseite', subtitle: 'Schwimmschule Riccardo Nappa'},
@@ -15,6 +17,7 @@ const pages = [
   {slug: 'kontakt', title: 'Kontakt', subtitle: 'Telefon, WhatsApp oder Kontaktformular'},
   {slug: 'anmeldung', title: 'Anmeldung', subtitle: 'Voranmeldung und Informationen'},
   {slug: 'impressum', title: 'Impressum', subtitle: 'Anbieterkennzeichnung und Kontakt'},
+  {slug: 'haftungsausschluss', title: 'Haftungsausschluss', subtitle: 'Haftungsausschluss für die Teilnahme am Schwimmkurs'},
   {slug: 'datenschutz', title: 'Datenschutzerklärung', subtitle: 'Informationen zum Datenschutz'},
 ];
 
@@ -26,6 +29,7 @@ const palettes = {
   kontakt: ['#06b6d4', '#0e7490'],
   anmeldung: ['#f97316', '#c2410c'],
   impressum: ['#64748b', '#334155'],
+  haftungsausschluss: ['#f43f5e', '#9f1239'],
   datenschutz: ['#14b8a6', '#0f766e'],
 };
 
@@ -52,7 +56,7 @@ function escapeXml(str) {
     .replace(/>/g, '&gt;');
 }
 
-function makeSVG({title, subtitle, brand, colors}) {
+function makeSVG({title, subtitle, brand, brandSubline, colors}) {
   const [c1, c2] = colors;
   const pad = 80;
   const titleLines = wrapLines(title, 22);
@@ -92,6 +96,10 @@ function makeSVG({title, subtitle, brand, colors}) {
   <text x="${pad}" y="${pad}" fill="rgba(255,255,255,0.92)" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif" font-size="28" font-weight="700">
     ${escapeXml(brand)}
   </text>
+  <!-- Brand subline -->
+  <text x="${pad}" y="${pad + 34}" fill="rgba(255,255,255,0.75)" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif" font-size="22" font-weight="600">
+    ${escapeXml(brandSubline || '')}
+  </text>
 
   <!-- Title -->
   <text x="${pad}" y="${titleYStart}" fill="#ffffff" font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif" font-size="76" font-weight="800" letter-spacing="0.5">
@@ -117,7 +125,7 @@ async function ensureOutDir() {
 
 async function generateOne({slug, title, subtitle}) {
   const colors = palettes[slug] || ['#0ea5e9', '#0369a1'];
-  const svg = makeSVG({title, subtitle, brand: BRAND, colors});
+  const svg = makeSVG({title, subtitle, brand: BRAND, brandSubline: BRAND_SUBLINE, colors});
   const outFile = path.join(OUT_DIR, `${slug}.jpg`);
   await sharp(Buffer.from(svg))
     .jpeg({quality: 90, progressive: true, chromaSubsampling: '4:4:4'})

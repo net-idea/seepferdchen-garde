@@ -10,12 +10,20 @@ Ich fördere Kinder ab 5 Jahren individuell und sicher – mit viel Geduld, Freu
 
 In 10&nbsp;Einheiten à 45&nbsp;Minuten bereite ich Ihr Kind sicher auf das Seepferdchen vor.
 
+### Aktueller Kurszeitraum
+
+- Kursbeginn: 04.11.2025 bis 27.01.2026
+- Zeiten: 15:00–15:45 Uhr oder 16:00–16:45 Uhr
+- Hinweis: In den Weihnachtsferien vom 22.12.2025 bis 06.01.2026 findet kein Kurs statt.
+
+[Jetzt anmelden](/anmeldung)
+
 ### Kursinhalte
 
-- **Wassergewöhnung:** Tauchen, Gleiten, Atmen im Wasser
-- **Grundtechniken:** erste Schwimmbewegungen in Bauch‑ und Rückenlage
-- **Sicherheit im Wasser:** Springen vom Beckenrand, Schweben, kurze Strecken schwimmen
-- **Seepferdchen‑Abzeichen:** Offizielle Prüfung am Kursende
+- Wassergewöhnung: Tauchen, Gleiten, Atmen im Wasser
+- Grundtechniken: erste Schwimmbewegungen in Bauch‑ und Rückenlage
+- Sicherheit im Wasser: Springen vom Beckenrand, Schweben, kurze Strecken schwimmen
+- Seepferdchen‑Abzeichen: Offizielle Prüfung am Kursende
 
 ### Kursdetails
 
@@ -23,7 +31,7 @@ In 10&nbsp;Einheiten à 45&nbsp;Minuten bereite ich Ihr Kind sicher auf das Seep
 - Dauer: 10&nbsp;Einheiten à 45&nbsp;Minuten
 - Gruppen: klein für individuelle Betreuung
 - Ort: [Regenbogenschule in Herzogenrath](https://maps.app.goo.gl/dDAyGnimfYUQYJHU9)
-- Kosten: 200&nbsp;€ (10 Stunden á 20&nbsp;€)
+- Kosten: 200&nbsp;€ (10 Stunden à 20&nbsp;€)
 
 ## Über mich
 
