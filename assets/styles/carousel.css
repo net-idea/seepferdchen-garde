@@ -5,11 +5,11 @@
 }
 
 .carousel-item-1 {
-  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1)), url('../images/schwimmbad.jpg') center/cover no-repeat;
+  background: linear-gradient(rgb(255 255 255 / 60%), rgb(255 255 255 / 10%)), url('../images/schwimmbad.jpg') center/cover no-repeat;
 }
 
 .carousel-item-2 {
-  background: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1)), url('../images/kinder-schwimmen.jpg') center/cover no-repeat;
+  background: linear-gradient(rgb(255 255 255 / 60%), rgb(255 255 255 / 10%)), url('../images/kinder-schwimmen.jpg') center/cover no-repeat;
 }
 
 /* override Bootstrap's lighter lead weight */
@@ -27,13 +27,13 @@
   justify-content: center;
 }
 
-@media (min-width: 576px) {
+@media (width >= 576px) {
   .carousel-item .container {
     padding-inline: 4rem;
   }
 }
 
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .carousel-item .container {
     padding-inline: 5rem;
   }
@@ -47,7 +47,7 @@
   -webkit-text-stroke: 1px #fff;
   paint-order: stroke fill;
   text-shadow: 0 0 2px #fff,
-  0 0 4px rgba(255, 255, 255, 0.6);
+  0 0 4px rgb(255 255 255 / 60%);
 }
 
 /* Remove glow on interactive elements for crisp readability */
@@ -72,6 +72,7 @@
     1px -1px 0 #fff,
     -1px -1px 0 #fff;
   }
+
   .carousel-item a,
   .carousel-item .btn {
     text-shadow: none !important;
@@ -83,7 +84,7 @@
   -webkit-text-stroke: 1px #fff;
   paint-order: stroke fill;
   text-shadow: 0 0 2px #fff,
-  0 0 4px rgba(255, 255, 255, 0.6);
+  0 0 4px rgb(255 255 255 / 60%);
 }
 
 @supports not (-webkit-text-stroke: 1px #fff) {
@@ -106,6 +107,7 @@
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
 }
+
 .carousel-item a:not(.btn):hover,
 .carousel-item a:not(.btn):focus {
   color: #052c65;
@@ -116,20 +118,35 @@
   color: #fff;
   background-color: #ff6b00; /* signal orange */
   border-color: #ff6b00;
-  box-shadow: 0 0.25rem 0.75rem rgba(255, 107, 0, 0.3);
+  box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 30%);
 }
+
 .btn-cta:hover,
 .btn-cta:focus {
   color: #fff;
   background-color: #e65f00;
   border-color: #e65f00;
 }
+
 .btn-cta:active {
   color: #fff;
   background-color: #cc5400;
   border-color: #cc5400;
 }
+
 .btn-cta:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.35);
+  box-shadow: 0 0 0 0.25rem rgb(255 107 0 / 35%);
+}
+
+/* Force strong contrast for carousel buttons */
+#mainCarousel .btn,
+#mainCarousel .btn:link,
+#mainCarousel .btn:visited {
+    color: #fff !important;
+}
+
+#mainCarousel .btn .bi {
+    color: #fff;
+    fill: currentcolor;
 }

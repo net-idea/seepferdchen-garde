@@ -13,8 +13,8 @@ Der Schutz von personenbezogenen Daten ist mir wichtig. Ich verarbeite Daten ver
     52134 Herzogenrath
 </address>
 
-Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target text-decoration-none"></span>  
-E‑Mail: <span id="contact-email" class="tap-target"></span>
+Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span class="contact-whatsapp tap-target text-decoration-none"></span>  
+E‑Mail: <span class="contact-email tap-target"></span>
 
 ## Hosting und Server‑Logfiles
 
@@ -81,4 +81,4 @@ Diese Datenschutzerklärung wird bei Bedarf aktualisiert.
 
 ## Kontakt
 
-Ich bin jederzeit über mein [Kontaktformular](/kontakt) oder direkt über **WhatsApp** erreichbar.
+Ich bin jederzeit über mein [Kontaktformular](/kontakt) oder direkt über <span class="contact-whatsapp tap-target text-decoration-none"><strong>WhatsApp</strong></span> erreichbar.

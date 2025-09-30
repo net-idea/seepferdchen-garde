@@ -1,11 +1,14 @@
-<nav class="navbar navbar-expand-lg border-bottom" aria-label="Hauptnavigation">
+<nav class="navbar navbar-expand-lg border-bottom site-navbar" aria-label="Hauptnavigation">
   <div class="container">
-    <a class="navbar-brand" href="/" aria-label="Seepferdchen‑Garde">Seepferdchen‑Garde</a>
+    <a class="navbar-brand" href="/" aria-label="Seepferdchen‑Garde">
+      <span class="d-block lh-1 fw-semibold fs-4">Seepferdchen‑Garde</span>
+      <small class="d-block text-body-secondary small">Schwimmschule Riccardo Nappa</small>
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Navigation umschalten">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
         {# navItems: array of { slug, label, url, order } #}
         {% for item in navItems %}
           {% set is_active = item.slug == currentSlug %}
@@ -13,6 +16,51 @@
             <a class="nav-link{{ is_active ? ' active' : '' }}" href="{{ item.url }}">{{ item.label }}</a>
           </li>
         {% endfor %}
+
+        {# Theme dropdown (Bootstrap) #}
+        <li class="nav-item dropdown">
+          <button class="btn btn-link nav-link px-0 px-lg-2 py-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Darstellung umschalten (auto)">
+            <svg class="bi my-1 theme-icon-active" aria-hidden="true">
+              <use href="#circle-half"></use>
+            </svg>
+            <span class="d-lg-none ms-2" id="bd-theme-text">Darstellung</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                <svg class="bi me-2 opacity-50" aria-hidden="true">
+                  <use href="#sun-fill"></use>
+                </svg>
+                Hell
+                <svg class="bi ms-auto d-none" aria-hidden="true">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                <svg class="bi me-2 opacity-50" aria-hidden="true">
+                  <use href="#moon-stars-fill"></use>
+                </svg>
+                Dunkel
+                <svg class="bi ms-auto d-none" aria-hidden="true">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="true">
+                <svg class="bi me-2 opacity-50" aria-hidden="true">
+                  <use href="#circle-half"></use>
+                </svg>
+                Auto
+                <svg class="bi ms-auto d-none" aria-hidden="true">
+                  <use href="#check2"></use>
+                </svg>
+              </button>
+            </li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>

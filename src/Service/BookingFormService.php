@@ -35,9 +35,11 @@ class BookingFormService
         if (null === $this->form) {
             $data = $this->restoreFormData();
             $entity = $data ?? new Booking();
+
             if (!$entity->getCoursePeriod()) {
                 $entity->setCoursePeriod($this->coursePeriod);
             }
+
             $this->form = $this->forms->create(BookingFormType::class, $entity);
         }
 
@@ -47,6 +49,7 @@ class BookingFormService
     public function handle(): ?RedirectResponse
     {
         $request = $this->requests->getCurrentRequest();
+
         if (!$request) {
             return null;
         }
@@ -70,8 +73,10 @@ class BookingFormService
         // rate limit: 1 per 30s, max 5 per hour
         $now = time();
         $times = array_values(array_filter((array)$session->get('bf_times', []), static fn ($t) => ($now - (int)$t) < 3600));
+
         if (!empty($times)) {
             $last = (int)end($times);
+
             if (($now - $last) < 30 || count($times) >= 5) {
                 $this->storeFormData($form->getData());
 
@@ -110,9 +115,13 @@ class BookingFormService
         $session->set('bf_last_id', $booking->getId());
 
         // email confirm link
-        $confirmUrl = $this->urls->generate('app_anmeldung_confirm', [
-            'token' => $booking->getConfirmationToken(),
-        ], UrlGeneratorInterface::ABSOLUTE_URL);
+        $confirmUrl = $this->urls->generate(
+            'app_anmeldung_confirm',
+            [
+                'token' => $booking->getConfirmationToken(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
 
         try {
             $this->mailMan->sendBookingVisitorConfirmationRequest($booking, $confirmUrl);
@@ -126,18 +135,22 @@ class BookingFormService
         $session->set('bf_times', $times);
         $this->storeFormData(null);
 
-        return $redirect(['sent' => 1], '#booking-success');
+        // Include booking id as a robust fallback for the success summary (session-less environments)
+        return $redirect(['sent' => 1, 'bid' => $booking->getId()], '#booking-success');
     }
 
     public function confirmByToken(string $token): string
     {
         $booking = $this->bookings->findOneByToken($token);
+
         if (!$booking) {
             return 'notfound';
         }
+
         if ($booking->isConfirmed()) {
             return 'already';
         }
+
         $booking->setConfirmedAt(new DateTimeImmutable());
         $this->em->flush();
 
@@ -153,25 +166,63 @@ class BookingFormService
     public function getLastSubmittedBooking(): ?Booking
     {
         $request = $this->requests->getCurrentRequest();
+
         if (!$request) {
             return null;
         }
+
         $session = $request->getSession();
         $id = $session->get('bf_last_id');
-        if (!$id) {
-            return null;
+
+        if ($id) {
+            $entity = $this->bookings->find((int)$id);
+
+            return $entity instanceof Booking ? $entity : null;
         }
 
-        return $this->bookings->find((int)$id);
+        // Fallback: allow fetching via query param 'bid' if it matches the current client context
+        $bid = $request->query->get('bid');
+        $sent = $request->query->get('sent');
+
+        if ($sent && $bid) {
+            $entity = $this->bookings->find((int)$bid);
+            $booking = $entity instanceof Booking ? $entity : null;
+
+            if ($booking) {
+                // Verify minimal safeguards: same host, IP, UA and very recent booking
+                $sameHost = $booking->getMetaHost() === $request->getHost();
+                $ip = (string)$request->server->get('REMOTE_ADDR', '');
+                $ua = (string)$request->server->get('HTTP_USER_AGENT', '');
+                $sameIp = $booking->getMetaIp() === $ip;
+                $sameUa = $booking->getMetaUa() === $ua;
+                $recent = false;
+
+                try {
+                    $createdAt = $booking->getCreatedAt();
+                    $recent = ($createdAt->getTimestamp() > (time() - 900)); // 15 minutes
+                } catch (\Throwable) {
+                    $recent = false;
+                }
+
+                if ($sameHost && $sameIp && $sameUa && $recent) {
+                    return $booking;
+                }
+            }
+        }
+
+        return null;
     }
 
     private function storeFormData(?Booking $data): void
     {
         $request = $this->requests->getCurrentRequest();
+
         if (!$request) {
             return;
         }
+
         $session = $request->getSession();
+
         if (!$session->isStarted()) {
             $session->start();
         }

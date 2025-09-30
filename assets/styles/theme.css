@@ -1,0 +1,81 @@
+/* === Shared Base === */
+body {
+    font-family: NunitoVariable, Nunito, sans-serif;
+}
+
+/* === Navbar: Compact theme dropdown trigger and icon helper === */
+.navbar .nav-link#bd-theme {
+    padding: 0.25rem !important;
+    line-height: 1;
+}
+
+@media (width >= 992px) {
+    .navbar .nav-link#bd-theme {
+        padding: 0.25rem 0.5rem !important;
+    }
+}
+
+.bi {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.125em;
+    fill: currentcolor;
+}
+
+#bd-theme .theme-icon-active {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+/* === Links inside buttons should use button color, not link color === */
+a.btn, .btn a,
+a.btn:link, a.btn:visited,
+a.btn:hover, a.btn:focus, a.btn:active {
+    color: var(--bs-btn-color) !important;
+    text-decoration: none;
+}
+
+/* === Icons inside buttons follow text color (except WhatsApp brand icon) === */
+.btn:not(.contact-whatsapp) svg, .btn:not(.contact-whatsapp) svg * {
+    fill: currentcolor;
+}
+
+/* === WhatsApp icon sizing (applies to both themes) === */
+a[href^="https://wa.me/"] svg {
+    height: 2em;
+    width: auto;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* === Selection colors per theme for readability === */
+[data-bs-theme="light"] ::selection {
+    background-color: #0ea5e9;
+    color: #fff;
+}
+
+[data-bs-theme="light"] ::selection {
+    background-color: #0ea5e9;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] ::selection {
+    background-color: #93c5fd; color: #0b1220;
+}
+
+[data-bs-theme="dark"] ::selection {
+    background-color: #93c5fd;
+    color: #0b1220;
+}
+
+/* === Shared Utilities === */
+.display-heading {
+    font-weight: 900;
+    letter-spacing: 0.2px;
+}
+
+/* === Dropdown (Theme menu) === */
+.navbar .dropdown-menu [data-bs-theme-value] {
+    font-size: 0.9rem;
+    padding: 0.35rem 0.75rem;
+}

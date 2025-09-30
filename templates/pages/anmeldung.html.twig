@@ -15,7 +15,7 @@
 
       {# Server-rendered success summary (if available) #}
       {% set sent = app.request.query.get('sent') %}
-      {% if sent and bookingSummary is defined and bookingSummary %}
+      {% if sent and booking is defined and booking %}
         {% set pm = {
           'barzahlung': 'Barzahlung',
           'ueberweisung': 'Überweisung',
@@ -28,24 +28,29 @@
           <h3 class="h6 mt-2">Zusammenfassung</h3>
           <ul class="mb-3">
             <li>
-              <strong>Kurszeitraum:</strong> {{ bookingSummary.coursePeriod }}<br>
+              <strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}<br>
               <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
             </li>
-            <li><strong>Gewünschte Zeit:</strong> {{ bookingSummary.desiredTimeSlot }}</li>
-            <li><strong>Kind:</strong> {{ bookingSummary.childName }} (geb. {{ bookingSummary.childBirthdate|date('d.m.Y') }})</li>
-            <li><strong>Adresse:</strong> {{ bookingSummary.childAddress|nl2br }}</li>
-            <li><strong>Schwimmerfahrung:</strong> {{ bookingSummary.hasSwimExperience ? 'Ja' : 'Nein' }}{% if bookingSummary.swimExperienceDetails %} — {{ bookingSummary.swimExperienceDetails }}{% endif %}</li>
-            <li><strong>Ohne Schwimmhilfe:</strong> {{ bookingSummary.maySwimWithoutAid ? 'Ja' : 'Nein' }}</li>
-            <li><strong>Elternteil:</strong> {{ bookingSummary.parentName }} — {{ bookingSummary.parentEmail }}{% if bookingSummary.parentPhone %} — {{ bookingSummary.parentPhone }}{% endif %}</li>
-            <li><strong>Mitglied:</strong> {{ bookingSummary.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
-            <li><strong>Zahlungsart:</strong> {{ pm[bookingSummary.paymentMethod]|default(bookingSummary.paymentMethod) }}</li>
+            <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
+            <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></li>
+            <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
+            <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
+            <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }}</li>
+            <li><strong>Schwimmerfahrung:</strong> {{ booking.hasSwimExperience ? 'Ja' : 'Nein' }}{% if booking.swimExperienceDetails %} — {{ booking.swimExperienceDetails }}{% endif %}</li>
+            <li><strong>Ohne Schwimmhilfe:</strong> {{ booking.maySwimWithoutAid ? 'Ja' : 'Nein' }}</li>
+            {% if booking.healthNotes %}
+              <li><strong>Gesundheitliche Hinweise:</strong> {{ booking.healthNotes }}</li>
+            {% endif %}
+            <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
+            <li><strong>Mitglied:</strong> {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
+            <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
             <li><strong>Einverständnisse:</strong>
               <ul class="mb-0">
-                <li>Teilnahme {{ bookingSummary.participationConsent ? 'Ja' : 'Nein' }}</li>
-                <li>Haftung {{ bookingSummary.liabilityAcknowledged ? 'Ja' : 'Nein' }}</li>
-                <li>Foto {{ bookingSummary.photoConsent ? 'Ja' : 'Nein' }}</li>
-                <li>Datenschutz {{ bookingSummary.dataConsent ? 'Ja' : 'Nein' }}</li>
-                <li>Anmeldung {{ bookingSummary.bookingConfirmation ? 'Ja' : 'Nein' }}</li>
+                <li>Teilnahme: {{ booking.participationConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Haftungsausschluss: {{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</li>
+                <li>Fotos/Videos: {{ booking.photoConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Datenverarbeitung: {{ booking.dataConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Verbindliche Anmeldung: {{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</li>
               </ul>
             </li>
           </ul>
@@ -85,11 +90,12 @@
       <div class="row g-3">
         <div class="col-12">
           <p class="lead"><strong>Kursbeginn:</strong> 04.11.2025 bis 27.01.2026<br>
-          <em class="text-info">In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em></p>
+            <em class="text-info">In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em></p>
         </div>
       </div>
+
       <div class="row g-3">
-        <div class="col-12 col-md-6">
+        <div class="col-12 col-md-6 mb-2">
           <div class="form-floating">
             {{ form_widget(form.desiredTimeSlot) }}
             {{ form_label(form.desiredTimeSlot) }}
@@ -98,6 +104,17 @@
         </div>
         {{ form_widget(form.coursePeriod) }}
       </div>
+
+      <div class="col-12">
+        <p class="lead mb-1"><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></p>
+      </div>
+
+      <h2 class="h4 mt-3">Kosten</h2>
+      <ul class="mb-1">
+        <li><strong>Kursgebühr:</strong> 200&nbsp;€</li>
+        <li><strong>Umfang:</strong> 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
+        <li><strong>Inklusive:</strong> Offizielle Seepferdchen‑Prüfung</li>
+      </ul>
 
       <h2 class="h4 mt-3">Kinderdaten</h2>
       <div class="row g-3">
@@ -216,6 +233,7 @@
         <button type="submit" class="btn btn-cta">Anmeldung absenden</button>
         <a href="/docs/2025.09-anmeldung-schwimmkurs-seepferdchen.pdf" class="btn btn-outline-secondary" target="_blank" rel="noopener">Formular als Dokument</a>
       </div>
+
       <p class="form-text mb-0">Hinweis: Sie erhalten eine E‑Mail mit einem Bestätigungslink. Erst nach Bestätigung ist die Anmeldung verbindlich.</p>
 
       {{ form_rest(form) }}
@@ -225,7 +243,7 @@
 
   <script>
     (function () {
-      var btn = document.getElementById('booking-print');
+      const btn = document.getElementById('booking-print');
       if (btn) {
         btn.addEventListener('click', function () {
           window.print();
