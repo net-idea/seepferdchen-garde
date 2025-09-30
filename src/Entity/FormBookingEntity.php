@@ -6,9 +6,9 @@ namespace App\Entity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: 'App\\Repository\\BookingRepository')]
-#[ORM\Table(name: 'booking')]
-class Booking
+#[ORM\Entity(repositoryClass: 'App\\Repository\\FormBookingRepository')]
+#[ORM\Table(name: 'form_booking')]
+class FormBookingEntity
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -86,18 +86,10 @@ class Booking
     #[ORM\Column(type: 'boolean')]
     private bool $bookingConfirmation = false;
 
-    // Meta
-    #[ORM\Column(type: 'string', length: 64, nullable: true)]
-    private ?string $metaIp = null;
-
-    #[ORM\Column(type: 'string', length: 400, nullable: true)]
-    private ?string $metaUa = null;
-
-    #[ORM\Column(type: 'string', length: 200, nullable: true)]
-    private ?string $metaHost = null;
-
-    #[ORM\Column(type: 'string', length: 40, nullable: true)]
-    private ?string $metaTime = null;
+    // Meta (shared entity)
+    #[ORM\OneToOne(targetEntity: FormSubmissionMetaEntity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(name: 'meta_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?FormSubmissionMetaEntity $meta = null;
 
     public function __construct()
     {
@@ -348,48 +340,23 @@ class Booking
         return $this;
     }
 
-    public function getMetaIp(): ?string
+    /**
+     * Meta info relation helpers.
+     */
+    public function setMeta(?FormSubmissionMetaEntity $meta): self
     {
-        return $this->metaIp;
-    }
-    public function setMetaIp(?string $s): self
-    {
-        $this->metaIp = $s;
+        $this->meta = $meta;
 
         return $this;
     }
 
-    public function getMetaUa(): ?string
+    public function getMeta(): FormSubmissionMetaEntity
     {
-        return $this->metaUa;
-    }
-    public function setMetaUa(?string $s): self
-    {
-        $this->metaUa = $s;
+        if (null === $this->meta) {
+            $this->meta = new FormSubmissionMetaEntity();
+        }
 
-        return $this;
-    }
-
-    public function getMetaHost(): ?string
-    {
-        return $this->metaHost;
-    }
-    public function setMetaHost(?string $s): self
-    {
-        $this->metaHost = $s;
-
-        return $this;
-    }
-
-    public function getMetaTime(): ?string
-    {
-        return $this->metaTime;
-    }
-    public function setMetaTime(?string $s): self
-    {
-        $this->metaTime = $s;
-
-        return $this;
+        return $this->meta;
     }
 
     public function isConfirmed(): bool

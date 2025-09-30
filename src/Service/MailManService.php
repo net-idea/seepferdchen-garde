@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Booking;
-use App\Entity\ContactFormEntity;
+use App\Entity\FormBookingEntity;
+use App\Entity\FormContactEntity;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -34,7 +34,7 @@ readonly class MailManService
      * @throws LoaderError
      * @throws SyntaxError
      */
-    public function sendContactForm(ContactFormEntity $contact): void
+    public function sendContactForm(FormContactEntity $contact): void
     {
         $from = new Address($this->fromAddress, $this->fromName);
         $to = new Address($this->toAddress, $this->toName);
@@ -55,6 +55,11 @@ readonly class MailManService
                 ->html($ownerHtml);
 
             $this->mailer->send($emailOwner);
+            $this->logger->info('Contact mail sent to owner', [
+                'to'    => $to->getAddress(),
+                'name'  => $to->getName(),
+                'email' => $contact->getEmailAddress(),
+            ]);
 
             if ($contact->getCopy()) {
                 $visitorSubject = 'Seepferdchen Garde — Ihre Kontaktanfrage';
@@ -69,6 +74,10 @@ readonly class MailManService
                     ->html($visitorHtml);
 
                 $this->mailer->send($emailVisitor);
+                $this->logger->info('Contact mail sent to visitor', [
+                    'to'   => $contact->getEmailAddress(),
+                    'name' => $contact->getName(),
+                ]);
             }
         } catch (TransportExceptionInterface $e) {
             // Logs transport failures (bad DSN, auth, SSL, DNS, etc.)
@@ -82,7 +91,7 @@ readonly class MailManService
      * Send a confirmation request to the visitor with a unique link.
      * @throws TransportExceptionInterface|RuntimeError|LoaderError|SyntaxError
      */
-    public function sendBookingVisitorConfirmationRequest(Booking $booking, string $confirmUrl): void
+    public function sendBookingVisitorConfirmationRequest(FormBookingEntity $booking, string $confirmUrl): void
     {
         $from = new Address($this->fromAddress, $this->fromName);
         $toVisitor = new Address($booking->getParentEmail(), $booking->getParentName());
@@ -105,23 +114,28 @@ readonly class MailManService
             ->html($html);
 
         // Log before sending for observability in prod
-        $this->logger->info('Sending booking visitor confirmation request', [
-            'to' => $toVisitor->getAddress(),
-            'name' => $toVisitor->getName(),
+        $this->logger->info('Sending booking confirmation request to visitor', [
+            'to'    => $toVisitor->getAddress(),
+            'name'  => $toVisitor->getName(),
             'token' => substr($booking->getConfirmationToken(), 0, 6) . '…',
         ]);
 
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+            $this->logger->info('Booking confirmation request sent to visitor');
+        } catch (TransportExceptionInterface $e) {
+            // Logs transport failures (bad DSN, auth, SSL, DNS, etc.)
+            $this->logger->error('Mailer send failed: ' . $e->getMessage(), ['exception' => $e]);
 
-        // Log after successful send
-        $this->logger->info('Booking visitor confirmation request sent');
+            throw $e;
+        }
     }
 
     /**
      * Notify the owner when a booking was confirmed by the visitor.
      * @throws TransportExceptionInterface|RuntimeError|LoaderError|SyntaxError
      */
-    public function sendBookingOwnerNotification(Booking $booking): void
+    public function sendBookingOwnerNotification(FormBookingEntity $booking): void
     {
         $from = new Address($this->fromAddress, $this->fromName);
         $toOwner = new Address($this->toAddress, $this->toName);
@@ -141,13 +155,19 @@ readonly class MailManService
             ->html($html);
 
         $this->logger->info('Sending booking owner notification', [
-            'to' => $toOwner->getAddress(),
-            'name' => $toOwner->getName(),
+            'to'        => $toOwner->getAddress(),
+            'name'      => $toOwner->getName(),
             'bookingId' => $booking->getId(),
         ]);
 
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+            $this->logger->info('Booking notification sent to owner');
+        } catch (TransportExceptionInterface $e) {
+            // Logs transport failures (bad DSN, auth, SSL, DNS, etc.)
+            $this->logger->error('Mailer send failed: ' . $e->getMessage(), ['exception' => $e]);
 
-        $this->logger->info('Booking owner notification sent');
+            throw $e;
+        }
     }
 }
