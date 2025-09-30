@@ -1,0 +1,164 @@
+/* === Base (light only) === */
+[data-bs-theme="light"] body {
+    background-color: #f3f4f6;
+    color: #111827;
+}
+
+/* === Navbar (Top, light) === */
+[data-bs-theme="light"] .site-navbar {
+    background: linear-gradient(135deg, #38bdf8 0%, #22d3ee 50%, #67e8f9 100%);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+[data-bs-theme="light"] .site-navbar .navbar-brand {
+    color: #052e3c;
+    font-weight: 800;
+}
+
+[data-bs-theme="light"] .site-navbar .navbar-brand:hover,
+[data-bs-theme="light"] .site-navbar .navbar-brand:focus {
+    color: #083344;
+}
+
+[data-bs-theme="light"] .site-navbar .nav-link {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+[data-bs-theme="light"] .site-navbar .nav-link:hover,
+[data-bs-theme="light"] .site-navbar .nav-link:focus {
+    color: #083344;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+[data-bs-theme="light"] .site-navbar .nav-link.active {
+    color: #052e3c;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+/* === Links (global, light) === */
+[data-bs-theme="light"] a:not(.btn) {
+    color: #0d5e94;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+[data-bs-theme="light"] a:not(.btn):hover,
+[data-bs-theme="light"] a:not(.btn):focus {
+    color: #083a5c;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* === Buttons (light specifics) === */
+[data-bs-theme="light"] .btn-outline-secondary {
+    --bs-btn-color: #111827;
+    --bs-btn-border-color: #cbd5e1;
+    --bs-btn-hover-bg: #e5e7eb;
+    --bs-btn-hover-border-color: #e5e7eb;
+    --bs-btn-hover-color: #111827;
+}
+
+/* 3D effect only for CTA */
+.btn-cta {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 40%), 0 6px 12px rgb(255 107 0 / 35%), 0 2px 4px rgb(0 0 0 / 12%);
+    transform: translateY(0);
+    transition: transform .08s ease, box-shadow .12s ease;
+}
+
+.btn-cta:hover, .btn-cta:focus {
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 50%), 0 8px 18px rgb(255 107 0 / 42%), 0 3px 8px rgb(0 0 0 / 14%);
+    transform: translateY(-1px);
+}
+
+.btn-cta:active {
+    transform: translateY(1px);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 15%), 0 4px 10px rgb(255 107 0 / 30%), 0 1px 3px rgb(0 0 0 / 18%);
+}
+
+/* === Sections (Content, light) === */
+[data-bs-theme="light"] section#kurse,
+[data-bs-theme="light"] section#ueber-mich,
+[data-bs-theme="light"] section#kontakt {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 100% 35%, 100% 25%;
+    background-position: top left, bottom left;
+    box-shadow: 0 12px 28px -18px rgb(0 0 0 / 10%), 0 4px 10px -4px rgb(0 0 0 / 8%), 0 0 0 1px rgb(0 0 0 / 4%);
+    overflow: hidden;
+    backdrop-filter: blur(1px);
+    background-image: linear-gradient(180deg, rgb(136 136 136 / 7%), rgb(255 255 255 / 0%)), linear-gradient(0deg, rgb(255 255 255 / 0%), rgb(255 255 255 / 0%));
+}
+
+@media (width >= 992px) {
+    [data-bs-theme="light"] section#kurse,
+    [data-bs-theme="light"] section#ueber-mich,
+    [data-bs-theme="light"] section#kontakt {
+        background-size: 100% 30%, 100% 22%;
+    }
+}
+
+/* === Cards (light) === */
+.card {
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 8%);
+    background: #fff;
+}
+
+/* === Footer (Bottom, light) === */
+.footer {
+    background: #f8fafc;
+    color: #334155;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer a {
+    color: #0d5e94;
+}
+
+.footer a:hover, .footer a:focus {
+    color: #083a5c;
+}
+
+/* === Utilities (light) === */
+[data-bs-theme="light"] .text-info {
+    color: #0a6ebd !important;
+}
+
+/* === Forms / Choices (light) === */
+.choice-expanded {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.choice-expanded > div {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgb(120 120 120 / 16%);
+    border-radius: 0.5rem;
+    background: #fff;
+}
+
+.choice-expanded > div:focus-within {
+    border-color: #ff6b00;
+    box-shadow: 0 0 0 2px rgb(255 107 0 / 35%);
+}
+
+.choice-expanded input[type="radio"] {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.choice-expanded label {
+    margin: 0 0 0 0.5rem;
+    font-size: 1rem;
+    line-height: 1.35;
+    font-weight: 600;
+    cursor: pointer;
+}

@@ -1,0 +1,195 @@
+/* === Base (dark only) === */
+[data-bs-theme="dark"] body {
+    background-color: #080808;
+    color: #f3f4f6;
+}
+
+/* === Navbar (Top) === */
+[data-bs-theme="dark"] .site-navbar {
+    background: linear-gradient(135deg, #0a101c 0%, #0e1626 50%, #2d3653 100%);
+    border-bottom: 1px solid #1f2937;
+}
+
+[data-bs-theme="dark"] .site-navbar .navbar-brand {
+    color: #e2ecff;
+    font-weight: 800;
+}
+
+[data-bs-theme="dark"] .site-navbar .navbar-brand:hover,
+[data-bs-theme="dark"] .site-navbar .navbar-brand:focus {
+    color: #f0f6ff;
+}
+
+[data-bs-theme="dark"] .site-navbar .nav-link {
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+[data-bs-theme="dark"] .site-navbar .nav-link:hover,
+[data-bs-theme="dark"] .site-navbar .nav-link:focus {
+    color: #e2ecff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+[data-bs-theme="dark"] .site-navbar .nav-link.active {
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+}
+
+/* === Links (global) === */
+[data-bs-theme="dark"] a:not(.btn) {
+    color: #79c0ff;
+    text-decoration: none;
+}
+
+[data-bs-theme="dark"] a:not(.btn):hover,
+[data-bs-theme="dark"] a:not(.btn):focus {
+    color: #a5d6ff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* === Buttons (Bootstrap-driven) === */
+
+/* Ensure button anchors use Bootstrap's own color vars */
+[data-bs-theme="dark"] a.btn,
+[data-bs-theme="dark"] .btn a,
+[data-bs-theme="dark"] a.btn:link,
+[data-bs-theme="dark"] a.btn:visited,
+[data-bs-theme="dark"] a.btn:hover,
+[data-bs-theme="dark"] a.btn:focus,
+[data-bs-theme="dark"] a.btn:active {
+    color: var(--bs-btn-color) !important;
+    text-decoration: none;
+}
+
+/* Icons inside buttons inherit text color, but NOT for WhatsApp button */
+.btn:not(.contact-whatsapp) svg, .btn:not(.contact-whatsapp) svg * {
+    fill: currentcolor;
+}
+
+/* Outline secondary: higher contrast via vars */
+[data-bs-theme="dark"] .btn-outline-secondary {
+    --bs-btn-color: #e5e7eb;
+    --bs-btn-border-color: rgb(229 231 235 / 60%);
+    --bs-btn-hover-bg: #e5e7eb;
+    --bs-btn-hover-border-color: #e5e7eb;
+    --bs-btn-hover-color: #111827;
+}
+
+/* CTA 3D effect */
+.btn-cta {
+    background-color: #ff6b00;
+    border-color: #ff6b00;
+    color: #fff;
+    text-shadow: none;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 6%), 0 8px 16px rgb(255 107 0 / 45%), 0 2px 4px rgb(0 0 0 / 40%);
+    transform: translateY(0);
+    transition: transform .08s ease, box-shadow .12s ease;
+}
+
+.btn-cta:hover,
+.btn-cta:focus-visible {
+    background-color: #e46000;
+    border-color: #e46000;
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 8%), 0 10px 20px rgb(255 107 0 / 52%), 0 3px 8px rgb(0 0 0 / 50%);
+    transform: translateY(-1px);
+}
+
+.btn-cta:active {
+    background-color: #cc5400;
+    border-color: #cc5400;
+    color: #fff;
+    transform: translateY(1px);
+    box-shadow: inset 0 1px 2px rgb(0 0 0 / 25%), 0 6px 12px rgb(255 107 0 / 40%), 0 1px 3px rgb(0 0 0 / 60%);
+}
+
+/* === Sections (Content) === */
+[data-bs-theme="dark"] section#kurse,
+[data-bs-theme="dark"] section#ueber-mich,
+[data-bs-theme="dark"] section#kontakt {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: 100% 35%, 100% 25%;
+    background-position: top left, bottom left;
+    box-shadow: 0 12px 28px -18px rgb(0 0 0 / 85%), 0 4px 10px -4px rgb(0 0 0 / 60%), 0 0 0 1px rgb(255 255 255 / 5%);
+    overflow: hidden;
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 4%), rgb(0 0 0 / 0%)), linear-gradient(0deg, rgb(255 255 255 / 2%), rgb(0 0 0 / 0%));
+}
+
+@media (width >= 992px) {
+    [data-bs-theme="dark"] section#kurse,
+    [data-bs-theme="dark"] section#ueber-mich,
+    [data-bs-theme="dark"] section#kontakt {
+        background-size: 100% 30%, 100% 22%;
+    }
+}
+
+/* === Cards === */
+[data-bs-theme="dark"] .card {
+    background: #111827;
+    border: 1px solid #1f2937;
+    box-shadow: 0 8px 28px -10px rgb(0 0 0 / 60%), 0 2px 8px -4px rgb(0 0 0 / 50%);
+    color: #e5e7eb;
+}
+
+/* === Footer (Bottom) === */
+[data-bs-theme="dark"] .footer {
+    background: #0f172a;
+    color: #cbd5e1;
+    border-top: 1px solid #1f2937;
+}
+
+[data-bs-theme="dark"] .footer a {
+    color: #cfe1f7;
+    text-decoration: none;
+}
+
+[data-bs-theme="dark"] .footer a:hover, [data-bs-theme="dark"] .footer a:focus {
+    color: #e2ecff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* === Forms / Choices === */
+.choice-expanded {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    margin-top: 0.25rem;
+}
+
+.choice-expanded > div {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 0.7rem;
+    border: 1px solid rgb(255 255 255 / 16%);
+    border-radius: 0.5rem;
+    background: rgb(255 255 255 / 3%);
+}
+
+.choice-expanded > div:focus-within {
+    border-color: #ff6b00;
+    box-shadow: 0 0 0 2px rgb(255 107 0 / 35%);
+}
+
+.choice-expanded input[type="radio"] {
+    width: 1.15rem;
+    height: 1.15rem;
+}
+
+.choice-expanded label {
+    margin: 0 0 0 0.5rem;
+    font-size: 1rem;
+    line-height: 1.35;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+[data-bs-theme="dark"] .choice-expanded > div {
+    border-color: rgb(255 255 255 / 16%);
+    background: #000;
+}

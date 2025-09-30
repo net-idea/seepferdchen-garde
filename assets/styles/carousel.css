@@ -118,7 +118,7 @@
   color: #fff;
   background-color: #ff6b00; /* signal orange */
   border-color: #ff6b00;
-  box-shadow: 0 0.25rem 0.75rem rgb(255 107 0 / 30%);
+    box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 30%);
 }
 
 .btn-cta:hover,
@@ -137,4 +137,16 @@
 .btn-cta:focus-visible {
   outline: none;
   box-shadow: 0 0 0 0.25rem rgb(255 107 0 / 35%);
+}
+
+/* Force strong contrast for carousel buttons */
+#mainCarousel .btn,
+#mainCarousel .btn:link,
+#mainCarousel .btn:visited {
+    color: #fff !important;
+}
+
+#mainCarousel .btn .bi {
+    color: #fff;
+    fill: currentcolor;
 }
