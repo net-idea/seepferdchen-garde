@@ -14,7 +14,7 @@ Der Schutz von personenbezogenen Daten ist mir wichtig. Ich verarbeite Daten ver
 </address>
 
 Telefon: <span id="contact-phone" class="tap-target"></span>&nbsp;<span id="contact-whatsapp" class="tap-target text-decoration-none"></span>  
-E‑Mail: <span id="contact-email" class="tap-target"></span>
+E‑Mail: <span class="contact-email tap-target"></span>
 
 ## Hosting und Server‑Logfiles
 

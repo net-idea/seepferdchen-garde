@@ -16,7 +16,9 @@
     "build": "encore production --progress",
     "deploy": "bash ./deploy.sh",
     "tsc:check": "tsc --noEmit",
-    "tsc:watch": "tsc --noEmit -w"
+    "tsc:watch": "tsc --noEmit -w",
+    "lint:css": "stylelint 'assets/**/*.{css,scss}' 'templates/email/_partials/**/*.css'",
+    "lint:css:fix": "stylelint 'assets/**/*.{css,scss}' 'templates/email/_partials/**/*.css' --fix"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
@@ -31,7 +33,13 @@
     "typescript": "^5.6.3",
     "webpack": "^5.101.3",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2"
+    "webpack-dev-server": "^5.2.2",
+    "postcss": "^8.4.47",
+    "postcss-scss": "^4.0.9",
+    "stylelint": "^16.9.0",
+    "stylelint-config-standard": "^36.0.1",
+    "stylelint-config-standard-scss": "^13.0.0",
+    "stylelint-scss": "^6.5.0"
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",

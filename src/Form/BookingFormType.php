@@ -25,7 +25,7 @@ class BookingFormType extends AbstractType
                 'required' => true,
             ])
             ->add('desiredTimeSlot', ChoiceType::class, [
-                'label'       => 'Gewünschter Kurszeitraum',
+                'label'       => 'Gewünschte Kurszeit',
                 'required'    => true,
                 'placeholder' => 'Bitte wählen…',
                 'choices'     => [

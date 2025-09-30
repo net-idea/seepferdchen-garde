@@ -15,9 +15,19 @@
   <ul>
     <li><strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}</li>
     <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
+    <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9">Regenbogenschule in Herzogenrath</a></li>
     <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
     <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }} </li>
     <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
+    <li><strong>Einverständnisse:</strong>
+      <ul>
+        <li>Teilnahme: <strong>{{ booking.participationConsent ? 'Ja' : 'Nein' }}</strong></li>
+        <li>Haftungsausschluss: <strong>{{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</strong></li>
+        <li>Fotos/Videos: <strong>{{ booking.photoConsent ? 'Ja' : 'Nein' }}</strong></li>
+        <li>Datenverarbeitung: <strong>{{ booking.dataConsent ? 'Ja' : 'Nein' }}</strong></li>
+        <li>Verbindliche Anmeldung: <strong>{{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</strong></li>
+      </ul>
+    </li>
   </ul>
 
   <p class="p muted">Falls Sie diese Anmeldung nicht veranlasst haben, ignorieren Sie bitte diese E‑Mail.</p>

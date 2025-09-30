@@ -1,0 +1,18 @@
+# dependencies
+node_modules/
+vendor/
+
+# build artifacts
+public/build/
+public/assets/build/
+var/
+
+# generated docs and bundles
+public/bundles/
+public/docs/
+
+# source vendor css (do not lint third-party code)
+assets/vendor/
+
+# misc
+.DS_Store
