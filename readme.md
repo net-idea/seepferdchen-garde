@@ -58,6 +58,7 @@ Send a test email to verify your email configuration:
 ```shell
 php bin/console --no-ansi app:mail:test -vvv
 php bin/console --no-ansi app:mail:preview -vvv
+php bin/console --no-ansi app:mail:booking-preview -vvv
 ```
 
 To send real emails you need to configure the `MAILER_DSN` environment variable in your `.env` file.
