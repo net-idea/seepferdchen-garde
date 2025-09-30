@@ -12,6 +12,6 @@ trim_trailing_whitespace = true
 max_line_length = off
 trim_trailing_whitespace = false
 
-[{*.htm,*.html,*.ts,*.twig,*.js,*.json,*.svg,*.vue,*.yml,*.yaml}]
+[{*.css,*.scss,*.htm,*.html,*.ts,*.twig,*.js,*.json,*.svg,*.vue,*.yml,*.yaml}]
 indent_size = 2
 max_line_length = off

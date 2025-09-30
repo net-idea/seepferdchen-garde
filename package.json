@@ -18,7 +18,8 @@
     "tsc:check": "tsc --noEmit",
     "tsc:watch": "tsc --noEmit -w",
     "lint:css": "stylelint 'assets/**/*.{css,scss}' 'templates/email/_partials/**/*.css'",
-    "lint:css:fix": "stylelint 'assets/**/*.{css,scss}' 'templates/email/_partials/**/*.css' --fix"
+    "lint:css:fix": "stylelint 'assets/**/*.{css,scss}' 'templates/email/_partials/**/*.css' --fix",
+    "og:build": "node generate-og.js"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",

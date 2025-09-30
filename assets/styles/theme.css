@@ -49,10 +49,24 @@ a[href^="https://wa.me/"] svg {
 }
 
 /* === Selection colors per theme for readability === */
-[data-bs-theme="light"] ::selection { background-color: #0ea5e9; color: #ffffff; }
-[data-bs-theme="light"] ::-moz-selection { background-color: #0ea5e9; color: #ffffff; }
-[data-bs-theme="dark"] ::selection { background-color: #93c5fd; color: #0b1220; }
-[data-bs-theme="dark"] ::-moz-selection { background-color: #93c5fd; color: #0b1220; }
+[data-bs-theme="light"] ::selection {
+    background-color: #0ea5e9;
+    color: #fff;
+}
+
+[data-bs-theme="light"] ::selection {
+    background-color: #0ea5e9;
+    color: #fff;
+}
+
+[data-bs-theme="dark"] ::selection {
+    background-color: #93c5fd; color: #0b1220;
+}
+
+[data-bs-theme="dark"] ::selection {
+    background-color: #93c5fd;
+    color: #0b1220;
+}
 
 /* === Shared Utilities === */
 .display-heading {
