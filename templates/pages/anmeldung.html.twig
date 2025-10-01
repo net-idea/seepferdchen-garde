@@ -113,7 +113,7 @@
         </div>
       </div>
 
-      <div class="row g-3">
+      <div class="row g-1">
         <div class="col-12 col-md-6 mb-2">
           <div class="form-floating">
             {{ form_widget(form.desiredTimeSlot) }}
@@ -128,12 +128,20 @@
         <p class="lead mb-1"><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></p>
       </div>
 
-      <h2 class="h4 mt-3">Kosten</h2>
+      <h2 class="h4 mt-1">Kosten</h2>
       <ul class="mb-1">
         <li><strong>Kursgebühr:</strong> 200&nbsp;€</li>
         <li><strong>Umfang:</strong> 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
         <li><strong>Inklusive:</strong> Offizielle Seepferdchen‑Prüfung</li>
       </ul>
+
+      <div class="col-12 col-md-6">
+        <div class="form-floating">
+          {{ form_widget(form.paymentMethod) }}
+          {{ form_label(form.paymentMethod) }}
+        </div>
+        {{ form_errors(form.paymentMethod) }}
+      </div>
 
       <h2 class="h4 mt-3">Kinderdaten</h2>
       <div class="row g-3">
@@ -203,13 +211,6 @@
           {{ form_label(form.isMemberOfClub) }}<br>
           {{ form_widget(form.isMemberOfClub) }}
           {{ form_errors(form.isMemberOfClub) }}
-        </div>
-        <div class="col-12 col-md-6">
-          <div class="form-floating">
-            {{ form_widget(form.paymentMethod) }}
-            {{ form_label(form.paymentMethod) }}
-          </div>
-          {{ form_errors(form.paymentMethod) }}
         </div>
       </div>
 
