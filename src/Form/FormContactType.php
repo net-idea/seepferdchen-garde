@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Entity\ContactFormEntity;
+use App\Entity\FormContactEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class ContactFormType extends AbstractType
+class FormContactType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -126,7 +126,7 @@ class ContactFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'      => ContactFormEntity::class,
+            'data_class'      => FormContactEntity::class,
             'csrf_protection' => true,
         ]);
     }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\ContactFormService;
+use App\Service\FormContactService;
 use App\Service\NavigationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +12,7 @@ class ContactController extends AbstractBaseController
 {
     public function __construct(
         private readonly NavigationService $navigation,
-        private readonly ContactFormService $contactMail,
+        private readonly FormContactService $contactMail,
     ) {
     }
 

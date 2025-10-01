@@ -10,14 +10,14 @@
       <p class="text-body-secondary mb-5">Damit ich zuverlässig antworten kann, geben Sie bitte eine gültige E‑Mail‑Adresse an.</p>
 
       {# anchors used by redirects #}
-      {% set sent = app.request.query.get('sent') %}
+      {% set submit = app.request.query.get('submit') %}
       {% set error = app.request.query.get('error') %}
 
       <div id="contact-success"
-           class="{{ sent ? 'alert alert-success mb-3' : 'visually-hidden' }}"
-           aria-hidden="{{ sent ? 'false' : 'true' }}"
-           {% if sent %}role="alert"{% endif %}>
-        {% if sent %}
+           class="{{ submit ? 'alert alert-success mb-3' : 'visually-hidden' }}"
+           aria-hidden="{{ submit ? 'false' : 'true' }}"
+           {% if submit %}role="alert"{% endif %}>
+        {% if submit %}
           Vielen Dank! Ihre Nachricht wurde erfolgreich versendet. Ich melde mich zeitnah bei Ihnen.
         {% endif %}
       </div>
@@ -39,7 +39,7 @@
 
       {# flash/redirect messages (server-side fallback when JS is disabled) #}
       <noscript>
-        {% if sent %}
+        {% if submit %}
           <div class="alert alert-success">
             Vielen Dank! Ihre Nachricht wurde erfolgreich versendet. Ich melde mich zeitnah bei Ihnen.
           </div>

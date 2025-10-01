@@ -42,7 +42,7 @@ fi
 # 4th: check if php is available and then clear & warmup symfony cache
 if command -v php >/dev/null 2>&1; then
   echo "[4/4] Clearing & warming Symfony cache (prod)..."
-  php bin/console cache:clear --env=prod --no-warmup
+  php bin/console cache:clear --env=prod --no-debug --no-warmup
   php bin/console cache:warmup --env=prod
 else
   echo "PHP not found. Skipping Symfony cache steps." >&2

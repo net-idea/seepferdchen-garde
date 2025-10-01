@@ -140,13 +140,13 @@
 }
 
 /* Force strong contrast for carousel buttons */
-#mainCarousel .btn,
-#mainCarousel .btn:link,
-#mainCarousel .btn:visited {
+#main-carousel .btn,
+#main-carousel .btn:link,
+#main-carousel .btn:visited {
     color: #fff !important;
 }
 
-#mainCarousel .btn .bi {
+#main-carousel .btn .bi {
     color: #fff;
     fill: currentcolor;
 }

@@ -3,21 +3,62 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Mime\Address;
 
-class ContactFormEntity
+#[ORM\Entity(repositoryClass: 'App\\Repository\\FormContactRepository')]
+#[ORM\Table(name: 'form_contact')]
+class FormContactEntity
 {
-    public function __construct(
-        protected string $name = '',
-        protected string $emailAddress = '',
-        protected ?Address $email = null,
-        protected string $phone = '',
-        protected bool $consent = false,
-        protected string $message = '',
-        protected bool $copy = true,
-        protected string $emailrep = '',
-        private ?ContactFormMetaEntity $meta = null,
-    ) {
+    #[ORM\Column(type: 'string', length: 160)]
+    protected string $name = '';
+
+    #[ORM\Column(type: 'string', length: 200)]
+    protected string $emailAddress = '';
+
+    // Not persisted; convenience for emails
+    protected ?Address $email = null;
+
+    #[ORM\Column(type: 'string', length: 40, nullable: true)]
+    protected string $phone = '';
+
+    #[ORM\Column(type: 'boolean')]
+    protected bool $consent = false;
+
+    #[ORM\Column(type: 'text')]
+    protected string $message = '';
+
+    #[ORM\Column(type: 'boolean')]
+    protected bool $copy = true;
+
+    // Honeypot; not persisted
+    protected string $emailrep = '';
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private DateTimeImmutable $createdAt;
+
+    #[ORM\OneToOne(targetEntity: FormSubmissionMetaEntity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(name: 'meta_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?FormSubmissionMetaEntity $meta = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     public function setName($name): self
@@ -134,7 +175,7 @@ class ContactFormEntity
     /**
      * Set meta info object.
      */
-    public function setMeta(ContactFormMetaEntity $meta): self
+    public function setMeta(FormSubmissionMetaEntity $meta): self
     {
         $this->meta = $meta;
 
@@ -144,10 +185,10 @@ class ContactFormEntity
     /**
      * Get meta info object (never null; returns empty object if not set).
      */
-    public function getMeta(): ContactFormMetaEntity
+    public function getMeta(): FormSubmissionMetaEntity
     {
         if (null === $this->meta) {
-            $this->meta = new ContactFormMetaEntity();
+            $this->meta = new FormSubmissionMetaEntity();
         }
 
         return $this->meta;

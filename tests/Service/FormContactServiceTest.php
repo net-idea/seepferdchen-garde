@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Entity\ContactFormEntity;
-use App\Service\ContactFormService;
+use App\Entity\FormContactEntity;
+use App\Service\FormContactService;
 use App\Service\MailManService;
+use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManager;
 use Symfony\Component\Validator\Validation;
 
-class ContactFormMailServiceTest extends TestCase
+class FormContactServiceTest extends TestCase
 {
     public function testFormDataIsRestoredFromSession(): void
     {
@@ -44,7 +45,7 @@ class ContactFormMailServiceTest extends TestCase
 
         $form = $svc->getForm();
         $data = $form->getData();
-        $this->assertInstanceOf(ContactFormEntity::class, $data);
+        $this->assertInstanceOf(FormContactEntity::class, $data);
         $this->assertSame('Alice', $data->getName());
         $this->assertSame('alice@example.com', $data->getEmailAddress());
         $this->assertSame('123', $data->getPhone());
@@ -67,12 +68,13 @@ class ContactFormMailServiceTest extends TestCase
             ->getFormFactory();
     }
 
-    private function makeService(RequestStack $stack): ContactFormService
+    private function makeService(RequestStack $stack): FormContactService
     {
         $forms = $this->makeFormFactory();
         $mailMan = $this->createMock(MailManService::class);
         $urls = $this->createMock(UrlGeneratorInterface::class);
+        $em = $this->createMock(EntityManagerInterface::class);
 
-        return new ContactFormService($forms, $stack, $mailMan, $urls);
+        return new FormContactService($forms, $stack, $mailMan, $urls, $em);
     }
 }
