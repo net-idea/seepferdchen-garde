@@ -54,15 +54,6 @@ a[href^="https://wa.me/"] svg {
     color: #fff;
 }
 
-[data-bs-theme="light"] ::selection {
-    background-color: #0ea5e9;
-    color: #fff;
-}
-
-[data-bs-theme="dark"] ::selection {
-    background-color: #93c5fd; color: #0b1220;
-}
-
 [data-bs-theme="dark"] ::selection {
     background-color: #93c5fd;
     color: #0b1220;

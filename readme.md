@@ -51,19 +51,39 @@ This application uses SQLite as database. The database file is located in `var/d
 php bin/console doctrine:schema:update --force
 ```
 
-### Email Setup
+### Reset the Database
 
-Send a test email to verify your email configuration:
+To reset the database you can use the following command:
 
 ```shell
-php bin/console --no-ansi app:mail:test -vvv
-php bin/console --no-ansi app:mail:preview -vvv
-php bin/console --no-ansi app:mail:booking-preview -vvv
+php bin/console doctrine:schema:drop --force
+php bin/console doctrine:schema:update --force
+```
+
+Or the hard way recreate the database:
+
+```shell
+php bin/console doctrine:database:drop --force
+php bin/console doctrine:database:create
+php bin/console doctrine:schema:create
+```
+
+### Email Setup
+
+Send test emails for various uses cases using the following commands:
+
+```shell
+
+php bin/console app:mail:test -vvv
+php bin/console app:mail:preview-contact -vvv
+php bin/console app:mail:preview-booking -vvv
+php bin/console app:list:bookings -vvv
+php bin/console app:list:contacts -vvv
 ```
 
 To send real emails you need to configure the `MAILER_DSN` environment variable in your `.env` file.
 
-If the messengaer transport fails the failure que can be shown using:
+If the messenger transport fails the failure que can be shown using:
 
 ```shell
 php bin/console messenger:failed:show --env=prod

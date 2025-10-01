@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\Booking;
+use App\Entity\FormBookingEntity;
+use App\Entity\FormSubmissionMetaEntity;
 use App\Service\MailManService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -12,8 +13,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-#[AsCommand(name: 'app:mail:booking-preview', description: 'Send a preview booking confirmation (visitor) email to verify delivery')]
-class BookingMailPreviewCommand extends Command
+#[AsCommand(
+    name: 'app:mail:preview-booking',
+    description: 'Send a preview booking confirmation (visitor) email to verify delivery'
+)]
+class MailPreviewBookingCommand extends Command
 {
     public function __construct(
         private readonly MailManService $mailMan,
@@ -35,8 +39,8 @@ class BookingMailPreviewCommand extends Command
         $toName = (string) ($input->getArgument('toName') ?: ($this->params->get('mail.to_name') ?? getenv('MAIL_TO_NAME') ?: 'Test Empfänger'));
 
         // Minimal booking for preview
-        $booking = new Booking();
-        $booking
+        $formBooking = new FormBookingEntity();
+        $formBooking
             ->setCoursePeriod('04.11.2025 bis 27.01.2026')
             ->setDesiredTimeSlot('16:00–16:45')
             ->setChildName('Max Mustermann')
@@ -57,10 +61,17 @@ class BookingMailPreviewCommand extends Command
             ->setDataConsent(true)
             ->setBookingConfirmation(true);
 
-        $confirmUrl = 'https://example.com/anmeldung/bestaetigen/' . $booking->getConfirmationToken();
+        $formSubmissionMeta = (new FormSubmissionMetaEntity())
+            ->setIp('127.0.0.1')
+            ->setUserAgent('Preview/1.0')
+            ->setTime((new \DateTimeImmutable())->format('Y-m-d H:i:s'))
+            ->setHost(gethostname() ?: 'localhost');
+        $formBooking->setMeta($formSubmissionMeta);
+
+        $confirmUrl = 'https://example.com/anmeldung/bestaetigen/' . $formBooking->getConfirmationToken();
 
         try {
-            $this->mailMan->sendBookingVisitorConfirmationRequest($booking, $confirmUrl);
+            $this->mailMan->sendBookingVisitorConfirmationRequest($formBooking, $confirmUrl);
             $output->writeln('<info>Preview booking confirmation email sent to ' . $toAddress . '</info>');
 
             return Command::SUCCESS;

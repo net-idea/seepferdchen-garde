@@ -29,16 +29,21 @@
     }
 
     /* Keep the server-rendered success summary visible */
-    #booking-success-summary {
+    #booking-success,
+    #contact-success {
         display: block !important;
     }
 
-    #booking-success-summary .btn {
+    #booking-success .btn,
+    #contact-success .btn {
         display: none !important;
     }
 
     /* Hide anchor placeholders */
-    #booking-success, #booking-error {
+    #booking-error,
+    #contact-error,
+    #booking-success.visually-hidden,
+    #contact-success.visually-hidden {
         display: none !important;
     }
 

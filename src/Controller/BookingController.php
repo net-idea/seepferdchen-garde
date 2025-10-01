@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Service\BookingFormService;
+use App\Service\FormBookingService;
 use App\Service\NavigationService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,7 +12,7 @@ class BookingController extends AbstractBaseController
 {
     public function __construct(
         private readonly NavigationService $navigation,
-        private readonly BookingFormService $bookingService,
+        private readonly FormBookingService $bookingService,
     ) {
     }
 
@@ -27,10 +27,8 @@ class BookingController extends AbstractBaseController
         $navItems = $this->navigation->getItems();
         $pageMeta = $this->loadPageMetadata($projectDir, 'anmeldung');
 
-        // Build the form
         $form = $this->bookingService->getForm();
 
-        // Delegate submit handling
         if ($response = $this->bookingService->handle()) {
             return $response;
         }
@@ -42,7 +40,8 @@ class BookingController extends AbstractBaseController
                 'navItems' => $navItems,
                 'pageMeta' => $pageMeta,
                 'form'     => $form->createView(),
-                'booking'  => $this->bookingService->getLastSubmittedBooking(),
+                // Provide a single, consistent booking source (cached restored booking or DB by id)
+                'booking' => $this->bookingService->getFormBooking(),
             ]
         );
     }

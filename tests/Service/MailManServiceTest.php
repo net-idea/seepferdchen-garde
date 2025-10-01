@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Entity\ContactFormEntity;
+use App\Entity\FormContactEntity;
 use App\Service\MailManService;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
@@ -64,9 +64,9 @@ class MailManServiceTest extends TestCase
         );
     }
 
-    private function makeContact(bool $copy): ContactFormEntity
+    private function makeContact(bool $copy): FormContactEntity
     {
-        $contactForm = new ContactFormEntity();
+        $contactForm = new FormContactEntity();
         $contactForm->setName('Tester');
         $contactForm->setEmailAddress('visitor@example.com');
         $contactForm->setMessage('Hello');

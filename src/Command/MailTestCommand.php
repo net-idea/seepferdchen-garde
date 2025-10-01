@@ -14,7 +14,10 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
-#[AsCommand(name: 'app:mail:test', description: 'Send a test email using the configured Symfony Mailer DSN')]
+#[AsCommand(
+    name: 'app:mail:test',
+    description: 'Send a test email using the configured Symfony Mailer DSN'
+)]
 class MailTestCommand extends Command
 {
     public function __construct(
