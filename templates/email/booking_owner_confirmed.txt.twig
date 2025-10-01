@@ -6,11 +6,11 @@ Zusammenfassung:
 - Gewünschte Zeit: {{ booking.desiredTimeSlot }}
 - Ort: Regenbogenschule in Herzogenrath (https://maps.app.goo.gl/dDAyGnimfYUQYJHU9)
 - Kosten: 200 € für 10× 45 Minuten (10 Stunden á 20 €)
+- Zahlungsart: {{ booking.paymentMethod }}
 - Kind: {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})
 - Adresse: {{ booking.childAddress|replace({'\n': ', '}) }}
 - Elternteil: {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}
 - Mitglied: {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}
-- Zahlungsart: {{ booking.paymentMethod }}
 - Einverständnisse:
   - Teilnahme: {{ booking.participationConsent ? 'Ja' : 'Nein' }}
   - Haftungsausschluss: {{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}
