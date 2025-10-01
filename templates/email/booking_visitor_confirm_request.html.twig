@@ -17,6 +17,7 @@
     <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
     <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9">Regenbogenschule in Herzogenrath</a></li>
     <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
+    <li><strong>Zahlungsart:</strong> {{ booking.paymentMethod }}</li>
     <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
     <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }} </li>
     <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>

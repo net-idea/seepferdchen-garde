@@ -12,13 +12,6 @@ Ich freue mich sehr, Ihnen einen neuen Schwimmkurs anbieten zu können. Vielen D
 * 15:00–15:45 Uhr
 * 16:00–16:45 Uhr
 
-## Kursinhalte
-
-* **Wassergewöhnung:** Tauchen, Gleiten, Atmen im Wasser
-* **Grundtechniken:** erste Schwimmbewegungen in Bauch- und Rückenlage
-* **Sicherheit im Wasser:** Springen vom Beckenrand, Schweben, kurze Strecken schwimmen
-* **Seepferdchen-Abzeichen:** Am Ende des Kurses können die Kinder die offizielle Seepferdchen-Prüfung ablegen.
-
 ## Kursdetails
 
 * Alter: ab 5 Jahren
@@ -26,6 +19,13 @@ Ich freue mich sehr, Ihnen einen neuen Schwimmkurs anbieten zu können. Vielen D
 * Teilnehmerzahl: kleine Gruppen für individuelle Betreuung
 * Ort: [Regenbogenschule in Herzogenrath](https://maps.app.goo.gl/dDAyGnimfYUQYJHU9)
 * Kosten: 200 € (10 Stunden à 20 €)
+
+## Kursinhalte
+
+* **Wassergewöhnung:** Tauchen, Gleiten, Atmen im Wasser
+* **Grundtechniken:** erste Schwimmbewegungen in Bauch- und Rückenlage
+* **Sicherheit im Wasser:** Springen vom Beckenrand, Schweben, kurze Strecken schwimmen
+* **Seepferdchen-Abzeichen:** Am Ende des Kurses können die Kinder die offizielle Seepferdchen-Prüfung ablegen.
 
 ## Meine Ziele
 
