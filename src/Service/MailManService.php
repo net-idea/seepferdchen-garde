@@ -101,31 +101,48 @@ readonly class MailManService
             'confirmUrl' => $confirmUrl,
         ];
 
-        $subject = 'Seepferdchen Garde — Bitte bestätigen Sie Ihre Anmeldung';
-        $text = $this->twig->render('email/booking_visitor_confirm_request.txt.twig', $context);
-        $html = $this->twig->render('email/booking_visitor_confirm_request.html.twig', $context);
-
-        $email = (new Email())
-            ->from($from)
-            ->to($toVisitor)
-            ->replyTo(new Address($this->toAddress, $this->toName))
-            ->subject($subject)
-            ->text($text)
-            ->html($html);
-
-        // Log before sending for observability in prod
-        $this->logger->info('Sending booking confirmation request to visitor', [
-            'to'    => $toVisitor->getAddress(),
-            'name'  => $toVisitor->getName(),
-            'token' => substr($booking->getConfirmationToken(), 0, 6) . '…',
-        ]);
+        // Log before attempting to render or send
+        $this->logger->info(
+            'Preparing booking confirmation request',
+            [
+                'to'    => $toVisitor->getAddress(),
+                'name'  => $toVisitor->getName(),
+                'token' => substr($booking->getConfirmationToken(), 0, 6) . '…',
+            ]
+        );
 
         try {
+            $subject = 'Seepferdchen Garde — Bitte bestätigen Sie Ihre Anmeldung';
+            $text = $this->twig->render('email/booking_visitor_confirm_request.txt.twig', $context);
+            $html = $this->twig->render('email/booking_visitor_confirm_request.html.twig', $context);
+
+            $email = (new Email())
+                ->from($from)
+                ->to($toVisitor)
+                ->replyTo(new Address($this->toAddress, $this->toName))
+                ->subject($subject)
+                ->text($text)
+                ->html($html);
+
             $this->mailer->send($email);
-            $this->logger->info('Booking confirmation request sent to visitor');
+            $this->logger->info('Booking confirmation request sent successfully', [
+                'to'        => $toVisitor->getAddress(),
+                'bookingId' => $booking->getId(),
+            ]);
         } catch (TransportExceptionInterface $e) {
-            // Logs transport failures (bad DSN, auth, SSL, DNS, etc.)
-            $this->logger->error('Mailer send failed: ' . $e->getMessage(), ['exception' => $e]);
+            $this->logger->error('Mailer transport failed', [
+                'exception' => $e->getMessage(),
+                'to'        => $toVisitor->getAddress(),
+                'bookingId' => $booking->getId(),
+            ]);
+
+            throw $e;
+        } catch (\Exception $e) {
+            $this->logger->error('Email preparation or sending failed', [
+                'exception' => $e->getMessage(),
+                'to'        => $toVisitor->getAddress(),
+                'bookingId' => $booking->getId(),
+            ]);
 
             throw $e;
         }

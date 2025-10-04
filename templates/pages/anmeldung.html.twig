@@ -74,7 +74,11 @@
           {% if error == 'rate' %}
             Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
           {% elseif error == 'mail' %}
-            Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+            <strong>Ihre Anmeldung wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
+            Wir werden uns umgehend bei Ihnen melden. Falls Sie innerhalb von 24 Stunden nichts von uns hören, kontaktieren Sie uns bitte direkt.
+          {% elseif error == 'db' %}
+            Es ist ein technischer Fehler aufgetreten und Ihre Anmeldung konnte nicht gespeichert werden.
+            Bitte versuchen Sie es in wenigen Minuten erneut oder kontaktieren Sie uns direkt.
           {% else %}
             Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
           {% endif %}
@@ -92,7 +96,10 @@
             {% if error == 'rate' %}
               Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
             {% elseif error == 'mail' %}
-              Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+              <strong>Ihre Anmeldung wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
+              Wir werden uns umgehend bei Ihnen melden.
+            {% elseif error == 'db' %}
+              Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es später erneut.
             {% else %}
               Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
             {% endif %}
@@ -101,7 +108,7 @@
       </noscript>
 
       {{ form_start(form, {
-        action: path('app_anmeldung'),
+        action: path('app_booking'),
         attr: { class: 'vstack gap-3 mt-3 needs-validation', novalidate: 'novalidate' }
       }) }}
 

@@ -9,6 +9,7 @@ use App\Form\FormBookingType;
 use App\Repository\FormBookingRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,8 +22,8 @@ class FormBookingService extends AbstractFormService
     /**
      * Route names, session keys and rate-limiting configuration.
      */
-    private const ROUTE_BOOKING = 'app_anmeldung';
-    private const ROUTE_BOOKING_CONFIRM = 'app_anmeldung_confirm';
+    private const ROUTE_BOOKING = 'app_booking';
+    private const ROUTE_BOOKING_CONFIRM = 'app_booking_confirm';
 
     // Separate keys for form repopulation and success summary
     private const SESSION_FORM_DATA_KEY = 'bf_form';
@@ -45,6 +46,7 @@ class FormBookingService extends AbstractFormService
         private readonly MailManService $mailMan,
         private readonly UrlGeneratorInterface $urls,
         private readonly string $coursePeriod = '04.11.2025 bis 27.01.2026',
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -76,13 +78,13 @@ class FormBookingService extends AbstractFormService
     public function handle(): ?RedirectResponse
     {
         $boot = $this->bootstrapFormHandling($this->requests);
+
         if (null === $boot) {
             return null;
         }
 
         [$request, $form, $session] = $boot;
 
-        // Centralized rate limit
         if ($redirect = $this->enforceRateLimitOrRedirect(
             $session,
             self::SESSION_RATE_KEY,
@@ -104,8 +106,8 @@ class FormBookingService extends AbstractFormService
         /** @var FormBookingEntity $formBooking */
         $formBooking = $form->getData();
 
+        // Pretend success without persist; show summary from session
         if ('' !== $honey || '' !== $honeyAlt) {
-            // Pretend success without persist; show summary from session
             $this->storeSummarySnapshot($formBooking);
             $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
 
@@ -113,13 +115,12 @@ class FormBookingService extends AbstractFormService
         }
 
         if (!$form->isValid()) {
-            // Repopulate on error
             $this->storeFormSnapshot($formBooking);
 
             return null;
         }
 
-        // Meta
+        // Get the meta info from the request and store it with the booking
         $meta = (new FormSubmissionMetaEntity())
             ->setIp((string)$request->server->get('REMOTE_ADDR', ''))
             ->setUserAgent((string)$request->server->get('HTTP_USER_AGENT', ''))
@@ -127,11 +128,27 @@ class FormBookingService extends AbstractFormService
             ->setHost($request->getHost());
         $formBooking->setMeta($meta);
 
-        // Persist
-        $this->em->persist($formBooking);
-        $this->em->flush();
+        // CRITICAL: Persist FIRST to ensure data is never lost
+        try {
+            $this->em->persist($formBooking);
+            $this->em->flush();
+        } catch (\Exception $e) {
+            // Database error - this is critical, show error to user
+            $this->storeFormSnapshot($formBooking);
+            $this->logger->error(
+                'Database error while saving booking',
+                [
+                    'exception' => $e->getMessage(),
+                    'ip'        => $meta->getIp(),
+                    'userAgent' => $meta->getUserAgent(),
+                    'host'      => $meta->getHost(),
+                ]
+            );
 
-        // Email
+            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'db'], '#booking-error');
+        }
+
+        // Now try to send email - if this fails, data is still saved
         $confirmUrl = $this->urls->generate(
             self::ROUTE_BOOKING_CONFIRM,
             ['token' => $formBooking->getConfirmationToken()],
@@ -140,16 +157,32 @@ class FormBookingService extends AbstractFormService
 
         try {
             $this->mailMan->sendBookingVisitorConfirmationRequest($formBooking, $confirmUrl);
-        } catch (TransportExceptionInterface) {
-            // Repopulate on mail failure
+            $emailSent = true;
+        } catch (\Exception $e) {
+            // Log the error but don't fail - booking is already saved
+            error_log('ERROR: Failed to send booking confirmation email to ' . $formBooking->getParentEmail() . ': ' . $e->getMessage());
+            error_log('Booking ID: ' . $formBooking->getId() . ', Token: ' . $formBooking->getConfirmationToken());
+
+            // Store the booking data for manual follow-up
             $this->storeFormSnapshot($formBooking);
 
             return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'mail'], '#booking-error');
         }
 
-        // Success: snapshot summary and tick RL
         $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
         $this->storeSummarySnapshot($formBooking);
+
+        $this->logger->info(
+            'Booking saved and confirmation email sent',
+            [
+                'bookingId' => $formBooking->getId(),
+                'to'        => $formBooking->getParentEmail(),
+                'token'     => substr($formBooking->getConfirmationToken(), 0, 6) . '…',
+                'ip'        => $meta->getIp(),
+                'userAgent' => $meta->getUserAgent(),
+                'host'      => $meta->getHost(),
+            ]
+        );
 
         return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['submit' => 1], '#booking-success');
     }
