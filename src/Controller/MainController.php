@@ -64,13 +64,12 @@ class MainController extends AbstractBaseController
                 [
                     'content'  => $html,
                     'slug'     => $slug,
-                    'navItems' => $navItems,
-                    'pageMeta' => $pageMeta,
+                    'navItems' => $this->navigation->getItems(),
+                    'pageMeta' => $this->loadPageMetadata($slug),
                 ]
             );
         }
 
-        // 3) Otherwise, throw 404
         throw new NotFoundHttpException('Page not found');
     }
 }

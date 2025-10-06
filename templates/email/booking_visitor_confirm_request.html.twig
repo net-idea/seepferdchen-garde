@@ -6,28 +6,32 @@
 {% block body %}
   <h2 class="h1">Bitte bestätigen Sie Ihre Anmeldung</h2>
   <p class="p">Hallo {{ booking.parentName }},</p>
-  <p class="p">vielen Dank für Ihre Anmeldung zum Schwimmkurs für <strong>{{ booking.childName }}</strong>.</p>
+  <p class="p">vielen Dank für Ihre Anmeldung zum Schwimmkurs für <strong><em>{{ booking.childName }}</em></strong>.</p>
   <p class="p">Bitte bestätigen Sie Ihre Anmeldung mit einem Klick auf den folgenden Link:</p>
   <p class="p"><a href="{{ confirmUrl }}" class="btn btn-primary">Anmeldung bestätigen</a></p>
   <p class="p">Oder öffnen Sie diesen Link in Ihrem Browser:<br><a href="{{ confirmUrl }}">{{ confirmUrl }}</a></p>
 
   <h3 class="h2">Zusammenfassung</h3>
   <ul>
-    <li><strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}</li>
-    <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
+    <li><strong>Kurszeitraum:</strong> <em>{{ booking.coursePeriod }}</em> (jeden Dienstag)</li>
+    <li><strong>Gewünschte Zeit:</strong> <em>{{ booking.desiredTimeSlot }}</em></li>
     <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9">Regenbogenschule in Herzogenrath</a></li>
     <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
-    <li><strong>Zahlungsart:</strong> {{ booking.paymentMethod }}</li>
-    <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
-    <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }} </li>
-    <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
+    <li><strong>Zahlungsart:</strong> <em>{{ booking.paymentMethod }}</em></li>
+    <li><strong>Kind:</strong> <em>{{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</em></li>
+    <li><strong>Adresse:</strong> <em>{{ booking.childAddress|nl2br }}</em></li>
+    <li><strong>Schwimmerfahrung:</strong> <em>{{ booking.hasSwimExperience ? 'Ja' : 'Nein' }}{% if booking.swimExperienceDetails %} — {{ booking.swimExperienceDetails }}{% endif %}</em></li>
+    <li><strong>Ohne Schwimmhilfe:</strong> <em>{{ booking.maySwimWithoutAid ? 'Ja' : 'Nein' }}</em></li>
+    <li><strong>Gesundheitliche Hinweise:</strong> <em>{{ booking.healthNotes ? booking.healthNotes : 'Keine' }}</em></li>
+    <li><strong>Elternteil:</strong> <em>{{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</em></li>
+    <li><strong>Mitglied:</strong> <em>{{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</em></li>
     <li><strong>Einverständnisse:</strong>
       <ul>
-        <li>Teilnahme: <strong>{{ booking.participationConsent ? 'Ja' : 'Nein' }}</strong></li>
-        <li>Haftungsausschluss: <strong>{{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</strong></li>
-        <li>Fotos/Videos: <strong>{{ booking.photoConsent ? 'Ja' : 'Nein' }}</strong></li>
-        <li>Datenverarbeitung: <strong>{{ booking.dataConsent ? 'Ja' : 'Nein' }}</strong></li>
-        <li>Verbindliche Anmeldung: <strong>{{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</strong></li>
+        <li><strong>Teilnahme:</strong> <em>{{ booking.participationConsent ? 'Ja' : 'Nein' }}</em></li>
+        <li><strong>Haftungsausschluss:</strong> <em>{{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</em></li>
+        <li><strong>Fotos/Videos:</strong> <em>{{ booking.photoConsent ? 'Ja' : 'Nein' }}</em></li>
+        <li><strong>Datenverarbeitung:</strong> <em>{{ booking.dataConsent ? 'Ja' : 'Nein' }}</em></li>
+        <li><strong>Verbindliche Anmeldung:</strong> <em>{{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</em></li>
       </ul>
     </li>
   </ul>
