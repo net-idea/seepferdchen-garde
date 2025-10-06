@@ -23,6 +23,7 @@ class FormBookingType extends AbstractType
         $builder
             ->add('coursePeriod', HiddenType::class, [
                 'required' => true,
+                'data'     => '04.11.2025 bis 27.01.2026',
             ])
             ->add('desiredTimeSlot', ChoiceType::class, [
                 'label'       => 'Gewünschte Kurszeit',

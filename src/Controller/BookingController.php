@@ -12,24 +12,20 @@ class BookingController extends AbstractBaseController
 {
     public function __construct(
         private readonly NavigationService $navigation,
-        private readonly FormBookingService $bookingService,
+        private readonly FormBookingService $formBookingService,
     ) {
     }
 
     #[Route(
-        '/anmeldung',
-        name: 'app_anmeldung',
+        path: '/anmeldung',
+        name: 'app_booking',
         methods: ['GET', 'POST']
     )]
     public function bookingForm(): Response
     {
-        $projectDir = (string)$this->getParameter('kernel.project_dir');
-        $navItems = $this->navigation->getItems();
-        $pageMeta = $this->loadPageMetadata($projectDir, 'anmeldung');
+        $form = $this->formBookingService->getForm();
 
-        $form = $this->bookingService->getForm();
-
-        if ($response = $this->bookingService->handle()) {
+        if ($response = $this->formBookingService->handle()) {
             return $response;
         }
 
@@ -37,24 +33,24 @@ class BookingController extends AbstractBaseController
             'pages/anmeldung.html.twig',
             [
                 'slug'     => 'anmeldung',
-                'navItems' => $navItems,
-                'pageMeta' => $pageMeta,
+                'navItems' => $this->navigation->getItems(),
+                'pageMeta' => $this->loadPageMetadata('anmeldung'),
                 'form'     => $form->createView(),
                 // Provide a single, consistent booking source (cached restored booking or DB by id)
-                'booking' => $this->bookingService->getFormBooking(),
+                'booking' => $this->formBookingService->getFormBooking(),
             ]
         );
     }
 
     #[Route(
-        '/anmeldung/bestaetigen/{token}',
-        name: 'app_anmeldung_confirm',
+        path: '/anmeldung/bestaetigen/{token}',
+        name: 'app_booking_confirm',
         methods: ['GET']
     )]
     public function confirm(string $token): Response
     {
         $navItems = $this->navigation->getItems();
-        $status = $this->bookingService->confirmByToken($token);
+        $status = $this->formBookingService->confirmByToken($token);
 
         return $this->render(
             'pages/anmeldung_confirm.html.twig',

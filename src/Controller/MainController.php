@@ -21,7 +21,6 @@ class MainController extends AbstractBaseController
     )]
     public function main(): Response
     {
-        // Render the default "main" page dynamically
         return $this->page('start');
     }
 
@@ -35,10 +34,9 @@ class MainController extends AbstractBaseController
     public function page(string $slug = 'start'): Response
     {
         $projectDir = (string)$this->getParameter('kernel.project_dir');
-        $navItems = $this->navigation->getItems();
-        $pageMeta = $this->loadPageMetadata($projectDir, $slug);
 
         // 1) if a Twig page template exists (templates/pages/{slug}.html.twig), render it
+
         $twigTemplatePath = $projectDir . '/templates/pages/' . ('' !== $slug ? $slug : 'start') . '.html.twig';
 
         if (is_file($twigTemplatePath)) {
@@ -46,13 +44,14 @@ class MainController extends AbstractBaseController
                 'pages/' . ('' !== $slug ? $slug : 'start') . '.html.twig',
                 [
                     'slug'     => $slug,
-                    'navItems' => $navItems,
-                    'pageMeta' => $pageMeta,
+                    'navItems' => $this->navigation->getItems(),
+                    'pageMeta' => $this->loadPageMetadata($slug),
                 ]
             );
         }
 
         // 2) Otherwise, If a Markdown file exists under content/{slug}.md, render it via Parsedown
+
         $contentFile = $projectDir . '/content/' . ('' !== $slug ? $slug : 'start') . '.md';
 
         if (is_file($contentFile)) {
@@ -65,13 +64,12 @@ class MainController extends AbstractBaseController
                 [
                     'content'  => $html,
                     'slug'     => $slug,
-                    'navItems' => $navItems,
-                    'pageMeta' => $pageMeta,
+                    'navItems' => $this->navigation->getItems(),
+                    'pageMeta' => $this->loadPageMetadata($slug),
                 ]
             );
         }
 
-        // 3) Not found
         throw new NotFoundHttpException('Page not found');
     }
 }

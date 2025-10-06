@@ -7,9 +7,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 abstract class AbstractBaseController extends AbstractController
 {
-    public function loadPageMetadata(string $projectDir, string $slug): array
+    public function loadPageMetadata(string $slug): array
     {
-        // Load page metadata
+        $projectDir = (string)$this->getParameter('kernel.project_dir');
+
+        // Load page metadata from content/_pages.php
         $pagesFile = $projectDir . '/content/_pages.php';
         $pages = is_file($pagesFile) ? (require $pagesFile) : [];
         $metaSlug = ('' === $slug || 'main' === $slug) ? 'start' : $slug;
