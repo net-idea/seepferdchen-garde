@@ -9,6 +9,7 @@ use App\Form\FormBookingType;
 use App\Repository\FormBookingRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,13 +19,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormBookingService extends AbstractFormService
 {
-    /**
-     * Route names, session keys and rate-limiting configuration.
-     */
-    private const ROUTE_BOOKING = 'app_anmeldung';
-    private const ROUTE_BOOKING_CONFIRM = 'app_anmeldung_confirm';
+    private const ROUTE_BOOKING = 'app_booking';
+    private const ROUTE_BOOKING_CONFIRM = 'app_booking_confirm';
 
-    // Separate keys for form repopulation and success summary
     private const SESSION_FORM_DATA_KEY = 'bf_form';
     private const SESSION_SUMMARY_KEY = 'bf_summary';
 
@@ -44,7 +41,7 @@ class FormBookingService extends AbstractFormService
         private readonly FormBookingRepository $bookings,
         private readonly MailManService $mailMan,
         private readonly UrlGeneratorInterface $urls,
-        private readonly string $coursePeriod = '04.11.2025 bis 27.01.2026',
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -53,19 +50,13 @@ class FormBookingService extends AbstractFormService
         if (null === $this->form) {
             $submitted = $this->isSubmitFlag();
 
-            // Load one-time snapshot for this request (summary on submit; form data otherwise)
             $this->restoredBooking = $submitted
                 ? $this->restoreSummaryData()
                 : $this->restoreFormData();
 
-            // After successful submission (submit=1), show an empty form
             $entity = $submitted
                 ? new FormBookingEntity()
                 : ($this->restoredBooking ?? new FormBookingEntity());
-
-            if (!$entity->getCoursePeriod()) {
-                $entity->setCoursePeriod($this->coursePeriod);
-            }
 
             $this->form = $this->forms->create(FormBookingType::class, $entity);
         }
@@ -76,13 +67,13 @@ class FormBookingService extends AbstractFormService
     public function handle(): ?RedirectResponse
     {
         $boot = $this->bootstrapFormHandling($this->requests);
+
         if (null === $boot) {
             return null;
         }
 
         [$request, $form, $session] = $boot;
 
-        // Centralized rate limit
         if ($redirect = $this->enforceRateLimitOrRedirect(
             $session,
             self::SESSION_RATE_KEY,
@@ -105,7 +96,6 @@ class FormBookingService extends AbstractFormService
         $formBooking = $form->getData();
 
         if ('' !== $honey || '' !== $honeyAlt) {
-            // Pretend success without persist; show summary from session
             $this->storeSummarySnapshot($formBooking);
             $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
 
@@ -113,13 +103,11 @@ class FormBookingService extends AbstractFormService
         }
 
         if (!$form->isValid()) {
-            // Repopulate on error
             $this->storeFormSnapshot($formBooking);
 
             return null;
         }
 
-        // Meta
         $meta = (new FormSubmissionMetaEntity())
             ->setIp((string)$request->server->get('REMOTE_ADDR', ''))
             ->setUserAgent((string)$request->server->get('HTTP_USER_AGENT', ''))
@@ -127,11 +115,24 @@ class FormBookingService extends AbstractFormService
             ->setHost($request->getHost());
         $formBooking->setMeta($meta);
 
-        // Persist
-        $this->em->persist($formBooking);
-        $this->em->flush();
+        try {
+            $this->em->persist($formBooking);
+            $this->em->flush();
+        } catch (\Exception $e) {
+            $this->storeFormSnapshot($formBooking);
+            $this->logger->error(
+                'Database error while saving booking',
+                [
+                    'exception' => $e->getMessage(),
+                    'ip'        => $meta->getIp(),
+                    'userAgent' => $meta->getUserAgent(),
+                    'host'      => $meta->getHost(),
+                ]
+            );
 
-        // Email
+            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'db'], '#booking-error');
+        }
+
         $confirmUrl = $this->urls->generate(
             self::ROUTE_BOOKING_CONFIRM,
             ['token' => $formBooking->getConfirmationToken()],
@@ -140,16 +141,30 @@ class FormBookingService extends AbstractFormService
 
         try {
             $this->mailMan->sendBookingVisitorConfirmationRequest($formBooking, $confirmUrl);
-        } catch (TransportExceptionInterface) {
-            // Repopulate on mail failure
+            $emailSent = true;
+        } catch (\Exception $e) {
+            error_log('ERROR: Failed to send booking confirmation email to ' . $formBooking->getParentEmail() . ': ' . $e->getMessage());
+            error_log('Booking ID: ' . $formBooking->getId() . ', Token: ' . $formBooking->getConfirmationToken());
+
             $this->storeFormSnapshot($formBooking);
 
             return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'mail'], '#booking-error');
         }
 
-        // Success: snapshot summary and tick RL
         $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
         $this->storeSummarySnapshot($formBooking);
+
+        $this->logger->info(
+            'Booking saved and confirmation email sent',
+            [
+                'bookingId' => $formBooking->getId(),
+                'to'        => $formBooking->getParentEmail(),
+                'token'     => substr($formBooking->getConfirmationToken(), 0, 6) . '…',
+                'ip'        => $meta->getIp(),
+                'userAgent' => $meta->getUserAgent(),
+                'host'      => $meta->getHost(),
+            ]
+        );
 
         return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['submit' => 1], '#booking-success');
     }
@@ -254,7 +269,7 @@ class FormBookingService extends AbstractFormService
     private function hydrateBookingFromArray(array $data): FormBookingEntity
     {
         $booking = new FormBookingEntity();
-        $booking->setCoursePeriod($data['coursePeriod'] ?? $this->coursePeriod);
+        $booking->setCoursePeriod($data['coursePeriod'] ?? '');
         $booking->setDesiredTimeSlot($data['desiredTimeSlot'] ?? '');
         $booking->setChildName($data['childName'] ?? '');
 

@@ -12,7 +12,7 @@ class ContactController extends AbstractBaseController
 {
     public function __construct(
         private readonly NavigationService $navigation,
-        private readonly FormContactService $contactMail,
+        private readonly FormContactService $formContactService,
     ) {
     }
 
@@ -23,22 +23,17 @@ class ContactController extends AbstractBaseController
     )]
     public function contact(): Response
     {
-        // Always build the form (handler manages a single instance)
-        $form = $this->contactMail->getForm();
+        $form = $this->formContactService->getForm();
 
-        // Delegate POST handling to the service
-        if ($response = $this->contactMail->handle()) {
+        if ($response = $this->formContactService->handle()) {
             return $response;
         }
-
-        // Render page (GET or invalid POST)
-        $navItems = $this->navigation->getItems();
 
         return $this->render(
             'pages/kontakt.html.twig',
             [
                 'slug'     => 'kontakt',
-                'navItems' => $navItems,
+                'navItems' => $this->navigation->getItems(),
                 'form'     => $form->createView(),
             ]
         );

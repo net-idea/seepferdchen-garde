@@ -33,12 +33,13 @@
             <h3 class="h6 mt-2">Zusammenfassung</h3>
             <ul class="mb-3">
               <li>
-                <strong>Kurszeitraum:</strong> {{ booking.coursePeriod }}<br>
+                <strong>Kurszeitraum:</strong> jeden Dienstag, {{ booking.coursePeriod }}<br>
                 <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
               </li>
               <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
               <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></li>
               <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
+              <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
               <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
               <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }}</li>
               <li><strong>Schwimmerfahrung:</strong> {{ booking.hasSwimExperience ? 'Ja' : 'Nein' }}{% if booking.swimExperienceDetails %} — {{ booking.swimExperienceDetails }}{% endif %}</li>
@@ -48,7 +49,6 @@
               {% endif %}
               <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
               <li><strong>Mitglied:</strong> {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
-              <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
               <li><strong>Einverständnisse:</strong>
                 <ul class="mb-0">
                   <li>Teilnahme: {{ booking.participationConsent ? 'Ja' : 'Nein' }}</li>
@@ -74,7 +74,11 @@
           {% if error == 'rate' %}
             Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
           {% elseif error == 'mail' %}
-            Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+            <strong>Ihre Anmeldung wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
+            Wir werden uns umgehend bei Ihnen melden. Falls Sie innerhalb von 24 Stunden nichts von uns hören, kontaktieren Sie uns bitte direkt.
+          {% elseif error == 'db' %}
+            Es ist ein technischer Fehler aufgetreten und Ihre Anmeldung konnte nicht gespeichert werden.
+            Bitte versuchen Sie es in wenigen Minuten erneut oder kontaktieren Sie uns direkt.
           {% else %}
             Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
           {% endif %}
@@ -92,7 +96,10 @@
             {% if error == 'rate' %}
               Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
             {% elseif error == 'mail' %}
-              Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+              <strong>Ihre Anmeldung wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
+              Wir werden uns umgehend bei Ihnen melden.
+            {% elseif error == 'db' %}
+              Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es später erneut.
             {% else %}
               Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
             {% endif %}
@@ -101,14 +108,14 @@
       </noscript>
 
       {{ form_start(form, {
-        action: path('app_anmeldung'),
+        action: path('app_booking'),
         attr: { class: 'vstack gap-3 mt-3 needs-validation', novalidate: 'novalidate' }
       }) }}
 
       <h2 class="h4 mt-2">Kurszeitraum</h2>
       <div class="row g-3">
         <div class="col-12">
-          <p class="lead"><strong>Kursbeginn:</strong> 04.11.2025 bis 27.01.2026<br>
+          <p class="lead"><strong>Kursbeginn:</strong> Dienstag, den 04.11.2025 bis zum 27.01.2026 (jeden Dienstag)<br>
             <em class="text-info">In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em></p>
         </div>
       </div>
