@@ -1,0 +1,48 @@
+{# Reusable favicon & PWA head partial
+   Usage examples:
+     {% include '_partials/favicon.html.twig' %}
+     {% include '_partials/favicon.html.twig' with { shortName: 'Seepferdchen', brandColorLight: '#3abff1' } %}
+
+   Provided variables (can be overridden via with):
+     appName         - full application / site name (defaults to brandName|siteName|fallback)
+     shortName       - shorter label for app stores / icons
+     manifestPath    - path to web app manifest
+     brandColorLight - accent color (light theme / pinned tab color)
+     brandColorDark  - dark brand/background color (used for tileColor fallback)
+     tileColor       - Windows tile color (defaults to brandColorDark)
+
+   NOTE: <meta name="theme-color"> tags are set in base template already for light/dark.
+         Keep this partial agnostic so it can also be used in other layouts without duplication.
+#}
+{% set appName           = appName|default(brandName|default(siteName|default('Seepferdchen‑Garde Schwimmschule'))) %}
+{% set shortName         = shortName|default('Seepferdchen‑Garde') %}
+{% set manifestPath      = manifestPath|default('/site.webmanifest') %}
+{% set brandColorLight   = brandColorLight|default('#38bdf8') %}
+{% set brandColorDark    = brandColorDark|default('#0f172a') %}
+{% set tileColor         = tileColor|default(brandColorDark) %}
+
+{# Standard favicons #}
+<link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+<link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+
+{# Apple touch icon #}
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="{{ shortName }}" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+{# PWA Manifest + app meta #}
+<link rel="manifest" href="{{ manifestPath }}" crossorigin="anonymous" />
+<meta name="application-name" content="{{ appName }}" />
+<meta name="msapplication-TileColor" content="{{ tileColor }}" />
+
+{# Safari pinned tab (monochrome) #}
+<link rel="mask-icon" href="/favicon.svg" color="{{ brandColorLight }}" />
+
+{# Optional performance hints (commented)
+<link rel="preload" as="image" href="/web-app-manifest-192x192.png" type="image/png" />
+<link rel="preload" as="image" href="/web-app-manifest-512x512.png" type="image/png" />
+#}
