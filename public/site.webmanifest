@@ -1,0 +1,27 @@
+{
+  "name": "Seepferdchen‑Garde Schwimmschule Riccardo Nappa",
+  "short_name": "Seepferdchen",
+  "description": "Seepferdchen‑Garde Schwimmschule Riccardo Nappa in Herzogenrath – Kurse für Kinder ab 5 Jahren, 10×45 Min., individuelle Förderung, Sicherheit & Spaß, offizielle Seepferdchen‑Prüfung.",
+  "lang": "de-DE",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#38bdf8",
+  "background_color": "#0f172a",
+  "categories": ["education", "sports", "kids", "swimming", "school"],
+  "icons": [
+    {
+      "src": "/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
