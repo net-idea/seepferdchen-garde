@@ -43,7 +43,7 @@ return [
         'description' => 'Anmeldung für individuelle Schwimmkurse und private Schwimmstunden auf Anfrage. Schreiben Sie mir – ich melde mich mit passenden Terminen in Herzogenrath/Aachen.',
         'keywords' => 'Anmeldung Schwimmkurs, Schwimmkurs Anfrage, private Schwimmstunden, individueller Schwimmunterricht, Herzogenrath, Aachen',
         'cms' => false,
-        'nav' => false,
+        'nav' => true,
         'nav_label' => 'Anmeldung',
         'nav_order' => 40,
         'canonical' => '/anmeldung',

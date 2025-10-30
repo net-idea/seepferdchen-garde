@@ -5,9 +5,15 @@
 {% block body %}
   <div class="container my-4">
     <div class="row justify-content-center">
-      <h1>Anmeldung</h1>
-      <p class="lead mb-1">Melden Sie Ihr Kind hier für den nächsten Schwimmkurs an. Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink.</p>
-      <p class="text-body-secondary mb-4">Erst nach Klick auf den Link ist die Anmeldung verbindlich.</p>
+      <h1>Voranmeldung für den nächsten Schwimmkurs</h1>
+
+      <p class="lead mb-1">
+        Melden Sie Ihr Kind hier <em>unverbindlich</em> für den nächsten Schwimmkurs an.<br>
+        Ich sammle derzeit Voranmeldungen und plane die kommenden Kurstermine.<br>
+        Den genauen Starttermin werde ich an dieser Stelle oder bei Voranmeldung natürlich auch persönlich mitteilen.
+      </p>
+
+      <p class="text-body-secondary mb-4">Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink. Erst nach Klick auf den Link ist die Anmeldung verbindlich.</p>
 
       {% set submit = app.request.query.get('submit') %}
       {% set error = app.request.query.get('error') %}
@@ -18,8 +24,8 @@
            aria-hidden="{{ success ? 'false' : 'true' }}"
            {% if success %}role="alert"{% endif %}>
         {% if success %}
-          <h2 class="h5 mb-2">Vielen Dank! Ihre Anmeldung ist eingegangen.</h2>
-          <p class="mb-2">Bitte bestätigen Sie die Anmeldung noch über den Link in der E‑Mail, die wir Ihnen soeben gesendet haben.</p>
+          <h2 class="h5 mb-2">Vielen Dank! Ihre Anmeldung ist versendet.</h2>
+          <p class="mb-2">Bitte bestätigen Sie die Anmeldung noch über den Link in der E‑Mail, die Sie soeben erhalten haben.</p>
 
           {% if booking is defined and booking %}
             {% set pm = {
@@ -30,11 +36,14 @@
             <hr>
             <h3 class="h6 mt-2">Zusammenfassung</h3>
             <ul class="mb-3">
+              <li><strong>Kurszeitraum:</strong> {{ booking.coursePeriod }} (<em>(Starttermin wird noch bekanntgegeben)</em>)</li>
+              {#
               <li>
                 <strong>Kurszeitraum:</strong> jeden Dienstag, {{ booking.coursePeriod }}<br>
                 <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
               </li>
-              <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }}</li>
+              #}
+              <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }} (<em>jeden Dienstag</em>)</li>
               <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></li>
               <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
               <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
@@ -110,13 +119,24 @@
       }) }}
 
       <h2 class="h4 mt-2">Kurszeitraum</h2>
+
+      <div class="row g-3">
+        <div class="col-12">
+          <p class="lead mb-1">
+            Der Kurs wird <strong>wöchentlich am Dienstag</strong> durchgeführt.<br>
+            Der <strong>Kursbeginn wird derzeit geplant</strong> und von mir Ihnen mitgeteilt.
+          </p>
+        </div>
+      </div>
+
+      {#
       <div class="row g-3">
         <div class="col-12">
           <p class="lead"><strong>Kursbeginn:</strong> Dienstag, den 04.11.2025 bis zum 27.01.2026 (jeden Dienstag)<br>
             <em class="text-info">In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em></p>
         </div>
       </div>
-
+      #}
       <div class="row g-1">
         <div class="col-12 col-md-6 mb-2">
           <div class="form-floating">
@@ -148,6 +168,7 @@
       </div>
 
       <h2 class="h4 mt-3">Kinderdaten</h2>
+
       <div class="row g-3">
         <div class="col-12 col-md-6">
           {{ form_label(form.childName) }}
@@ -166,7 +187,8 @@
         </div>
       </div>
 
-      <h2 class="h4 mt-3">Gesundheitliche Angaben</h2>
+      <h2 class="h4 mt-3">Allgemeine Angaben</h2>
+
       <div class="row g-3">
         <div class="col-12">
           {{ form_label(form.hasSwimExperience) }}<br>
@@ -191,6 +213,7 @@
       </div>
 
       <h2 class="h4 mt-3">Eltern / Erziehungsberechtigte</h2>
+
       <div class="row g-3">
         <div class="col-12 col-md-6">
           {{ form_label(form.parentName) }}
@@ -210,6 +233,7 @@
       </div>
 
       <h2 class="h4 mt-3">Organisatorisches</h2>
+
       <div class="row g-3">
         <div class="col-12">
           {{ form_label(form.isMemberOfClub) }}<br>
@@ -255,7 +279,7 @@
 
       <div class="d-flex flex-wrap gap-2 mt-3">
         <button type="submit" class="btn btn-cta">Anmeldung absenden</button>
-        <a href="/docs/2025.09-anmeldung-schwimmkurs-seepferdchen.pdf" class="btn btn-outline-secondary" target="_blank" rel="noopener">Formular als Dokument</a>
+        <a href="/docs/2025.11-voanmeldung-schwimmkurs.pdf" class="btn btn-outline-secondary" target="_blank" rel="noopener">Formular als Dokument</a>
       </div>
 
       <p class="form-text mb-0">Hinweis: Sie erhalten eine E‑Mail mit einem Bestätigungslink. Erst nach Bestätigung ist die Anmeldung verbindlich.</p>
