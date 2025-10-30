@@ -4,7 +4,8 @@ declare(strict_types=1);
 return [
     'start' => [
         'title' => 'Start',
-        'description' => 'Seepferdchen‑Garde Schwimmschule in Herzogenrath Region Aachen: Kurse für Kinder ab 5 Jahren – 10× 45 Minuten, individuelle Förderung, Sicherheit und Spaß. Offizielle Seepferdchen‑Prüfung.',
+        'description' => 'Schwimmschule in Herzogenrath (Region Aachen): Kinderschwimmen, Seepferdchen‑Vorbereitung und private Schwimmstunden – sicher, spielerisch, individuell.',
+        'keywords' => 'Schwimmschule Herzogenrath, Schwimmkurs Aachen, Kinderschwimmen, Seepferdchen, private Schwimmstunden, Schwimmunterricht, Riccardo Nappa',
         'cms' => false,
         'nav' => false,
         'nav_label' => 'Start',
@@ -15,7 +16,8 @@ return [
     ],
     'schwimmkurse' => [
         'title' => 'Schwimmkurse',
-        'description' => 'Schwimmkurse in kleinen Gruppen: Wassergewöhnung, Grundtechniken und Sicherheit. Vorbereitung auf das Seepferdchen‑Abzeichen.',
+        'description' => 'Individuelle Schwimmkurse auf Anfrage: Kinderschwimmen, Seepferdchen‑Vorbereitung und private Schwimmstunden in Herzogenrath/Aachen. Jetzt Kontakt aufnehmen.',
+        'keywords' => 'Schwimmkurse Herzogenrath, Schwimmkurs Aachen, Seepferdchen Kurs, Kinderschwimmen, individueller Schwimmunterricht, private Schwimmstunden',
         'cms' => true,
         'nav' => true,
         'nav_label' => 'Schwimmkurse',
@@ -26,7 +28,8 @@ return [
     ],
     'ueber-mich' => [
         'title' => 'Über mich',
-        'description' => 'Über mich: Riccardo Nappa, Fachangestellter für Bäderbetriebe – Erfahrung, Sicherheit und Freude am Schwimmenlernen.',
+        'description' => 'Riccardo Nappa – Fachangestellter für Bäderbetriebe. Erfahrung im Kinderschwimmen, sichere Lernumgebung und individuelle Förderung in Herzogenrath/Aachen.',
+        'keywords' => 'Riccardo Nappa, Schwimmtrainer Herzogenrath, Fachangestellter für Bäderbetriebe, Kinderschwimmen Aachen, Seepferdchen‑Garde',
         'cms' => true,
         'nav' => true,
         'nav_label' => 'Über mich',
@@ -37,9 +40,10 @@ return [
     ],
     'anmeldung' => [
         'title' => 'Anmeldung',
-        'description' => 'Ich biete Schwimmkurse individuell und auf Anfrage an. Schreiben Sie mir gern – ich melde mich persönlich mit passenden Terminen.',
+        'description' => 'Anmeldung für individuelle Schwimmkurse und private Schwimmstunden auf Anfrage. Schreiben Sie mir – ich melde mich mit passenden Terminen in Herzogenrath/Aachen.',
+        'keywords' => 'Anmeldung Schwimmkurs, Schwimmkurs Anfrage, private Schwimmstunden, individueller Schwimmunterricht, Herzogenrath, Aachen',
         'cms' => false,
-        'nav' => true,
+        'nav' => false,
         'nav_label' => 'Anmeldung',
         'nav_order' => 40,
         'canonical' => '/anmeldung',
@@ -48,7 +52,8 @@ return [
     ],
     'kontakt' => [
         'title' => 'Kontakt',
-        'description' => 'Kontakt zur Schwimmschule Seepferdchen‑Garde: Telefon, WhatsApp, E‑Mail oder Kontaktformular. Ich melde mich zeitnah bei Ihnen.',
+        'description' => 'Kontakt zur Seepferdchen‑Garde Schwimmschule in Herzogenrath (Aachen): Telefon, WhatsApp, E‑Mail und Kontaktformular. Ich melde mich zeitnah zurück.',
+        'keywords' => 'Kontakt Schwimmschule, Schwimmkurs Kontakt, Schwimmschule Herzogenrath, Schwimmkurs Aachen, WhatsApp, E‑Mail',
         'cms' => false,
         'nav' => true,
         'nav_label' => 'Kontakt',
@@ -59,7 +64,8 @@ return [
     ],
     'impressum' => [
         'title' => 'Impressum',
-        'description' => 'Impressum der Schwimmschule Seepferdchen‑Garde – gesetzliche Anbieterkennzeichnung und Kontakt.',
+        'description' => 'Impressum der Seepferdchen‑Garde Schwimmschule: Anbieterkennzeichnung, Kontakt und rechtliche Informationen.',
+        'keywords' => 'Impressum Schwimmschule, Seepferdchen‑Garde, Anbieterkennzeichnung, Rechtliche Angaben',
         'cms' => true,
         'nav' => false,
         'nav_label' => 'Impressum',
@@ -70,7 +76,8 @@ return [
     ],
     'haftungsausschluss' => [
         'title' => 'Haftungsausschluss',
-        'description' => 'Haftungsausschluss für die Teilnahme am Schwimmkurs der Seepferdchen‑Garde.',
+        'description' => 'Haftungsausschluss der Seepferdchen‑Garde Schwimmschule: Hinweise zur Teilnahme am Schwimmunterricht und zur Haftung.',
+        'keywords' => 'Haftungsausschluss Schwimmschule, Teilnahmebedingungen, Haftung, Schwimmunterricht',
         'cms' => true,
         'nav' => false,
         'nav_label' => 'Haftungsausschluss',
@@ -81,7 +88,8 @@ return [
     ],
     'datenschutz' => [
         'title' => 'Datenschutzerklärung',
-        'description' => 'Datenschutzerklärung: Informationen zur Verarbeitung personenbezogener Daten, Kontakt und Rechte.',
+        'description' => 'Datenschutzerklärung der Seepferdchen‑Garde: Informationen zur Verarbeitung personenbezogener Daten, Kontakt und Rechte (DSGVO).',
+        'keywords' => 'Datenschutzerklärung Schwimmschule, DSGVO, Datenschutz, personenbezogene Daten',
         'cms' => true,
         'nav' => false,
         'nav_label' => 'Datenschutz',

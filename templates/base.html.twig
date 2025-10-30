@@ -32,6 +32,7 @@
   {% set brandName = 'Seepferdchen‑Garde' %}
   {% set siteName = 'Seepferdchen‑Garde Schwimmschule' %}
   {% set defaultDescription = 'Seepferdchen‑Garde Schwimmschule in Herzogenrath Region Aachen: Kurse für Kinder ab 5 Jahren – 10× 45 Minuten, individuelle Förderung, Sicherheit und Spaß. Offizielle Seepferdchen‑Prüfung.' %}
+  {% set defaultKeywords = 'Schwimmschule, Schwimmkurs, Schwimmen lernen, Seepferdchen, Kinderschwimmen, Herzogenrath, Aachen, private Schwimmstunden, Schwimmunterricht' %}
   {% set effectiveSlug = slug|default('start') %}
   {% if effectiveSlug in ['', 'start', 'main'] %}
     {% set computedCanonical = '/' %}
@@ -40,6 +41,7 @@
   {% endif %}
   {% set canonicalPath = pageMeta.canonical|default(computedCanonical) %}
   {% set pageDesc = pageMeta.description|default(defaultDescription) %}
+  {% set pageKeywords = pageMeta.keywords|default(defaultKeywords) %}
   {% set robots = pageMeta.robots|default('index,follow') %}
   {% set ogImagePath = pageMeta.og_image|default('/assets/og/start.jpg') %}
   {% set absolutCanonical = baseUrl ~ canonicalPath %}
@@ -49,6 +51,7 @@
 
   <title>{% block title %}{{ fullTitle }}{% endblock %}</title>
   <meta name="description" content="{{ pageDesc }}">
+  <meta name="keywords" content="{{ pageKeywords }}">
   <meta name="robots" content="{{ robots }}">
   <link rel="canonical" href="{{ absolutCanonical }}">
   <meta name="theme-color" content="#38bdf8" media="(prefers-color-scheme: light)">
