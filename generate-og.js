@@ -15,7 +15,7 @@ const pages = [
   {slug: 'schwimmkurse', title: 'Schwimmkurse', subtitle: 'In kleinen Gruppen sicher zum Seepferdchen'},
   {slug: 'ueber-mich', title: 'Über mich', subtitle: 'Erfahrung, Sicherheit und Freude am Schwimmen'},
   {slug: 'kontakt', title: 'Kontakt', subtitle: 'Telefon, WhatsApp oder Kontaktformular'},
-  {slug: 'anmeldung', title: 'Anmeldung', subtitle: 'Voranmeldung und Informationen'},
+  {slug: 'anmeldung', title: 'Anmeldung', subtitle: 'Anmeldung zu den Schwimmkursen'},
   {slug: 'impressum', title: 'Impressum', subtitle: 'Anbieterkennzeichnung und Kontakt'},
   {slug: 'haftungsausschluss', title: 'Haftungsausschluss', subtitle: 'Haftungsausschluss für die Teilnahme am Schwimmkurs'},
   {slug: 'datenschutz', title: 'Datenschutzerklärung', subtitle: 'Informationen zum Datenschutz'},
