@@ -233,7 +233,7 @@ php bin/console messenger:failed:show --env=prod
 Create the registration form PDF:
 
 ```shell
-./pdf.sh public/docs/2025.09-anmeldung-schwimmkurs-seepferdchen
+./pdf.sh public/docs/2025.11-voanmeldung-schwimmkurs
 ```
 
 ## Linting & tests

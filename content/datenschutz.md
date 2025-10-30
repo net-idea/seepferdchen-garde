@@ -81,4 +81,8 @@ Diese Datenschutzerklärung wird bei Bedarf aktualisiert.
 
 ## Kontakt
 
-Ich bin jederzeit über mein [Kontaktformular](/kontakt) oder direkt über <span class="contact-whatsapp tap-target text-decoration-none"><strong>WhatsApp</strong></span> erreichbar.
+Bei Fragen nutzen Sie gern mein [Kontaktformular](/kontakt) oder schreiben Sie mir eine E‑Mail an <span class="contact-email tap-target"></span> und wenn es mal schnell gehen soll erreichen Sie mich unter der Handy-Nummer <span id="contact-phone" class="tap-target"></span> oder per **WhatsApp** <span class="contact-whatsapp tap-target text-decoration-none"></span>.
+
+---
+
+_Stand: 2025_

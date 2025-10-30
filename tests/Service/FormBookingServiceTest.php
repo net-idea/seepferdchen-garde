@@ -30,7 +30,7 @@ class FormBookingServiceTest extends TestCase
         $session = new Session(new MockArraySessionStorage());
         $session->start();
         $session->set('bf_data', [
-            'coursePeriod'          => '04.11.2025 bis 27.01.2026',
+            'coursePeriod'          => 'Voranmeldung',
             'desiredTimeSlot'       => 'Di 17:00',
             'childName'             => 'Bob',
             'childBirthdate'        => '2018-02-03',
@@ -102,7 +102,7 @@ class FormBookingServiceTest extends TestCase
         $session = new Session(new MockArraySessionStorage());
         $session->start();
         $summaryData = [
-            'coursePeriod'          => '04.11.2025 bis 27.01.2026',
+            'coursePeriod'          => 'Voranmeldung',
             'desiredTimeSlot'       => '16:00–16:45',
             'childName'             => 'Alice',
             'childBirthdate'        => '2017-05-10',
