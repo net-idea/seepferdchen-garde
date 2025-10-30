@@ -13,7 +13,7 @@
         Den genauen Starttermin werde ich an dieser Stelle oder bei Voranmeldung natürlich auch persönlich mitteilen.
       </p>
 
-      <p class="text-body-secondary mb-4">Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink. Erst nach Klick auf den Link ist die Anmeldung verbindlich.</p>
+      <p class="text-body-secondary mb-4">Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink. Erst nach Klick auf den Link wird die Voranmeldung berücksichtigt.</p>
 
       {% set submit = app.request.query.get('submit') %}
       {% set error = app.request.query.get('error') %}
@@ -297,7 +297,6 @@
           }
         })();
       </script>
-      #}
     </div>
   </div>
 {% endblock %}
