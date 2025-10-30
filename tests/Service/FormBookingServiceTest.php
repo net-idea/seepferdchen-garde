@@ -9,6 +9,7 @@ use App\Service\FormBookingService;
 use App\Service\MailManService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -100,7 +101,7 @@ class FormBookingServiceTest extends TestCase
     {
         $session = new Session(new MockArraySessionStorage());
         $session->start();
-        $session->set('bf_data', [
+        $summaryData = [
             'coursePeriod'          => '04.11.2025 bis 27.01.2026',
             'desiredTimeSlot'       => '16:00–16:45',
             'childName'             => 'Alice',
@@ -120,9 +121,10 @@ class FormBookingServiceTest extends TestCase
             'photoConsent'          => false,
             'dataConsent'           => true,
             'bookingConfirmation'   => true,
-        ]);
+        ];
+        $session->set('bf_summary', $summaryData);
 
-        $request = new Request(['sent' => 1]);
+        $request = new Request(['submit' => 1]);
         $request->setSession($session);
         $stack = new RequestStack();
         $stack->push($request);
@@ -133,7 +135,7 @@ class FormBookingServiceTest extends TestCase
         /** @var FormBookingEntity $formData */
         $formData = $form->getData();
 
-        // Form should be empty (new entity) after sent=1
+        // Form should be empty (new entity) after submit=1
         $this->assertSame('', $formData->getChildName());
         $this->assertSame('', $formData->getDesiredTimeSlot());
         $this->assertSame('', $formData->getParentName());
@@ -164,7 +166,8 @@ class FormBookingServiceTest extends TestCase
         $urls = $this->createMock(UrlGeneratorInterface::class);
         $em = $this->createMock(EntityManagerInterface::class);
         $repo ??= $this->createMock(FormBookingRepository::class);
+        $logger = $this->createMock(LoggerInterface::class);
 
-        return new FormBookingService($forms, $stack, $em, $repo, $mailMan, $urls);
+        return new FormBookingService($forms, $stack, $em, $repo, $mailMan, $urls, $logger);
     }
 }
