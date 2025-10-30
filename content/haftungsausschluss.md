@@ -25,9 +25,11 @@ Dieser Haftungsausschluss gilt für die Teilnahme am Schwimmkurs der Seepferdche
   <a href="/docs/haftungsausschluss.pdf" class="btn btn-outline-secondary" target="_blank" rel="noopener" aria-label="Haftungsausschluss als PDF öffnen">Haftungsausschluss als PDF Dokument herunterladen</a>
 </div>
 
+---
+
 ## Kontakt
 
-**Fragen?** Nutzen Sie gern das [Kontaktformular](/kontakt) unter [/kontakt](/kontakt) oder schreiben Sie eine E‑Mail an <span class="contact-email tap-target"></span>.
+Bei Fragen nutzen Sie gern mein [Kontaktformular](/kontakt) oder schreiben Sie mir eine E‑Mail an <span class="contact-email tap-target"></span> und wenn es mal schnell gehen soll erreichen Sie mich unter der Handy-Nummer <span id="contact-phone" class="tap-target"></span> oder per **WhatsApp** <span class="contact-whatsapp tap-target text-decoration-none"></span>.
 
 ---
 
