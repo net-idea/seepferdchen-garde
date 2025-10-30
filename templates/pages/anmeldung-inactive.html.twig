@@ -9,7 +9,6 @@
       <p class="lead mb-1">Melden Sie Ihr Kind hier für den nächsten Schwimmkurs an. Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink.</p>
       <p class="text-body-secondary mb-4">Erst nach Klick auf den Link ist die Anmeldung verbindlich.</p>
 
-      {# anchors used by redirects #}
       {% set submit = app.request.query.get('submit') %}
       {% set error = app.request.query.get('error') %}
       {% set success = submit %}
@@ -22,7 +21,6 @@
           <h2 class="h5 mb-2">Vielen Dank! Ihre Anmeldung ist eingegangen.</h2>
           <p class="mb-2">Bitte bestätigen Sie die Anmeldung noch über den Link in der E‑Mail, die wir Ihnen soeben gesendet haben.</p>
 
-          {# Detailed summary if available #}
           {% if booking is defined and booking %}
             {% set pm = {
               'barzahlung': 'Barzahlung',
@@ -85,7 +83,6 @@
         {% endif %}
       </div>
 
-      {# flash/redirect messages (server-side fallback when JS is deaktiviert) #}
       <noscript>
         {% if success %}
           <div class="alert alert-success">
@@ -265,17 +262,18 @@
 
       {{ form_rest(form) }}
       {{ form_end(form) }}
+
+      <script>
+        (function () {
+          const btn = document.getElementById('booking-print');
+          if (btn) {
+            btn.addEventListener('click', function () {
+              window.print();
+            });
+          }
+        })();
+      </script>
+      #}
     </div>
   </div>
-
-  <script>
-    (function () {
-      const btn = document.getElementById('booking-print');
-      if (btn) {
-        btn.addEventListener('click', function () {
-          window.print();
-        });
-      }
-    })();
-  </script>
 {% endblock %}

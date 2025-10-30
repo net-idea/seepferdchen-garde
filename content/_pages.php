@@ -37,7 +37,7 @@ return [
     ],
     'anmeldung' => [
         'title' => 'Anmeldung',
-        'description' => 'Anmeldung und Voranmeldung für Schwimmkurse: teilen Sie mir Kurswunsch, Zeiten und Schwimmniveau mit. Ich melde mich zeitnah.',
+        'description' => 'Ich biete Schwimmkurse individuell und auf Anfrage an. Schreiben Sie mir gern – ich melde mich persönlich mit passenden Terminen.',
         'cms' => false,
         'nav' => true,
         'nav_label' => 'Anmeldung',
