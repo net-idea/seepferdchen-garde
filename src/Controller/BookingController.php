@@ -17,7 +17,7 @@ class BookingController extends AbstractBaseController
     }
 
     #[Route(
-        path: '/anmeldung',
+        path: '/anmeldung-inactive',
         name: 'app_booking',
         methods: ['GET', 'POST']
     )]
