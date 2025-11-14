@@ -70,9 +70,18 @@ echo ""
 if [ "${SKIP_MIGRATIONS:-false}" = "true" ]; then
   echo "[4/5] Skipping database migrations (SKIP_MIGRATIONS=true)"
 elif command -v php >/dev/null 2>&1; then
-  echo "[4/5] Running database migrations..."
-  php bin/console doctrine:migrations:migrate --no-interaction --env=prod
-  echo "✓ Database migrations completed"
+  # Only attempt to run migrations if there are actual migration classes in the configured folder.
+  # This avoids the Doctrine error when no migrations are registered (e.g. clean installs without migrations).
+  MIGRATIONS_DIR="$ROOT_DIR/migrations"
+  MIGRATION_FILES="$(find "$MIGRATIONS_DIR" -maxdepth 1 -type f -name 'Version*.php' -print -quit 2>/dev/null || true)"
+
+  if [ -n "$MIGRATION_FILES" ]; then
+    echo "[4/5] Running database migrations..."
+    php bin/console doctrine:migrations:migrate --no-interaction --env=prod
+    echo "✓ Database migrations completed"
+  else
+    echo "[4/5] No migration classes found in $MIGRATIONS_DIR — skipping migrations"
+  fi
 else
   echo "⚠ PHP not found. Skipping database migrations." >&2
 fi
