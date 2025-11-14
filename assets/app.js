@@ -4,7 +4,6 @@ import './styles/carousel.css';
 
 // Shared theme styles (must be first)
 import './styles/theme.css';
-// Theme styles
 import './styles/theme-light.css';
 import './styles/theme-dark.css';
 
