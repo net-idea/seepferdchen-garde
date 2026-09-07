@@ -11,8 +11,19 @@
     }
 
     /* Hide navigation and non-essential UI */
-    .navbar, header, .breadcrumb, .carousel, .alert-dismissible .btn-close {
+    .navbar, header, .breadcrumb, .carousel, .alert-dismissible .btn-close, #water-canvas {
         display: none !important;
+    }
+
+    html {
+        background: #fff !important;
+    }
+
+    .glass-panel,
+    main#content .section-anchor > .container {
+        border: none !important;
+        padding: 0 !important;
+        backdrop-filter: none !important;
     }
 
     /* Hide all forms and form UI */

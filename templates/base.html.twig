@@ -88,7 +88,9 @@
 <body class="{% block body_class %}{% endblock %}">
 {% include '_partials/navbar.html.twig' with { navItems: navItems|default([]), currentSlug: slug|default('') } %}
 
+<div class="site-content">
 {% block body %}{% endblock %}
+</div>
 
 {% include '_partials/footer.html.twig' with { navItems: navItems|default([]), currentSlug: slug|default('') } %}
 

@@ -5,8 +5,9 @@
 {% block body_class %}{{ app.request.query.get('submit') ? 'form-success-shown' : '' }}{% endblock %}
 
 {% block body %}
-  <div class="container my-4">
+  <div class="container my-4 my-lg-5">
     <div class="row justify-content-center">
+      <div class="glass-panel">
       <h1>Kontakt</h1>
       <p class="lead mb-1">Ich freue mich über Ihr Interesse an meinen Angeboten. Sie erreichen mich telefonisch, per WhatsApp, per E‑Mail oder ganz einfach über dieses Kontaktformular. Ich melde mich zeitnah persönlich bei Ihnen.</p>
       <p class="text-body-secondary mb-5">Damit ich zuverlässig antworten kann, geben Sie bitte eine gültige E‑Mail‑Adresse an.</p>
@@ -120,6 +121,7 @@
       {{ form_end(form) }}
 
       <noscript>Bitte aktivieren Sie JavaScript, um die Formularvalidierung zu verbessern. Das Absenden ist auch ohne JavaScript möglich.</noscript>
+      </div>
     </div>
   </div>
 {% endblock %}

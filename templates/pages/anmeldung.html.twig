@@ -5,8 +5,9 @@
 {% block body_class %}{{ app.request.query.get('submit') ? 'form-success-shown' : '' }}{% endblock %}
 
 {% block body %}
-  <div class="container my-4">
+  <div class="container my-4 my-lg-5">
     <div class="row justify-content-center">
+      <div class="glass-panel">
       {# Everything in this block disappears once the request was sent (screen and print) #}
       <div data-hide-on-success>
       <h1>Anfrage für einen Schwimmkurs</h1>
@@ -268,6 +269,7 @@
       {{ form_rest(form) }}
       {{ form_end(form) }}
 
+      </div>
     </div>
   </div>
 {% endblock %}

@@ -16,6 +16,9 @@ import 'bootstrap/js/dist/carousel';
 // Stateless CSRF double-submit cookie (Symfony SameOriginCsrfTokenManager)
 import './scripts/csrf-protection.js';
 
+// Ambient water background (canvas behind the content)
+import './scripts/water-canvas.ts';
+
 // Import TypeScript
 import './scripts/contacts.ts';
 import './scripts/contact-form.ts';
