@@ -1,0 +1,75 @@
+// ============================================================
+// Bootstrap 5 – selective import (only what the site uses)
+// Full list of partials: node_modules/bootstrap/scss/bootstrap.scss
+// ============================================================
+
+@use "sass:map";
+
+// --- Theme overrides (must come before Bootstrap's variables) ---
+$enable-dark-mode: false; // site has a single light theme
+$enable-negative-margins: false;
+$primary: #0a365d; // Kräftiges Ozeanblau
+$secondary: #12304a; // Seepferdchen Navy
+$info: #0f3d4c; // Petrol-Navy
+$body-bg: #f3f4f6;
+$body-color: #111827;
+$link-color: #12355b; // Klassisches Dunkelblau
+$link-hover-color: #0b1f3a; // Tiefes Marineblau
+$headings-color: #0b1f3a;
+$font-family-sans-serif: "NunitoVariable", "Nunito", system-ui, -apple-system, "Segoe UI", "Roboto", sans-serif;
+$btn-border-radius: 0.6rem;
+$btn-font-weight: 600;
+
+// --- Configuration ---
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Drop utility groups the templates never use (each group expands to dozens of
+// responsive classes). Keep: display, flex-wrap, justify-content, align-items,
+// margin*, padding*, gap, font-size, font-weight, line-height, text-align,
+// text-decoration, color, background-color, border-bottom.
+$utilities: map.remove(
+  $utilities,
+  "align", "float", "object-fit", "opacity", "overflow", "overflow-x", "overflow-y",
+  "shadow", "focus-ring", "position", "top", "bottom", "start", "end", "translate-middle",
+  "border", "border-top", "border-end", "border-start", "border-color", "subtle-border-color",
+  "border-width", "border-opacity", "width", "max-width", "viewport-width", "min-viewport-width",
+  "height", "max-height", "viewport-height", "min-viewport-height",
+  "flex", "flex-direction", "flex-grow", "flex-shrink", "align-content", "align-self", "order",
+  "row-gap", "column-gap", "font-family", "font-style", "text-transform", "white-space", "word-wrap",
+  "text-opacity", "link-opacity", "link-offset", "link-underline", "link-underline-opacity",
+  "bg-opacity", "subtle-background-color", "gradient", "user-select", "pointer-events",
+  "rounded", "rounded-top", "rounded-end", "rounded-bottom", "rounded-start", "visibility", "z-index"
+);
+
+// --- Layout & content ---
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+
+// --- Components actually used ---
+// forms: individual partials (no form-range, no input-group)
+@import "bootstrap/scss/forms/labels";
+@import "bootstrap/scss/forms/form-text";
+@import "bootstrap/scss/forms/form-control";
+@import "bootstrap/scss/forms/form-select";
+@import "bootstrap/scss/forms/form-check";
+@import "bootstrap/scss/forms/floating-labels";
+@import "bootstrap/scss/forms/validation";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions"; // .collapse / .collapsing (navbar toggler)
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/carousel";
+
+// --- Helpers & utilities ---
+@import "bootstrap/scss/helpers/visually-hidden";
+@import "bootstrap/scss/helpers/stacks"; // .vstack on the forms
+@import "bootstrap/scss/utilities/api";

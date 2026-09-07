@@ -18,29 +18,47 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class FormBookingType extends AbstractType
 {
+    /** Kurszeiten, die aktuell buchbar sind. */
+    private const AVAILABLE_SLOTS = ['15:00–15:45'];
+
+    /** Kurszeiten, die ausgebucht sind (werden angezeigt, sind aber nicht wählbar). */
+    private const FULLY_BOOKED_SLOTS = ['16:00–16:45'];
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('coursePeriod', HiddenType::class, [
                 'required' => true,
-                'data'     => 'Voranmeldung',
+                'data'     => 'Kursplatz-Anfrage',
             ])
             ->add('desiredTimeSlot', ChoiceType::class, [
                 'label'       => 'Gewünschte Kurszeit',
                 'required'    => true,
+                'empty_data'  => '',
                 'placeholder' => 'Bitte wählen…',
                 'choices'     => [
-                    '15:00–15:45 Uhr' => '15:00–15:45',
-                    '16:00–16:45 Uhr' => '16:00–16:45',
+                    '15:00–15:45 Uhr'              => '15:00–15:45',
+                    '16:00–16:45 Uhr (ausgebucht)' => '16:00–16:45',
                 ],
-                'constraints' => [new Assert\NotBlank(message: 'Bitte eine Kurszeit auswählen.')],
-                'attr'        => ['class' => 'form-select'],
-                'label_attr'  => ['class' => 'form-label'],
+                // Ausgebuchte Kurszeiten: im Dropdown sichtbar, aber nicht wählbar
+                'choice_attr' => static fn (string $value): array => \in_array($value, self::FULLY_BOOKED_SLOTS, true)
+                    ? ['disabled' => 'disabled']
+                    : [],
+                'constraints' => [
+                    new Assert\NotBlank(message: 'Bitte eine Kurszeit auswählen.'),
+                    new Assert\Choice(
+                        choices: self::AVAILABLE_SLOTS,
+                        message: 'Diese Kurszeit ist leider ausgebucht. Bitte wählen Sie eine andere Kurszeit.'
+                    ),
+                ],
+                'attr'       => ['class' => 'form-select'],
+                'label_attr' => ['class' => 'form-label'],
             ])
             // Kinderdaten
             ->add('childName', TextType::class, [
                 'label'       => 'Vor- und Nachname des Kindes',
                 'required'    => true,
+                'empty_data'  => '',
                 'constraints' => [
                     new Assert\NotBlank(message: 'Bitte geben Sie den Namen des Kindes an.'),
                     new Assert\Length(max: 160),
@@ -62,6 +80,7 @@ class FormBookingType extends AbstractType
             ->add('childAddress', TextareaType::class, [
                 'label'       => 'Adresse',
                 'required'    => true,
+                'empty_data'  => '',
                 'constraints' => [
                     new Assert\NotBlank(message: 'Bitte geben Sie die Adresse an.'),
                     new Assert\Length(min: 5, max: 1000),
@@ -108,6 +127,7 @@ class FormBookingType extends AbstractType
             ->add('parentName', TextType::class, [
                 'label'       => 'Vor- & Nachname (Eltern/Erziehungsberechtigte)',
                 'required'    => true,
+                'empty_data'  => '',
                 'constraints' => [new Assert\NotBlank(), new Assert\Length(max: 160)],
                 'attr'        => ['maxlength' => 160, 'class' => 'form-control'],
                 'label_attr'  => ['class' => 'form-label'],
@@ -123,6 +143,7 @@ class FormBookingType extends AbstractType
             ->add('parentEmail', EmailType::class, [
                 'label'       => 'E‑Mail‑Adresse',
                 'required'    => true,
+                'empty_data'  => '',
                 'constraints' => [new Assert\NotBlank(), new Assert\Email(), new Assert\Length(max: 200)],
                 'attr'        => ['maxlength' => 200, 'class' => 'form-control', 'autocomplete' => 'email'],
                 'label_attr'  => ['class' => 'form-label'],
@@ -138,9 +159,10 @@ class FormBookingType extends AbstractType
                 'label_attr'  => ['class' => 'form-label'],
             ])
             ->add('paymentMethod', ChoiceType::class, [
-                'label'    => 'Zahlungsart',
-                'required' => true,
-                'choices'  => [
+                'label'      => 'Zahlungsart',
+                'required'   => true,
+                'empty_data' => '',
+                'choices'    => [
                     'Barzahlung'  => 'barzahlung',
                     'Überweisung' => 'ueberweisung',
                     'PayPal'      => 'paypal',
@@ -180,9 +202,9 @@ class FormBookingType extends AbstractType
                 'label_attr'  => ['class' => 'form-check-label'],
             ])
             ->add('bookingConfirmation', CheckboxType::class, [
-                'label'       => 'Ich bestätige meine verbindliche Anmeldung.',
+                'label'       => 'Mir ist bekannt, dass die Teilnahme erst mit der ausdrücklichen Bestätigung des Kursplatzes verbindlich wird.',
                 'required'    => true,
-                'constraints' => [new Assert\IsTrue(message: 'Bitte bestätigen Sie Ihre verbindliche Anmeldung.')],
+                'constraints' => [new Assert\IsTrue(message: 'Bitte bestätigen Sie den Hinweis zur Verbindlichkeit.')],
                 'attr'        => ['class' => 'form-check-input'],
                 'label_attr'  => ['class' => 'form-check-label'],
             ])

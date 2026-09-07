@@ -67,7 +67,7 @@ Mit Dienstleistern bestehen Auftragsverarbeitungsverträge gemäß Art. 28 DSGVO
 ## Ihre Rechte
 
 Sie haben das Recht auf Auskunft (Art. 15 DSGVO), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch (Art. 21). Außerdem haben Sie das Recht, erteilte Einwilligungen jederzeit für die Zukunft zu widerrufen (Art. 7 Abs. 3).  
-Beschwerderecht bei einer Aufsichtsbehörde, z. B. LDI NRW: https://www.ldi.nrw.de/
+Beschwerderecht bei einer Aufsichtsbehörde, z.B. LDI NRW: https://www.ldi.nrw.de/
 
 ## Datensicherheit
 

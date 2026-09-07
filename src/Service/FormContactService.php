@@ -51,7 +51,8 @@ class FormContactService extends AbstractFormService
      */
     public function handle(): ?RedirectResponse
     {
-        $boot = $this->bootstrapFormHandling($this->requests);
+        $boot = $this->handleFormRequest($this->requests);
+
         if (null === $boot) {
             return null;
         }

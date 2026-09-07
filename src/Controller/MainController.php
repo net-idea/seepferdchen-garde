@@ -4,14 +4,17 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Service\NavigationService;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractBaseController
 {
-    public function __construct(private readonly NavigationService $navigation)
-    {
+    public function __construct(
+        private readonly NavigationService $navigation,
+        private readonly GithubFlavoredMarkdownConverter $markdown,
+    ) {
     }
 
     #[Route(
@@ -56,8 +59,7 @@ class MainController extends AbstractBaseController
 
         if (is_file($contentFile)) {
             $markdown = (string)file_get_contents($contentFile);
-            $parsedown = new \Parsedown();
-            $html = $parsedown->text($markdown);
+            $html = (string)$this->markdown->convert($markdown);
 
             return $this->render(
                 'pages/content.html.twig',

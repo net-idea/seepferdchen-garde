@@ -1,5 +1,3 @@
 #!/bin/bash
-
-mkdir -p php-cs-fixer
-composer require --working-dir=php-cs-fixer friendsofphp/php-cs-fixer
-php-cs-fixer/vendor/bin/php-cs-fixer fix
+# PHP CS Fixer is a dev dependency (composer.json); run it from vendor/bin.
+"$(dirname "$0")/vendor/bin/php-cs-fixer" fix "$@"

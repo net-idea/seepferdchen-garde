@@ -72,7 +72,7 @@ fi
 
 # === 3. Run Yarn install ===
 echo -e "${YELLOW}Running Yarn install...${NC}"
-$YARN_BIN install --cwd "$PROJECT_DIR"
+$YARN_BIN --cwd "$PROJECT_DIR" install
 if [ $? -ne 0 ]; then
     echo -e "${RED}Yarn install failed.${NC}" >&2
     exit 1
@@ -107,7 +107,7 @@ echo -e "${YELLOW}Press Ctrl+C to stop.${NC}"
 echo
 
 # Start Yarn Encore in watch mode (background)
-$YARN_BIN encore dev --watch &
+$YARN_BIN --cwd "$PROJECT_DIR" encore dev --watch &
 YARN_PID=$!
 
 # Give it a moment to start

@@ -16,7 +16,7 @@
 .carousel-item .lead {
   font-size: 1.4rem;
   font-weight: 600;
-  color: #505050;
+  color: #162a45;
 }
 
 .carousel-item .container {
@@ -102,7 +102,7 @@
 
 /* === Improve link visibility in carousel === */
 .carousel-item a:not(.btn) {
-  color: #084298; /* darker, higher-contrast link color */
+  color: #12355b; /* Klassisches Dunkelblau */
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
@@ -110,43 +110,10 @@
 
 .carousel-item a:not(.btn):hover,
 .carousel-item a:not(.btn):focus {
-  color: #052c65;
+  color: #0b1f3a;
 }
 
-/* === CTA button with signal color === */
-.btn-cta {
-  color: #fff;
-  background-color: #ff6b00; /* signal orange */
-  border-color: #ff6b00;
-  box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 30%);
-}
-
-.btn-cta:hover,
-.btn-cta:focus {
-  color: #fff;
-  background-color: #e65f00;
-  border-color: #e65f00;
-}
-
-.btn-cta:active {
-  color: #fff;
-  background-color: #cc5400;
-  border-color: #cc5400;
-}
-
-.btn-cta:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 0.25rem rgb(255 107 0 / 35%);
-}
-
-/* Force strong contrast for carousel buttons */
-#main-carousel .btn,
-#main-carousel .btn:link,
-#main-carousel .btn:visited {
-    color: #fff !important;
-}
-
-#main-carousel .btn .bi {
-    color: #fff;
-    fill: currentcolor;
+/* Buttons inside the hero must not stretch to full width (flex column container) */
+.carousel-item .btn {
+  align-self: flex-start;
 }

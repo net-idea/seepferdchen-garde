@@ -37,14 +37,6 @@ yarn-error.log
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
-
-###> symfony/asset-mapper ###
-#/public/assets/*
-#!/public/assets/.gitignore
-/assets/vendor/*
-!/assets/vendor/.gitignore
-###< symfony/asset-mapper ###
-
 ### PHP Coding Standards Fixer
 /php-cs-fixer
 /.php_cs
@@ -60,3 +52,20 @@ adminer*.*
 ###> phpstan/phpstan ###
 phpstan.neon
 ###< phpstan/phpstan ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> yarn (berry, nodeLinker: node-modules) ###
+/.yarn/*
+!/.yarn/patches
+!/.yarn/plugins
+!/.yarn/releases
+!/.yarn/versions
+/.pnp.*
+###< yarn ###
+
+# Symfony 7.4: auto-generated config reference (rebuilt on cache warmup)
+/config/reference.php

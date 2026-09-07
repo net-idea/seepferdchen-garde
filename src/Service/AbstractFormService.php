@@ -53,7 +53,7 @@ abstract class AbstractFormService
      *
      * @return array{0: Request, 1: FormInterface, 2: SessionInterface}|null
      */
-    protected function bootstrapFormHandling(RequestStack $requests): ?array
+    protected function handleFormRequest(RequestStack $requests): ?array
     {
         $request = $requests->getCurrentRequest();
 

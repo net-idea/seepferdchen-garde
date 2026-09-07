@@ -71,9 +71,9 @@ class FormContactServiceTest extends TestCase
     private function makeService(RequestStack $stack): FormContactService
     {
         $forms = $this->makeFormFactory();
-        $mailMan = $this->createMock(MailManService::class);
-        $urls = $this->createMock(UrlGeneratorInterface::class);
-        $em = $this->createMock(EntityManagerInterface::class);
+        $mailMan = $this->createStub(MailManService::class);
+        $urls = $this->createStub(UrlGeneratorInterface::class);
+        $em = $this->createStub(EntityManagerInterface::class);
 
         return new FormContactService($forms, $stack, $mailMan, $urls, $em);
     }

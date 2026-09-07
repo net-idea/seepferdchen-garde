@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\FormBookingRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: 'App\\Repository\\FormBookingRepository')]
+#[ORM\Entity(repositoryClass: FormBookingRepository::class)]
 #[ORM\Table(name: 'form_booking')]
 class FormBookingEntity
 {
@@ -135,9 +136,9 @@ class FormBookingEntity
     {
         return $this->coursePeriod;
     }
-    public function setCoursePeriod(string $s): self
+    public function setCoursePeriod(?string $s): self
     {
-        $this->coursePeriod = $s;
+        $this->coursePeriod = (string)$s;
 
         return $this;
     }
@@ -146,9 +147,9 @@ class FormBookingEntity
     {
         return $this->desiredTimeSlot;
     }
-    public function setDesiredTimeSlot(string $s): self
+    public function setDesiredTimeSlot(?string $s): self
     {
-        $this->desiredTimeSlot = $s;
+        $this->desiredTimeSlot = (string)$s;
 
         return $this;
     }
@@ -157,9 +158,9 @@ class FormBookingEntity
     {
         return $this->childName;
     }
-    public function setChildName(string $s): self
+    public function setChildName(?string $s): self
     {
-        $this->childName = $s;
+        $this->childName = (string)$s;
 
         return $this;
     }
@@ -168,9 +169,12 @@ class FormBookingEntity
     {
         return $this->childBirthdate;
     }
-    public function setChildBirthdate(DateTimeImmutable $d): self
+    public function setChildBirthdate(?DateTimeImmutable $d): self
     {
-        $this->childBirthdate = $d;
+        // null (empty/invalid form input) keeps the placeholder; NotBlank on the form field reports the error
+        if (null !== $d) {
+            $this->childBirthdate = $d;
+        }
 
         return $this;
     }
@@ -179,9 +183,9 @@ class FormBookingEntity
     {
         return $this->childAddress;
     }
-    public function setChildAddress(string $s): self
+    public function setChildAddress(?string $s): self
     {
-        $this->childAddress = $s;
+        $this->childAddress = (string)$s;
 
         return $this;
     }
@@ -234,9 +238,9 @@ class FormBookingEntity
     {
         return $this->parentName;
     }
-    public function setParentName(string $s): self
+    public function setParentName(?string $s): self
     {
-        $this->parentName = $s;
+        $this->parentName = (string)$s;
 
         return $this;
     }
@@ -256,9 +260,9 @@ class FormBookingEntity
     {
         return $this->parentEmail;
     }
-    public function setParentEmail(string $s): self
+    public function setParentEmail(?string $s): self
     {
-        $this->parentEmail = $s;
+        $this->parentEmail = (string)$s;
 
         return $this;
     }
@@ -278,9 +282,9 @@ class FormBookingEntity
     {
         return $this->paymentMethod;
     }
-    public function setPaymentMethod(string $s): self
+    public function setPaymentMethod(?string $s): self
     {
-        $this->paymentMethod = $s;
+        $this->paymentMethod = (string)$s;
 
         return $this;
     }

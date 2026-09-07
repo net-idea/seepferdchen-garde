@@ -28,5 +28,12 @@ services:
             $toAddress: '%mail.to_address%'
             $toName: '%mail.to_name%'
 
+    # Markdown renderer for content/*.md pages (GitHub flavored, raw HTML in content files allowed)
+    League\CommonMark\GithubFlavoredMarkdownConverter:
+        arguments:
+            $config:
+                html_input: 'allow'
+                allow_unsafe_links: false
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

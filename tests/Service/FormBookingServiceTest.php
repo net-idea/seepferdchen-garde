@@ -80,7 +80,7 @@ class FormBookingServiceTest extends TestCase
 
     public function testAssertSessionStartedThrowsWhenSessionCannotStart(): void
     {
-        $session = $this->createMock(SessionInterface::class);
+        $session = $this->createStub(SessionInterface::class);
         $session->method('isStarted')->willReturn(false);
         // start() must return a bool per interface; return false to simulate failure
         $session->method('start')->willReturn(false);
@@ -162,11 +162,11 @@ class FormBookingServiceTest extends TestCase
     private function makeService(RequestStack $stack, ?FormBookingRepository $repo = null): FormBookingService
     {
         $forms = $this->makeFormFactory();
-        $mailMan = $this->createMock(MailManService::class);
-        $urls = $this->createMock(UrlGeneratorInterface::class);
-        $em = $this->createMock(EntityManagerInterface::class);
-        $repo ??= $this->createMock(FormBookingRepository::class);
-        $logger = $this->createMock(LoggerInterface::class);
+        $mailMan = $this->createStub(MailManService::class);
+        $urls = $this->createStub(UrlGeneratorInterface::class);
+        $em = $this->createStub(EntityManagerInterface::class);
+        $repo ??= $this->createStub(FormBookingRepository::class);
+        $logger = $this->createStub(LoggerInterface::class);
 
         return new FormBookingService($forms, $stack, $em, $repo, $mailMan, $urls, $logger);
     }

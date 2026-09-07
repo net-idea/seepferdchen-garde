@@ -66,7 +66,7 @@ class FormBookingService extends AbstractFormService
 
     public function handle(): ?RedirectResponse
     {
-        $boot = $this->bootstrapFormHandling($this->requests);
+        $boot = $this->handleFormRequest($this->requests);
 
         if (null === $boot) {
             return null;
@@ -143,8 +143,15 @@ class FormBookingService extends AbstractFormService
             $this->mailMan->sendBookingVisitorConfirmationRequest($formBooking, $confirmUrl);
             $emailSent = true;
         } catch (\Exception $e) {
-            error_log('ERROR: Failed to send booking confirmation email to ' . $formBooking->getParentEmail() . ': ' . $e->getMessage());
-            error_log('Booking ID: ' . $formBooking->getId() . ', Token: ' . $formBooking->getConfirmationToken());
+            $this->logger->error(
+                'Failed to send booking confirmation email',
+                [
+                    'exception' => $e->getMessage(),
+                    'to'        => $formBooking->getParentEmail(),
+                    'bookingId' => $formBooking->getId(),
+                    'token'     => substr($formBooking->getConfirmationToken(), 0, 6) . '…',
+                ]
+            );
 
             $this->storeFormSnapshot($formBooking);
 
@@ -306,7 +313,7 @@ class FormBookingService extends AbstractFormService
             'coursePeriod'          => $data->getCoursePeriod(),
             'desiredTimeSlot'       => $data->getDesiredTimeSlot(),
             'childName'             => $data->getChildName(),
-            'childBirthdate'        => $data->getChildBirthdate()?->format('Y-m-d'),
+            'childBirthdate'        => $data->getChildBirthdate()->format('Y-m-d'),
             'childAddress'          => $data->getChildAddress(),
             'hasSwimExperience'     => $data->hasSwimExperience(),
             'swimExperienceDetails' => $data->getSwimExperienceDetails(),
@@ -375,6 +382,6 @@ class FormBookingService extends AbstractFormService
 
         $submit = $request->query->get('submit');
 
-        return null !== $submit && '0' !== $submit && 0 !== $submit && false !== $submit && '' !== $submit;
+        return null !== $submit && '' !== $submit && '0' !== $submit;
     }
 }

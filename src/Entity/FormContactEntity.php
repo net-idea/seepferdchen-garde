@@ -3,11 +3,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\FormContactRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Mime\Address;
 
-#[ORM\Entity(repositoryClass: 'App\\Repository\\FormContactRepository')]
+#[ORM\Entity(repositoryClass: FormContactRepository::class)]
 #[ORM\Table(name: 'form_contact')]
 class FormContactEntity
 {
@@ -61,9 +62,9 @@ class FormContactEntity
         return $this->createdAt;
     }
 
-    public function setName($name): self
+    public function setName(string $name): self
     {
-        $this->name = (string) $name;
+        $this->name = $name;
 
         return $this;
     }
@@ -104,7 +105,7 @@ class FormContactEntity
         return $this->email;
     }
 
-    public function setPhone($phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = (string) $phone;
 
@@ -128,9 +129,9 @@ class FormContactEntity
         return $this->consent;
     }
 
-    public function setMessage($message): self
+    public function setMessage(string $message): self
     {
-        $this->message = (string) $message;
+        $this->message = $message;
 
         return $this;
     }
@@ -152,7 +153,7 @@ class FormContactEntity
         return $this->copy;
     }
 
-    public function setEmailrep($emailrep): self
+    public function setEmailrep(?string $emailrep): self
     {
         $this->emailrep = (string) $emailrep;
 

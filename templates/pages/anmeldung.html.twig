@@ -5,15 +5,29 @@
 {% block body %}
   <div class="container my-4">
     <div class="row justify-content-center">
-      <h1>Voranmeldung für den nächsten Schwimmkurs</h1>
+      <h1>Anfrage für einen Schwimmkurs</h1>
 
-      <p class="lead mb-1">
-        Melden Sie Ihr Kind hier <em>unverbindlich</em> für den nächsten Schwimmkurs an.<br>
-        Ich sammle derzeit Voranmeldungen und plane die kommenden Kurstermine.<br>
-        Den genauen Starttermin werde ich an dieser Stelle oder bei Voranmeldung natürlich auch persönlich mitteilen.
+      <p class="lead mb-3">
+        Sie möchten Ihr Kind für einen Schwimmkurs bei der Seepferdchen‑Garde anmelden?<br>
+        Über das untenstehende Formular können Sie eine Anfrage für einen Kursplatz stellen.
       </p>
 
-      <p class="text-body-secondary mb-4">Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink. Erst nach Klick auf den Link wird die Voranmeldung berücksichtigt.</p>
+      <p class="mb-2">
+        Nach Eingang Ihrer Anfrage prüfe ich, ob zum gewünschten Zeitpunkt noch ein freier Platz verfügbar ist.<br>
+        Sollte ein passender Kursplatz frei sein, erhalten Sie von mir eine persönliche Bestätigung mit allen weiteren Informationen.
+      </p>
+
+      <div class="alert alert-info booking-notice mb-3" role="note">
+        <p class="fw-bold mb-2">Bitte beachten Sie:</p>
+        <ul class="mb-0">
+          <li>Eine verbindliche Teilnahme am Schwimmkurs kommt erst mit meiner ausdrücklichen Bestätigung des Kursplatzes zustande.</li>
+          <li>Nach der Bestätigung ist der reservierte Kursplatz verbindlich für Ihr Kind eingeplant.</li>
+        </ul>
+      </div>
+
+      <p class="lead mb-1">Ich freue mich auf Ihre Anfrage!</p>
+
+      <p class="text-body-secondary mb-4">Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink. Erst nach Klick auf den Link wird Ihre Anfrage berücksichtigt.</p>
 
       {% set submit = app.request.query.get('submit') %}
       {% set error = app.request.query.get('error') %}
@@ -24,8 +38,8 @@
            aria-hidden="{{ success ? 'false' : 'true' }}"
            {% if success %}role="alert"{% endif %}>
         {% if success %}
-          <h2 class="h5 mb-2">Vielen Dank! Ihre Anmeldung ist versendet.</h2>
-          <p class="mb-2">Bitte bestätigen Sie die Anmeldung noch über den Link in der E‑Mail, die Sie soeben erhalten haben.</p>
+          <h2 class="h5 mb-2">Vielen Dank! Ihre Anfrage ist versendet.</h2>
+          <p class="mb-2">Bitte bestätigen Sie Ihre Anfrage noch über den Link in der E‑Mail, die Sie soeben erhalten haben.</p>
 
           {% if booking is defined and booking %}
             {% set pm = {
@@ -81,10 +95,10 @@
           {% if error == 'rate' %}
             Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
           {% elseif error == 'mail' %}
-            <strong>Ihre Anmeldung wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
+            <strong>Ihre Anfrage wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
             Wir werden uns umgehend bei Ihnen melden. Falls Sie innerhalb von 24 Stunden nichts von uns hören, kontaktieren Sie uns bitte direkt.
           {% elseif error == 'db' %}
-            Es ist ein technischer Fehler aufgetreten und Ihre Anmeldung konnte nicht gespeichert werden.
+            Es ist ein technischer Fehler aufgetreten und Ihre Anfrage konnte nicht gespeichert werden.
             Bitte versuchen Sie es in wenigen Minuten erneut oder kontaktieren Sie uns direkt.
           {% else %}
             Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
@@ -95,14 +109,14 @@
       <noscript>
         {% if success %}
           <div class="alert alert-success">
-            Vielen Dank! Bitte prüfen Sie Ihr Postfach und bestätigen Sie Ihre Anmeldung über den Link in der E‑Mail.
+            Vielen Dank! Bitte prüfen Sie Ihr Postfach und bestätigen Sie Ihre Anfrage über den Link in der E‑Mail.
           </div>
         {% elseif error %}
           <div class="alert alert-danger">
             {% if error == 'rate' %}
               Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
             {% elseif error == 'mail' %}
-              <strong>Ihre Anmeldung wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
+              <strong>Ihre Anfrage wurde gespeichert!</strong> Allerdings konnte die Bestätigungs-E-Mail nicht versendet werden.
               Wir werden uns umgehend bei Ihnen melden.
             {% elseif error == 'db' %}
               Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es später erneut.
@@ -124,7 +138,8 @@
         <div class="col-12">
           <p class="lead mb-1">
             Der Kurs wird <strong>wöchentlich am Dienstag</strong> durchgeführt.<br>
-            Der <strong>Kursbeginn wird derzeit geplant</strong> und von mir Ihnen mitgeteilt.
+            Der <strong>Kursbeginn wird derzeit geplant</strong> und von mir Ihnen mitgeteilt.<br>
+            Die Kurszeit <strong>16:00–16:45 Uhr</strong> ist derzeit <strong>ausgebucht</strong>.
           </p>
         </div>
       </div>
@@ -278,11 +293,11 @@
       </div>
 
       <div class="d-flex flex-wrap gap-2 mt-3">
-        <button type="submit" class="btn btn-cta">Anmeldung absenden</button>
+        <button type="submit" class="btn btn-cta">Kursplatz anfragen</button>
         <a href="/docs/2025.11-voanmeldung-schwimmkurs.pdf" class="btn btn-outline-secondary" target="_blank" rel="noopener">Formular als Dokument</a>
       </div>
 
-      <p class="form-text mb-0">Hinweis: Sie erhalten eine E‑Mail mit einem Bestätigungslink. Erst nach Bestätigung ist die Anmeldung verbindlich.</p>
+      <p class="form-text mb-0">Hinweis: Sie erhalten eine E‑Mail mit einem Bestätigungslink. Die Teilnahme wird erst mit meiner ausdrücklichen Bestätigung des Kursplatzes verbindlich.</p>
 
       {{ form_rest(form) }}
       {{ form_end(form) }}

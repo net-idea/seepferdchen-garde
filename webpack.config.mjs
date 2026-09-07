@@ -1,7 +1,7 @@
-const Encore = require('@symfony/webpack-encore');
+import Encore from '@symfony/webpack-encore';
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
+// It's useful when you use tools that rely on this config file directly (e.g. `webpack` CLI).
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
@@ -50,20 +50,29 @@ Encore
     //     config.plugins.push('@babel/a-babel-plugin');
     // })
 
-    // enables and configure @babel/preset-env polyfills
+    // Babel 8: polyfills are injected by babel-plugin-polyfill-corejs3 (replaces preset-env's useBuiltIns/corejs)
+    .configureBabel((babelConfig) => {
+        babelConfig.plugins.push([
+            'babel-plugin-polyfill-corejs3',
+            { method: 'usage-global', version: '3.50' },
+        ]);
+    })
     .configureBabelPresetEnv((config) => {
-        config.useBuiltIns = 'usage';
-        config.corejs = '3.38';
+        config.useBuiltIns = false;
+        config.corejs = undefined;
     })
 
-    // enables Sass/SCSS support
-    .enableSassLoader()
+    // enables Sass/SCSS support (silence deprecation noise coming from Bootstrap's own SCSS)
+    .enableSassLoader((options) => {
+        options.sassOptions = {
+            ...(options.sassOptions || {}),
+            quietDeps: true,
+            silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'mixed-decls', 'if-function'],
+        };
+    })
 
     // enable TypeScript support
     .enableTypeScriptLoader()
-
-    // enable Stimulus bridge (controllers.json alias)
-    .enableStimulusBridge('./assets/controllers.json')
 
     // dev-server: enable HMR/live reload and watch Twig/PHP changes
     .configureDevServerOptions((options) => {
@@ -96,4 +105,4 @@ Encore
     //.autoProvidejQuery()
 ;
 
-module.exports = Encore.getWebpackConfig();
+export default await Encore.getWebpackConfig();
