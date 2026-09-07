@@ -1,11 +1,10 @@
-# Enable stateless CSRF protection for forms and logins/logouts
+# Stateless CSRF protection for forms (double-submit cookie, see assets/scripts/csrf-protection.js)
 framework:
     form:
         csrf_protection:
             token_id: submit
 
     csrf_protection:
+        check_header: true
         stateless_token_ids:
             - submit
-            - authenticate
-            - logout

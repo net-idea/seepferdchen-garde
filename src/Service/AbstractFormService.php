@@ -13,6 +13,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class AbstractFormService
 {
+    /**
+     * Name of the unmapped honeypot field. Deliberately NOT email/url/phone-like so that
+     * browser autofill never touches it (a filled honeypot used to turn real requests into
+     * silently discarded "spam"). The field must be rendered inside a display:none wrapper.
+     */
+    public const HONEYPOT_FIELD = 'hp_check';
+
     // 1 hour sliding window
     protected const RATE_WINDOW_SECONDS = 3600;
     // at most 1 submission every 30 seconds
@@ -24,6 +31,58 @@ abstract class AbstractFormService
      * Child services must provide a form instance.
      */
     abstract public function getForm(): FormInterface;
+
+    /**
+     * Run rate limiting, spam check, validation, persistence and mailing for an already
+     * submitted form. Never redirects – the caller decides how to present the result.
+     */
+    abstract public function process(FormInterface $form, Request $request, SessionInterface $session): FormSubmissionResult;
+
+    /**
+     * Bind the current request to the form and process it.
+     * Returns null when the request does not contain a submission of this form.
+     */
+    public function processRequest(Request $request): ?FormSubmissionResult
+    {
+        $form = $this->getForm();
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted()) {
+            return null;
+        }
+
+        $session = $request->getSession();
+        $this->assertSessionStarted($session);
+
+        return $this->process($form, $request, $session);
+    }
+
+    protected function isHoneypotFilled(FormInterface $form): bool
+    {
+        return '' !== trim($this->getHoneypotValue($form, self::HONEYPOT_FIELD));
+    }
+
+    /**
+     * Collect validation messages keyed by field name ("_global" for form-level errors such as CSRF).
+     *
+     * @return array<string, list<string>>
+     */
+    protected function collectFormErrors(FormInterface $form): array
+    {
+        $errors = [];
+
+        foreach ($form->getErrors(false) as $error) {
+            $errors['_global'][] = $error->getMessage();
+        }
+
+        foreach ($form->all() as $name => $child) {
+            foreach ($child->getErrors(true) as $error) {
+                $errors[$name][] = $error->getMessage();
+            }
+        }
+
+        return $errors;
+    }
 
     /**
      * Persist a sanitized snapshot of the current form data for redirect restoration.
@@ -53,7 +112,7 @@ abstract class AbstractFormService
      *
      * @return array{0: Request, 1: FormInterface, 2: SessionInterface}|null
      */
-    protected function bootstrapFormHandling(RequestStack $requests): ?array
+    protected function handleFormRequest(RequestStack $requests): ?array
     {
         $request = $requests->getCurrentRequest();
 
@@ -96,7 +155,7 @@ abstract class AbstractFormService
     /**
      * Read a honeypot field value from a form if present. Returns empty string when missing.
      */
-    protected function getHoneypotValue(FormInterface $form, string $field = 'website'): string
+    protected function getHoneypotValue(FormInterface $form, string $field = self::HONEYPOT_FIELD): string
     {
         if ($form->has($field)) {
             return (string)$form->get($field)->getData();

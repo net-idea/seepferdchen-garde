@@ -1,22 +1,25 @@
-import 'bootstrap/scss/bootstrap.scss';
+// Bootstrap: selective SCSS import (see assets/styles/bootstrap.scss)
+import './styles/bootstrap.scss';
 import './styles/fonts.css';
 import './styles/carousel.css';
 
-// Shared theme styles (must be first)
+// Site theme (colors, navbar, footer, forms)
 import './styles/theme.css';
-import './styles/theme-light.css';
-import './styles/theme-dark.css';
 
 // Print styles
 import './styles/print.css';
 
-// Bootstrap JS (bundle includes Popper)
-import 'bootstrap/dist/js/bootstrap.bundle';
+// Bootstrap JS: only the plugins in use (no Popper, no dropdown/modal/tooltip …)
+import 'bootstrap/js/dist/collapse';
+import 'bootstrap/js/dist/carousel';
 
-import './bootstrap.js';
+// Stateless CSRF double-submit cookie (Symfony SameOriginCsrfTokenManager)
+import './scripts/csrf-protection.js';
+
+// Ambient water background (canvas behind the content)
+import './scripts/water-canvas.ts';
 
 // Import TypeScript
 import './scripts/contacts.ts';
-import './scripts/booking-form.ts';
 import './scripts/contact-form.ts';
-import './scripts/theme-toggle.ts';
+import './scripts/booking-form.ts';

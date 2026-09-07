@@ -2,14 +2,14 @@
 
 set -euo pipefail
 
-# Deployment script for Seepferdchen-Garde (Symfony + Webpack Encore):
+# Deployment script for Symfony + Webpack Encore:
 # - Installs PHP and Node deps if missing
 # - Builds front-end assets (production)
 # - Runs database migrations (if SKIP_MIGRATIONS != true)
 # - Clears & warms Symfony cache (prod)
 #
 # Usage:
-#   ./deploy.sh                    # Normal deployment with migrations
+#   ./deploy.sh                        # Normal deployment with migrations
 #   SKIP_MIGRATIONS=true ./deploy.sh   # Skip database migrations
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -20,7 +20,7 @@ export APP_ENV=prod
 export APP_DEBUG=0
 export SYMFONY_ENV=prod
 
-echo "Starting deployment for Seepferdchen-Garde..."
+echo "Starting deployment for Symfony + Webpack Encore..."
 echo "Environment: APP_ENV=$APP_ENV"
 echo ""
 

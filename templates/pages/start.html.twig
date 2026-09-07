@@ -4,29 +4,43 @@
 
 {% block body %}
 <!-- Carousel Slider as hero banner -->
+{#
+  Currently a single slide. The second slide, the indicators and the prev/next controls are
+  parked in the Twig comment further below so the slider can be re-activated any time.
+#}
 <div id="main-carousel" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
+  <div class="carousel-inner">
+    <div class="carousel-item carousel-item-1 active" aria-label="Seepferdchen-Garde – Schwimmschule Riccardo Nappa">
+      <h1 class="visually-hidden">Seepferdchen-Garde – Schwimmschule Riccardo Nappa</h1>
+      <picture class="hero-picture">
+        <source type="image/webp"
+                srcset="{{ asset('build/images/riccardo-advertisement-960.webp') }} 960w, {{ asset('build/images/riccardo-advertisement.webp') }} 1672w"
+                sizes="100vw">
+        <img src="{{ asset('build/images/riccardo-advertisement.jpg') }}"
+             srcset="{{ asset('build/images/riccardo-advertisement-960.jpg') }} 960w, {{ asset('build/images/riccardo-advertisement.jpg') }} 1672w"
+             sizes="100vw"
+             width="1672" height="941"
+             fetchpriority="high" decoding="async"
+             alt="Riccardo Nappa, Trainer der Seepferdchen-Garde – Schwimmen lernen. Mit Sicherheit. Mit Freude. Fürs Leben.">
+      </picture>
+      <div class="hero-cta">
+        <a href="/anmeldung" class="btn btn-cta btn-lg" role="button" aria-label="Kursplatz anfragen">Kursplatz anfragen</a>
+      </div>
+    </div>
+    {#
+    <div class="carousel-item carousel-item-2" aria-label="Kursplatz anfragen">
+      <div class="container py-5">
+        <h2 class="h1 display-heading">Kursplatz für den nächsten Schwimmkurs anfragen</h2>
+        <p class="lead mb-0">Jetzt einen Kursplatz anfragen – ich melde mich persönlich mit einer Bestätigung.</p>
+        <a href="/anmeldung" class="btn btn-cta btn-lg mt-3" role="button" aria-label="Kursplatz anfragen">Kursplatz anfragen</a>
+      </div>
+    </div>
+    #}
+  </div>
+  {#
   <div class="carousel-indicators">
     <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
     <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item carousel-item-1 bg-secondary text-dark active" aria-label="Schwimmschule Vorstellung">
-      <div class="container py-5">
-        <h1 class="display-heading">
-          Seepferdchen-Garde<br>
-          Schwimmschule Riccardo Nappa
-        </h1>
-        <p class="lead mb-0">Kleine Gruppen, kindgerechtes Lernen und eine offizielle Seepferdchen‑Prüfung.</p>
-        <a href="/anmeldung" class="btn btn-cta btn-lg mt-3" role="button" aria-label="Jetzt Kursplatz sichern">Jetzt Kursplatz sichern</a>
-      </div>
-    </div>
-    <div class="carousel-item carousel-item-2 bg-secondary text-dark" aria-label="Erfahrung und Sicherheit">
-      <div class="container py-5">
-        <h2 class="h1 display-heading">Voranmeldung zum nächste Schwimmkurs</h2>
-        <p class="lead mb-0">Jetzt anmelden und einen Platz beim nächsten Schwimmkurs sichern.</p>
-        <a href="/anmeldung" class="btn btn-cta btn-lg mt-3" role="button" aria-label="Jetzt anmelden">Jetzt anmelden</a>
-      </div>
-    </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#main-carousel" data-bs-slide="prev" aria-label="Vorheriger Slide">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -36,21 +50,22 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Weiter</span>
   </button>
+  #}
 </div>
 
-<main id="content">
+<main id="content" class="pt-4">
   <!-- Kurse -->
-  <section id="kurse" class="py-5 section-anchor">
+  <section id="kurse" class="py-3 py-lg-4 section-anchor">
     <div class="container">
-      <h2>Schwimmkurs – jetzt vormerken!</h2>
+      <h2>Schwimmkurs – jetzt Kursplatz anfragen!</h2>
 
       <p class="lead mb-3">
-        Die <strong>Schwimmkurse</strong> finden jeden <b>Dienstag</b> wahlweise von <strong>15:00 Uhr</strong> bis <strong>15:45 Uhr</strong> oder von <strong>16:00 Uhr</strong> bis <strong>16:45 Uhr</strong> statt.<br>
-        Ich sammle derzeit Voranmeldungen, um den <strong>genauen Starttermin</strong> festzulegen.<br>
-        Sobald dieser feststeht, informiere ich Sie an dieser Stelle und natürlich persönlich nach Ihrer <a href="/anmeldung">Voranmeldung</a>.
+        Die <strong>Schwimmkurse</strong> finden jeden <b>Dienstag</b> von <strong>15:00 Uhr</strong> bis <strong>15:45 Uhr</strong> oder von <strong>16:00 Uhr</strong> bis <strong>16:45 Uhr</strong> <em>(ausgebucht)</em> statt.<br>
+        Ich sammle derzeit Anfragen, um den <strong>genauen Starttermin</strong> festzulegen.<br>
+        Sobald dieser feststeht, informiere ich Sie an dieser Stelle und natürlich persönlich nach Ihrer <a href="/anmeldung">Kursplatz‑Anfrage</a>.
       </p>
 
-      <p class="lead mb-3"><a href="/anmeldung" class="btn btn-cta btn-lg mt-3 mb-3" role="button" aria-label="Jetzt anmelden">Zur Voranmeldung</a></p>
+      <p class="lead mb-3"><a href="/anmeldung" class="btn btn-cta btn-lg mt-3 mb-3" role="button" aria-label="Kursplatz anfragen">Kursplatz anfragen</a></p>
 
       {#
       <h3 class="mt-3">Kurszeitraum</h3>
@@ -87,7 +102,7 @@
   </section>
 
   <!-- Über mich -->
-  <section id="ueber-mich" class="py-5 section-anchor">
+  <section id="ueber-mich" class="py-3 py-lg-4 section-anchor">
     <div class="container">
       <h2>Über mich</h2>
       <p>Ich bin <strong>Riccardo Nappa</strong>, ausgebildeter Fachangestellter für Bäderbetriebe und seit vielen Jahren im Schwimmbad aktiv. Mit viel Erfahrung und Freude begleite ich Kinder beim Schwimmenlernen.</p>
@@ -96,7 +111,7 @@
   </section>
 
   <!-- Kontakt -->
-  <section id="kontakt" class="py-5 section-anchor">
+  <section id="kontakt" class="py-3 py-lg-4 section-anchor">
     <div class="container">
       <h2>Kontakt</h2>
       <p>Bei Fragen zu Kursen oder zur Anmeldung bin ich jederzeit erreichbar:</p>

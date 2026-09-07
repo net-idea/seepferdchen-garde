@@ -7,11 +7,13 @@ use App\Entity\FormContactEntity;
 use App\Entity\FormSubmissionMetaEntity;
 use App\Form\FormContactType;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FormContactService extends AbstractFormService
@@ -29,6 +31,7 @@ class FormContactService extends AbstractFormService
         private readonly MailManService $mailMan,
         private readonly UrlGeneratorInterface $urls,
         private readonly EntityManagerInterface $em,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -46,73 +49,100 @@ class FormContactService extends AbstractFormService
     }
 
     /**
-     * Handle contact form submission. Returns a RedirectResponse on success or when
-     * spam/rate-limit/mail errors occur, or null to re-render the form with errors.
+     * Classic (non-JS) flow. Returns a RedirectResponse, or null to re-render the form with errors.
      */
     public function handle(): ?RedirectResponse
     {
-        $boot = $this->bootstrapFormHandling($this->requests);
+        $boot = $this->handleFormRequest($this->requests);
+
         if (null === $boot) {
             return null;
         }
 
         [$request, $form, $session] = $boot;
 
-        // Centralized rate limit
-        if ($redirect = $this->enforceRateLimitOrRedirect(
+        $result = $this->process($form, $request, $session);
+
+        switch ($result->status) {
+            case FormSubmissionStatus::RateLimited:
+                return $this->makeErrorRedirectWithFormData($this->urls, $form, self::ROUTE_CONTACT, ['error' => 'rate'], '#contact-error');
+
+            case FormSubmissionStatus::Invalid:
+                return null;
+
+            case FormSubmissionStatus::DbError:
+                return $this->makeErrorRedirectWithFormData($this->urls, $form, self::ROUTE_CONTACT, ['error' => 'db'], '#contact-error');
+
+            case FormSubmissionStatus::MailError:
+                return $this->makeErrorRedirectWithFormData($this->urls, $form, self::ROUTE_CONTACT, ['error' => 'mail'], '#contact-error');
+
+            case FormSubmissionStatus::Spam:
+            case FormSubmissionStatus::Ok:
+            default:
+                $session->remove(self::SESSION_DATA_KEY);
+
+                return $this->makeRedirect($this->urls, self::ROUTE_CONTACT, ['submit' => 1], '#contact-success');
+        }
+    }
+
+    public function process(FormInterface $form, Request $request, SessionInterface $session): FormSubmissionResult
+    {
+        $rl = $this->rateLimitCheck(
             $session,
             self::SESSION_RATE_KEY,
             self::RATE_MIN_INTERVAL_SECONDS,
             self::RATE_MAX_PER_WINDOW,
-            self::RATE_WINDOW_SECONDS,
-            $form,
-            $this->urls,
-            self::ROUTE_CONTACT,
-            '#contact-error'
-        )) {
-            return $redirect;
+            self::RATE_WINDOW_SECONDS
+        );
+
+        if ($rl['blocked']) {
+            return FormSubmissionResult::rateLimited();
         }
 
-        // Honeypot: hidden website field (unmapped) or emailrep must be empty => if filled, pretend success
-        $honey = trim($this->getHoneypotValue($form, 'website'));
         /** @var FormContactEntity $contactForm */
         $contactForm = $form->getData();
 
-        if ('' !== $honey || '' !== trim((string)$contactForm->getEmailrep())) {
+        if ($this->isHoneypotFilled($form)) {
+            $this->logger->warning('Contact request rejected: honeypot field was filled', [
+                'ip'    => (string)$request->server->get('REMOTE_ADDR', ''),
+                'email' => $contactForm->getEmailAddress(),
+            ]);
             $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
 
-            return $this->makeRedirect($this->urls, self::ROUTE_CONTACT, ['submit' => 1], '#contact-success');
+            return FormSubmissionResult::spam();
         }
 
         if (!$form->isValid()) {
-            return null; // Let controller re-render with validation errors
+            return FormSubmissionResult::invalid($this->collectFormErrors($form));
         }
 
-        // Store snapshot before attempting to send mail (for repopulate on failure)
-        $this->storeFormDataForRedirect($contactForm);
-
-        // Prepare meta-data and persist
         $meta = (new FormSubmissionMetaEntity())
-            ->setIp((string)($request->server->get('REMOTE_ADDR', '')))
-            ->setUserAgent((string)($request->server->get('HTTP_USER_AGENT', '')))
+            ->setIp((string)$request->server->get('REMOTE_ADDR', ''))
+            ->setUserAgent((string)$request->server->get('HTTP_USER_AGENT', ''))
             ->setTime(date('c'))
             ->setHost($request->getHost());
         $contactForm->setMeta($meta);
 
-        $this->em->persist($contactForm);
-        $this->em->flush();
+        try {
+            $this->em->persist($contactForm);
+            $this->em->flush();
+        } catch (\Throwable $e) {
+            $this->logger->error('Database error while saving contact request', ['exception' => $e->getMessage()]);
+
+            return FormSubmissionResult::dbError($contactForm);
+        }
 
         try {
             $this->mailMan->sendContactForm($contactForm);
-        } catch (TransportExceptionInterface) {
-            return $this->makeErrorRedirectWithFormData($this->urls, $form, self::ROUTE_CONTACT, ['error' => 'mail'], '#contact-error');
+        } catch (\Throwable $e) {
+            $this->logger->error('Failed to send contact e-mail', ['exception' => $e->getMessage(), 'contactId' => $contactForm->getId()]);
+
+            return FormSubmissionResult::mailError($contactForm);
         }
 
-        // Success: clear snapshot on success, tick rate limit, and redirect with submit=1
-        $session->remove(self::SESSION_DATA_KEY);
         $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
 
-        return $this->makeRedirect($this->urls, self::ROUTE_CONTACT, ['submit' => 1], '#contact-success');
+        return FormSubmissionResult::ok($contactForm);
     }
 
     /**

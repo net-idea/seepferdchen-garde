@@ -1,32 +1,9 @@
 <!DOCTYPE html>
-<html lang="de" data-bs-theme="light">
+<html lang="de" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="color-scheme" content="light dark">
-  {# Early inline script: support auto/light/dark and backward-compat key #}
-  <script>(function () {
-      try {
-        var NEWK = 'theme', OLDK = 'color-theme';
-        var s = localStorage.getItem(NEWK) || localStorage.getItem(OLDK);
-        var isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var t = (s === 'light' || s === 'dark' || s === 'auto') ? s : null;
-
-        function apply(theme) {
-          if (theme === 'auto') {
-            document.documentElement.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
-          } else {
-            document.documentElement.setAttribute('data-bs-theme', theme);
-          }
-        }
-
-        if (!t) {
-          t = isDark ? 'dark' : 'light';
-        }
-        apply(t);
-      } catch (e) {/* ignore */
-      }
-    })();</script>
+  <meta name="color-scheme" content="dark">
   {# SEO constants and computed values #}
   {% set baseUrl = 'https://seepferdchen-garde.de' %}
   {% set brandName = 'Seepferdchen‑Garde' %}
@@ -54,8 +31,7 @@
   <meta name="keywords" content="{{ pageKeywords }}">
   <meta name="robots" content="{{ robots }}">
   <link rel="canonical" href="{{ absolutCanonical }}">
-  <meta name="theme-color" content="#38bdf8" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0b1f3a">
 
   {# Open Graph #}
   <meta property="og:site_name" content="{{ siteName }}">
@@ -109,11 +85,12 @@
     {{ encore_entry_link_tags('app') }}
   {% endblock %}
 </head>
-<body>
-{% include '_partials/icons.svg.twig' %}
+<body class="{% block body_class %}{% endblock %}">
 {% include '_partials/navbar.html.twig' with { navItems: navItems|default([]), currentSlug: slug|default('') } %}
 
+<div class="site-content">
 {% block body %}{% endblock %}
+</div>
 
 {% include '_partials/footer.html.twig' with { navItems: navItems|default([]), currentSlug: slug|default('') } %}
 

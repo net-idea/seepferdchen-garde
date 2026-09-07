@@ -1,0 +1,54 @@
+{#
+  Booking success summary. Rendered
+    - server-side after the classic redirect (?submit=1, data restored from the session) and
+    - by the JSON API (POST /api/booking) which returns it as "summaryHtml" for the AJAX flow.
+  Keep the id "booking-success-summary": print styles and the frontend rely on it.
+#}
+<div id="booking-success-summary">
+        <h2 class="h5 mb-2">Vielen Dank! Ihre Anfrage ist versendet.</h2>
+        <p class="mb-2">Bitte bestätigen Sie Ihre Anfrage noch über den Link in der E‑Mail, die Sie soeben erhalten haben.</p>
+
+        {% if booking is defined and booking %}
+          {% set pm = {
+            'barzahlung': 'Barzahlung',
+            'ueberweisung': 'Überweisung',
+            'paypal': 'PayPal'
+          } %}
+          <hr>
+          <h3 class="h6 mt-2">Zusammenfassung</h3>
+          <ul class="mb-3">
+            <li><strong>Kurszeitraum:</strong> {{ booking.coursePeriod }} (<em>(Starttermin wird noch bekanntgegeben)</em>)</li>
+            {#
+            <li>
+              <strong>Kurszeitraum:</strong> jeden Dienstag, {{ booking.coursePeriod }}<br>
+              <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
+            </li>
+            #}
+            <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }} (<em>jeden Dienstag</em>)</li>
+            <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></li>
+            <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
+            <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
+            <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
+            <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }}</li>
+            <li><strong>Schwimmerfahrung:</strong> {{ booking.hasSwimExperience ? 'Ja' : 'Nein' }}{% if booking.swimExperienceDetails %} — {{ booking.swimExperienceDetails }}{% endif %}</li>
+            <li><strong>Ohne Schwimmhilfe:</strong> {{ booking.maySwimWithoutAid ? 'Ja' : 'Nein' }}</li>
+            {% if booking.healthNotes %}
+              <li><strong>Gesundheitliche Hinweise:</strong> {{ booking.healthNotes }}</li>
+            {% endif %}
+            <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
+            <li><strong>Mitglied:</strong> {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
+            <li><strong>Einverständnisse:</strong>
+              <ul class="mb-0">
+                <li>Teilnahme: {{ booking.participationConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Haftungsausschluss: {{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</li>
+                <li>Fotos/Videos: {{ booking.photoConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Datenverarbeitung: {{ booking.dataConsent ? 'Ja' : 'Nein' }}</li>
+                <li>Verbindliche Anmeldung: {{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</li>
+              </ul>
+            </li>
+          </ul>
+          <div class="d-flex gap-2">
+            <button id="booking-print" type="button" class="btn btn-outline-secondary btn-sm">Drucken / als PDF speichern</button>
+          </div>
+        {% endif %}
+</div>

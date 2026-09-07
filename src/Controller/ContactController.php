@@ -6,7 +6,7 @@ namespace App\Controller;
 use App\Service\FormContactService;
 use App\Service\NavigationService;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class ContactController extends AbstractBaseController
 {

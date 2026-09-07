@@ -8,6 +8,7 @@ use App\Service\FormContactService;
 use App\Service\MailManService;
 use Doctrine\ORM\EntityManagerInterface;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -71,10 +72,10 @@ class FormContactServiceTest extends TestCase
     private function makeService(RequestStack $stack): FormContactService
     {
         $forms = $this->makeFormFactory();
-        $mailMan = $this->createMock(MailManService::class);
-        $urls = $this->createMock(UrlGeneratorInterface::class);
-        $em = $this->createMock(EntityManagerInterface::class);
+        $mailMan = $this->createStub(MailManService::class);
+        $urls = $this->createStub(UrlGeneratorInterface::class);
+        $em = $this->createStub(EntityManagerInterface::class);
 
-        return new FormContactService($forms, $stack, $mailMan, $urls, $em);
+        return new FormContactService($forms, $stack, $mailMan, $urls, $em, $this->createStub(LoggerInterface::class));
     }
 }

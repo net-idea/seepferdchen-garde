@@ -7,6 +7,9 @@ use App\Entity\FormBookingEntity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<FormBookingEntity>
+ */
 class FormBookingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

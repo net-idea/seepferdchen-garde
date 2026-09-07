@@ -25,17 +25,17 @@ Website: https://seepferdchen-garde.de/
 
 ## Overview
 
-- Backend: Symfony 7.3 (PHP 8.2+), Doctrine ORM, Twig.
-- Frontend: Webpack Encore, TypeScript, SCSS, Stimulus.
+- Backend: Symfony 8.1 (PHP 8.4+), Doctrine ORM 3 / DBAL 4 (native lazy objects), Twig, league/commonmark for Markdown pages.
+- Frontend: Webpack Encore 7 (ESM config `webpack.config.mjs`), Babel 8, TypeScript, SCSS, Bootstrap 5 (selective import, see `assets/styles/bootstrap.scss`).
 - Database: SQLite by default; Postgres or MariaDB supported.
 - Mail: Symfony Mailer (SMTP). Mailpit config for local testing included.
 - Tooling: Composer, Yarn, Stylelint, PHP CS Fixer, PHPUnit.
 
 ## Requirements
 
-- PHP >= 8.2 with extensions: ctype, dom, iconv, json, xml, xmlwriter
+- PHP >= 8.4 with extensions: ctype, dom, iconv, json, xml, xmlwriter
 - Composer
-- Node.js 18+ (LTS recommended) and Yarn (v1 or v2+)
+- Node.js 22.18+ (LTS recommended) and Yarn 4 (via Corepack)
 - SQLite (built-in) or Docker if you prefer Postgres/MariaDB
 - Optional: Symfony CLI for local server (https://symfony.com/download)
 
@@ -99,8 +99,6 @@ All configuration is via environment variables. The committed `.env.dist` docume
         - `DATABASE_URL="mysql://user:pass@127.0.0.1:3306/db?serverVersion=10.11.2-MariaDB&charset=utf8mb4"`
     - Postgres example:
         - `DATABASE_URL="postgresql://user:pass@127.0.0.1:5432/db?serverVersion=16&charset=utf8"`
-- MESSENGER_TRANSPORT_DSN: default `doctrine://default?auto_setup=0`.
-    - For simple dev setups, you can use `sync://`.
 - Mail settings (compose into MAILER_DSN):
     - MAIL_SCHEME, MAIL_HOST, MAIL_ENCRYPTION, MAIL_PORT, MAIL_USER, MAIL_PASSWORD
     - MAILER_DSN example for local Mailpit: `smtp://localhost:1025?encryption=&auth_mode=`
@@ -204,6 +202,15 @@ node generate-og.js
 
 The images will be written to `public/assets/og/` and match the paths used in `content/_pages.php`.
 
+## Forms (booking & contact)
+
+Both forms are progressively enhanced:
+
+- Without JavaScript they POST to `/anmeldung` resp. `/kontakt`; the server redirects with `?submit=1` / `?error=…` and restores data from the session.
+- With JavaScript (`assets/scripts/ajax-form.ts`) the same payload is sent to the JSON API `POST /api/booking` / `POST /api/contact` (`src/Controller/Api/FormApiController.php`). Responses: `200 {status: ok, summaryHtml}`, `422 {status: invalid, errors}`, `429`, `500 db_error`, `502 mail_error`. On success the form gets `hidden` and `#booking-success` shows the printable summary (`templates/_partials/booking_summary.html.twig`).
+- Both paths share `FormBookingService::process()` / `FormContactService::process()` which return a `FormSubmissionResult`.
+- Spam protection: stateless CSRF (double-submit cookie or same-origin check), a per-session rate limit and **one** honeypot field (`hp_check`) rendered inside a `hidden` wrapper. Do not add email/url/phone-like hidden fields: browser autofill fills them and real requests would be discarded as spam (this was the cause of "success page but no e-mail and no database row"). Rejected submissions are logged as warnings in prod.
+
 ## Emails
 
 Local testing (Mailpit):
@@ -223,9 +230,6 @@ php bin/console app:mail:preview-contact -vvv
 php bin/console app:mail:preview-booking -vvv
 php bin/console app:list:bookings -vvv
 php bin/console app:list:contacts -vvv
-
-# If Messenger transport fails (prod example):
-php bin/console messenger:failed:show --env=prod
 ```
 
 ## PDF generation
@@ -332,7 +336,7 @@ composer dump-env prod
 - Missing APP_SECRET: run `php bin/console regenerate-app-secret` and set it in the environment.
 - Assets not updating: ensure `yarn watch` is running or rebuild with `yarn build`.
 - HMR not loading: dev server runs on http://localhost:8080; check CORS and that the Symfony server is running.
-- Messenger transport errors: inspect with `php bin/console messenger:failed:show`.
+- Mail problems: run `php bin/console app:mail:test` and check `var/log/prod.log` (mails are sent synchronously, there is no queue).
 - Database connection problems: verify `DATABASE_URL` (host/port/credentials) and serverVersion parameter for Doctrine.
 
 ## License & authors

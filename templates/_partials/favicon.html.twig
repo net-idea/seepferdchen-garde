@@ -1,24 +1,24 @@
 {# Reusable favicon & PWA head partial
    Usage examples:
      {% include '_partials/favicon.html.twig' %}
-     {% include '_partials/favicon.html.twig' with { shortName: 'Seepferdchen', brandColorLight: '#3abff1' } %}
+     {% include '_partials/favicon.html.twig' with { shortName: 'Seepferdchen', brandColorLight: '#12355b' } %}
 
    Provided variables (can be overridden via with):
      appName         - full application / site name (defaults to brandName|siteName|fallback)
      shortName       - shorter label for app stores / icons
      manifestPath    - path to web app manifest
-     brandColorLight - accent color (light theme / pinned tab color)
+     brandColorLight - accent color (pinned tab color)
      brandColorDark  - dark brand/background color (used for tileColor fallback)
      tileColor       - Windows tile color (defaults to brandColorDark)
 
-   NOTE: <meta name="theme-color"> tags are set in base template already for light/dark.
+   NOTE: <meta name="theme-color"> is set in the base template already.
          Keep this partial agnostic so it can also be used in other layouts without duplication.
 #}
 {% set appName           = appName|default(brandName|default(siteName|default('Seepferdchen‑Garde Schwimmschule'))) %}
 {% set shortName         = shortName|default('Seepferdchen‑Garde') %}
 {% set manifestPath      = manifestPath|default('/site.webmanifest') %}
-{% set brandColorLight   = brandColorLight|default('#38bdf8') %}
-{% set brandColorDark    = brandColorDark|default('#0f172a') %}
+{% set brandColorLight   = brandColorLight|default('#12355b') %}
+{% set brandColorDark    = brandColorDark|default('#0b1f3a') %}
 {% set tileColor         = tileColor|default(brandColorDark) %}
 
 {# Standard favicons #}

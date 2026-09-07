@@ -9,7 +9,7 @@
     "Riccardo Nappa <mail@seepferdchen-garde.de>"
   ],
   "scripts": {
-    "start": "bash ./dev.sh",
+    "start": "bash ./develop.sh",
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
@@ -22,32 +22,36 @@
     "og:build": "node generate-og.js"
   },
   "dependencies": {
-    "@hotwired/stimulus": "^3.2.2",
-    "@hotwired/turbo": "^8.0.20",
-    "@symfony/stimulus-bridge": "^3.2.3",
-    "@symfony/ux-turbo": "^2.31.0",
-    "@symfony/webpack-encore": "^5.2.0",
-    "core-js": "^3.38.0"
+    "core-js": "^3.50.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "babel-loader": "^9.2.1",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@symfony/webpack-encore": "^7.2.0",
+    "babel-loader": "^10.1.1",
+    "babel-plugin-polyfill-corejs3": "^1.0.0",
     "bootstrap": "^5.3.8",
-    "fork-ts-checker-webpack-plugin": "^9.0.2",
-    "postcss": "^8.4.47",
+    "fork-ts-checker-webpack-plugin": "^9.1.0",
+    "postcss": "^8.5.28",
     "postcss-scss": "^4.0.9",
-    "sass": "^1.80.6",
-    "sass-loader": "^16.0.1",
-    "sharp": "^0.34.4",
-    "stylelint": "^16.9.0",
-    "stylelint-config-standard": "^36.0.1",
-    "stylelint-config-standard-scss": "^13.0.0",
-    "stylelint-scss": "^6.5.0",
-    "ts-loader": "^9.5.1",
-    "typescript": "^5.6.3",
-    "webpack": "^5.101.3",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.2"
-  }
+    "sass": "^1.104.0",
+    "sass-loader": "^17.0.1",
+    "sharp": "^0.35.4",
+    "stylelint": "^17.15.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-scss": "^7.2.0",
+    "ts-loader": "^9.6.2",
+    "typescript": "^5.9.3",
+    "webpack": "^5.110.3",
+    "webpack-cli": "^7.2.3",
+    "webpack-dev-server": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "browserslist": [
+    "defaults",
+    "not dead"
+  ]
 }

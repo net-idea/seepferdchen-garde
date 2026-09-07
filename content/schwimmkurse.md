@@ -1,6 +1,6 @@
 # Schwimmkurse
 
-Die **Schwimmkurse** finden jeden **Dienstag** wahlweise von **15:00 Uhr** bis **15:45 Uhr** oder von **16:00 Uhr** bis **16:45 Uhr** statt.
+Die **Schwimmkurse** finden jeden **Dienstag** von **15:00 Uhr** bis **15:45 Uhr** oder von **16:00 Uhr** bis **16:45 Uhr** *(ausgebucht)* statt.
 
 **Der Kursbeginn wird derzeit geplant und wenn sich genug Teilnehmer gefunden haben bekanntgegeben.**
 

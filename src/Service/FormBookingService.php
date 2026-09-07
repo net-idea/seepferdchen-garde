@@ -13,7 +13,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -64,9 +66,13 @@ class FormBookingService extends AbstractFormService
         return $this->form;
     }
 
+    /**
+     * Classic (non-JS) flow: process the submission and answer with a redirect,
+     * or null to re-render the form with validation errors.
+     */
     public function handle(): ?RedirectResponse
     {
-        $boot = $this->bootstrapFormHandling($this->requests);
+        $boot = $this->handleFormRequest($this->requests);
 
         if (null === $boot) {
             return null;
@@ -74,38 +80,69 @@ class FormBookingService extends AbstractFormService
 
         [$request, $form, $session] = $boot;
 
-        if ($redirect = $this->enforceRateLimitOrRedirect(
-            $session,
-            self::SESSION_RATE_KEY,
-            self::RATE_MIN_INTERVAL_SECONDS,
-            self::RATE_MAX_PER_WINDOW,
-            self::RATE_WINDOW_SECONDS,
-            $form,
-            $this->urls,
-            self::ROUTE_BOOKING,
-            '#booking-error'
-        )) {
-            return $redirect;
-        }
-
-        // Honeypots
-        $honey = trim($this->getHoneypotValue($form, 'website'));
-        $honeyAlt = trim($this->getHoneypotValue($form, 'emailrep'));
+        $result = $this->process($form, $request, $session);
 
         /** @var FormBookingEntity $formBooking */
         $formBooking = $form->getData();
 
-        if ('' !== $honey || '' !== $honeyAlt) {
-            $this->storeSummarySnapshot($formBooking);
+        switch ($result->status) {
+            case FormSubmissionStatus::RateLimited:
+                return $this->makeErrorRedirectWithFormData($this->urls, $form, self::ROUTE_BOOKING, ['error' => 'rate'], '#booking-error');
+
+            case FormSubmissionStatus::Invalid:
+                $this->storeFormSnapshot($formBooking);
+
+                return null;
+
+            case FormSubmissionStatus::DbError:
+                $this->storeFormSnapshot($formBooking);
+
+                return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'db'], '#booking-error');
+
+            case FormSubmissionStatus::MailError:
+                $this->storeFormSnapshot($formBooking);
+
+                return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'mail'], '#booking-error');
+
+            case FormSubmissionStatus::Spam:
+            case FormSubmissionStatus::Ok:
+            default:
+                $this->storeSummarySnapshot($formBooking);
+
+                return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['submit' => 1], '#booking-success');
+        }
+    }
+
+    public function process(FormInterface $form, Request $request, SessionInterface $session): FormSubmissionResult
+    {
+        $rl = $this->rateLimitCheck(
+            $session,
+            self::SESSION_RATE_KEY,
+            self::RATE_MIN_INTERVAL_SECONDS,
+            self::RATE_MAX_PER_WINDOW,
+            self::RATE_WINDOW_SECONDS
+        );
+
+        if ($rl['blocked']) {
+            return FormSubmissionResult::rateLimited();
+        }
+
+        /** @var FormBookingEntity $formBooking */
+        $formBooking = $form->getData();
+
+        if ($this->isHoneypotFilled($form)) {
+            $this->logger->warning('Booking rejected: honeypot field was filled', [
+                'ip'        => (string)$request->server->get('REMOTE_ADDR', ''),
+                'userAgent' => (string)$request->server->get('HTTP_USER_AGENT', ''),
+                'email'     => $formBooking->getParentEmail(),
+            ]);
             $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
 
-            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['submit' => 1], '#booking-success');
+            return FormSubmissionResult::spam();
         }
 
         if (!$form->isValid()) {
-            $this->storeFormSnapshot($formBooking);
-
-            return null;
+            return FormSubmissionResult::invalid($this->collectFormErrors($form));
         }
 
         $meta = (new FormSubmissionMetaEntity())
@@ -118,19 +155,15 @@ class FormBookingService extends AbstractFormService
         try {
             $this->em->persist($formBooking);
             $this->em->flush();
-        } catch (\Exception $e) {
-            $this->storeFormSnapshot($formBooking);
-            $this->logger->error(
-                'Database error while saving booking',
-                [
-                    'exception' => $e->getMessage(),
-                    'ip'        => $meta->getIp(),
-                    'userAgent' => $meta->getUserAgent(),
-                    'host'      => $meta->getHost(),
-                ]
-            );
+        } catch (\Throwable $e) {
+            $this->logger->error('Database error while saving booking', [
+                'exception' => $e->getMessage(),
+                'ip'        => $meta->getIp(),
+                'userAgent' => $meta->getUserAgent(),
+                'host'      => $meta->getHost(),
+            ]);
 
-            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'db'], '#booking-error');
+            return FormSubmissionResult::dbError($formBooking);
         }
 
         $confirmUrl = $this->urls->generate(
@@ -141,32 +174,29 @@ class FormBookingService extends AbstractFormService
 
         try {
             $this->mailMan->sendBookingVisitorConfirmationRequest($formBooking, $confirmUrl);
-            $emailSent = true;
-        } catch (\Exception $e) {
-            error_log('ERROR: Failed to send booking confirmation email to ' . $formBooking->getParentEmail() . ': ' . $e->getMessage());
-            error_log('Booking ID: ' . $formBooking->getId() . ', Token: ' . $formBooking->getConfirmationToken());
+        } catch (\Throwable $e) {
+            $this->logger->error('Failed to send booking confirmation email', [
+                'exception' => $e->getMessage(),
+                'to'        => $formBooking->getParentEmail(),
+                'bookingId' => $formBooking->getId(),
+                'token'     => substr($formBooking->getConfirmationToken(), 0, 6) . '…',
+            ]);
 
-            $this->storeFormSnapshot($formBooking);
-
-            return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['error' => 'mail'], '#booking-error');
+            return FormSubmissionResult::mailError($formBooking);
         }
 
         $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
-        $this->storeSummarySnapshot($formBooking);
 
-        $this->logger->info(
-            'Booking saved and confirmation email sent',
-            [
-                'bookingId' => $formBooking->getId(),
-                'to'        => $formBooking->getParentEmail(),
-                'token'     => substr($formBooking->getConfirmationToken(), 0, 6) . '…',
-                'ip'        => $meta->getIp(),
-                'userAgent' => $meta->getUserAgent(),
-                'host'      => $meta->getHost(),
-            ]
-        );
+        $this->logger->info('Booking saved and confirmation email sent', [
+            'bookingId' => $formBooking->getId(),
+            'to'        => $formBooking->getParentEmail(),
+            'token'     => substr($formBooking->getConfirmationToken(), 0, 6) . '…',
+            'ip'        => $meta->getIp(),
+            'userAgent' => $meta->getUserAgent(),
+            'host'      => $meta->getHost(),
+        ]);
 
-        return $this->makeRedirect($this->urls, self::ROUTE_BOOKING, ['submit' => 1], '#booking-success');
+        return FormSubmissionResult::ok($formBooking);
     }
 
     public function confirmByToken(string $token): string
@@ -306,7 +336,7 @@ class FormBookingService extends AbstractFormService
             'coursePeriod'          => $data->getCoursePeriod(),
             'desiredTimeSlot'       => $data->getDesiredTimeSlot(),
             'childName'             => $data->getChildName(),
-            'childBirthdate'        => $data->getChildBirthdate()?->format('Y-m-d'),
+            'childBirthdate'        => $data->getChildBirthdate()->format('Y-m-d'),
             'childAddress'          => $data->getChildAddress(),
             'hasSwimExperience'     => $data->hasSwimExperience(),
             'swimExperienceDetails' => $data->getSwimExperienceDetails(),
@@ -375,6 +405,6 @@ class FormBookingService extends AbstractFormService
 
         $submit = $request->query->get('submit');
 
-        return null !== $submit && '0' !== $submit && 0 !== $submit && false !== $submit && '' !== $submit;
+        return null !== $submit && '' !== $submit && '0' !== $submit;
     }
 }
