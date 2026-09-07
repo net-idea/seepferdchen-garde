@@ -69,3 +69,6 @@ phpstan.neon
 
 # Symfony 7.4: auto-generated config reference (rebuilt on cache warmup)
 /config/reference.php
+
+# Yarn is the package manager of this project – no npm lockfile
+package-lock.json
