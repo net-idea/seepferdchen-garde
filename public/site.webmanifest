@@ -7,7 +7,7 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#12304a",
+  "theme_color": "#0b1f3a",
   "background_color": "#0b1f3a",
   "categories": ["education", "sports", "kids", "swimming", "school"],
   "icons": [

@@ -33,8 +33,6 @@ class FormContactEntity
     #[ORM\Column(type: 'boolean')]
     protected bool $copy = true;
 
-    // Honeypot; not persisted
-    protected string $emailrep = '';
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -117,9 +115,9 @@ class FormContactEntity
         return $this->phone;
     }
 
-    public function setConsent(bool $consent): self
+    public function setConsent(?bool $consent): self
     {
-        $this->consent = $consent;
+        $this->consent = (bool)$consent;
 
         return $this;
     }
@@ -141,9 +139,9 @@ class FormContactEntity
         return $this->message;
     }
 
-    public function setCopy(bool $copy): self
+    public function setCopy(?bool $copy): self
     {
-        $this->copy = $copy;
+        $this->copy = (bool)$copy;
 
         return $this;
     }
@@ -151,18 +149,6 @@ class FormContactEntity
     public function getCopy(): bool
     {
         return $this->copy;
-    }
-
-    public function setEmailrep(?string $emailrep): self
-    {
-        $this->emailrep = (string) $emailrep;
-
-        return $this;
-    }
-
-    public function getEmailrep(): string
-    {
-        return $this->emailrep;
     }
 
     /**

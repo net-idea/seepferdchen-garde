@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\FormContactEntity;
+use App\Service\AbstractFormService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -98,20 +99,8 @@ class FormContactType extends AbstractType
                 'attr'       => ['class' => 'form-check-input'],
                 'label_attr' => ['class' => 'form-check-label'],
             ])
-            // spam traps
-            ->add('emailrep', TextType::class, [
-                'label'      => false,
-                'required'   => false,
-                'empty_data' => '',
-                'attr'       => [
-                    'autocomplete' => 'off',
-                    'tabindex'     => '-1',
-                    'class'        => 'visually-hidden',
-                    'aria-hidden'  => 'true',
-                    'style'        => 'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;',
-                ],
-            ])
-            ->add('website', TextType::class, [
+            // Spam trap: unmapped, rendered inside a display:none wrapper (never autofilled, never shown)
+            ->add(AbstractFormService::HONEYPOT_FIELD, TextType::class, [
                 'label'      => false,
                 'mapped'     => false,
                 'required'   => false,
@@ -119,9 +108,7 @@ class FormContactType extends AbstractType
                 'attr'       => [
                     'autocomplete' => 'off',
                     'tabindex'     => '-1',
-                    'class'        => 'visually-hidden',
                     'aria-hidden'  => 'true',
-                    'style'        => 'position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;',
                 ],
             ]);
     }

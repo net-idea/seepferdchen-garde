@@ -202,6 +202,15 @@ node generate-og.js
 
 The images will be written to `public/assets/og/` and match the paths used in `content/_pages.php`.
 
+## Forms (booking & contact)
+
+Both forms are progressively enhanced:
+
+- Without JavaScript they POST to `/anmeldung` resp. `/kontakt`; the server redirects with `?submit=1` / `?error=…` and restores data from the session.
+- With JavaScript (`assets/scripts/ajax-form.ts`) the same payload is sent to the JSON API `POST /api/booking` / `POST /api/contact` (`src/Controller/Api/FormApiController.php`). Responses: `200 {status: ok, summaryHtml}`, `422 {status: invalid, errors}`, `429`, `500 db_error`, `502 mail_error`. On success the form gets `hidden` and `#booking-success` shows the printable summary (`templates/_partials/booking_summary.html.twig`).
+- Both paths share `FormBookingService::process()` / `FormContactService::process()` which return a `FormSubmissionResult`.
+- Spam protection: stateless CSRF (double-submit cookie or same-origin check), a per-session rate limit and **one** honeypot field (`hp_check`) rendered inside a `hidden` wrapper. Do not add email/url/phone-like hidden fields: browser autofill fills them and real requests would be discarded as spam (this was the cause of "success page but no e-mail and no database row"). Rejected submissions are logged as warnings in prod.
+
 ## Emails
 
 Local testing (Mailpit):

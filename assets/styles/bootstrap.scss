@@ -6,19 +6,53 @@
 @use "sass:map";
 
 // --- Theme overrides (must come before Bootstrap's variables) ---
-$enable-dark-mode: false; // site has a single light theme
+// The site is dark-only: <html data-bs-theme="dark"> is hard-coded and the *-dark
+// variables below carry the navy palette. Light variables are left untouched.
+$enable-dark-mode: true;
 $enable-negative-margins: false;
 $primary: #0a365d; // Kräftiges Ozeanblau
 $secondary: #12304a; // Seepferdchen Navy
 $info: #0f3d4c; // Petrol-Navy
-$body-bg: #f3f4f6;
-$body-color: #111827;
-$link-color: #12355b; // Klassisches Dunkelblau
-$link-hover-color: #0b1f3a; // Tiefes Marineblau
-$headings-color: #0b1f3a;
+$sg-navy-deep: #0b1f3a; // Tiefes Marineblau
+$sg-navy-classic: #12355b; // Klassisches Dunkelblau
+$sg-night: #162a45; // Modernes Nachtblau
+$sg-text: #e6eef7;
+$sg-accent: #9cc3e6; // light tint of the ocean blue for links / focus on dark ground
+$sg-accent-strong: #c5ddf2;
 $font-family-sans-serif: "NunitoVariable", "Nunito", system-ui, -apple-system, "Segoe UI", "Roboto", sans-serif;
 $btn-border-radius: 0.6rem;
 $btn-font-weight: 600;
+$component-active-bg: $sg-accent; // checked checkboxes/radios
+$component-active-color: $sg-navy-deep;
+$focus-ring-color: rgba($sg-accent, 0.35);
+$input-focus-border-color: $sg-accent;
+
+// dark color mode values
+$body-bg-dark: $sg-navy-deep;
+$body-color-dark: $sg-text;
+$body-emphasis-color-dark: #fff;
+$body-secondary-color-dark: rgba($sg-text, 0.72);
+$body-secondary-bg-dark: $secondary;
+$body-tertiary-color-dark: rgba($sg-text, 0.55);
+$body-tertiary-bg-dark: $sg-night;
+$border-color-dark: rgba(#fff, 0.14);
+$border-color-translucent-dark: rgba(#fff, 0.12);
+$headings-color-dark: #fff;
+$link-color-dark: $sg-accent;
+$link-hover-color-dark: $sg-accent-strong;
+$form-select-indicator-color-dark: $sg-text;
+$primary-text-emphasis-dark: $sg-accent-strong;
+$primary-bg-subtle-dark: $sg-navy-classic;
+$primary-border-subtle-dark: rgba($sg-accent, 0.45);
+$info-text-emphasis-dark: $sg-accent-strong;
+$info-bg-subtle-dark: $sg-navy-classic;
+$info-border-subtle-dark: rgba($sg-accent, 0.45);
+$success-text-emphasis-dark: #b7e4c7;
+$success-bg-subtle-dark: #10382b;
+$success-border-subtle-dark: #1f6a4a;
+$danger-text-emphasis-dark: #f5b5b5;
+$danger-bg-subtle-dark: #4a1d24;
+$danger-border-subtle-dark: #8a2f3b;
 
 // --- Configuration ---
 @import "bootstrap/scss/functions";

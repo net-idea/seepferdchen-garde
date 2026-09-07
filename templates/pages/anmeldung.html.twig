@@ -2,9 +2,13 @@
 
 {% block title %}{{ pageMeta.title|default('Anmeldung') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
 
+{% block body_class %}{{ app.request.query.get('submit') ? 'form-success-shown' : '' }}{% endblock %}
+
 {% block body %}
   <div class="container my-4">
     <div class="row justify-content-center">
+      {# Everything in this block disappears once the request was sent (screen and print) #}
+      <div data-hide-on-success>
       <h1>Anfrage für einen Schwimmkurs</h1>
 
       <p class="lead mb-3">
@@ -28,62 +32,19 @@
       <p class="lead mb-1">Ich freue mich auf Ihre Anfrage!</p>
 
       <p class="text-body-secondary mb-4">Nach dem Absenden erhalten Sie eine E‑Mail mit einem Bestätigungslink. Erst nach Klick auf den Link wird Ihre Anfrage berücksichtigt.</p>
+      </div>
 
       {% set submit = app.request.query.get('submit') %}
       {% set error = app.request.query.get('error') %}
       {% set success = submit %}
 
       <div id="booking-success"
+           data-success-container
            class="{{ success ? 'alert alert-success mb-3' : 'visually-hidden' }}"
            aria-hidden="{{ success ? 'false' : 'true' }}"
            {% if success %}role="alert"{% endif %}>
         {% if success %}
-          <h2 class="h5 mb-2">Vielen Dank! Ihre Anfrage ist versendet.</h2>
-          <p class="mb-2">Bitte bestätigen Sie Ihre Anfrage noch über den Link in der E‑Mail, die Sie soeben erhalten haben.</p>
-
-          {% if booking is defined and booking %}
-            {% set pm = {
-              'barzahlung': 'Barzahlung',
-              'ueberweisung': 'Überweisung',
-              'paypal': 'PayPal'
-            } %}
-            <hr>
-            <h3 class="h6 mt-2">Zusammenfassung</h3>
-            <ul class="mb-3">
-              <li><strong>Kurszeitraum:</strong> {{ booking.coursePeriod }} (<em>(Starttermin wird noch bekanntgegeben)</em>)</li>
-              {#
-              <li>
-                <strong>Kurszeitraum:</strong> jeden Dienstag, {{ booking.coursePeriod }}<br>
-                <em>In den Weihnachtsferien vom 22. Dezember 2025 bis zum 6. Januar 2026 findet kein Kurs statt</em>
-              </li>
-              #}
-              <li><strong>Gewünschte Zeit:</strong> {{ booking.desiredTimeSlot }} (<em>jeden Dienstag</em>)</li>
-              <li><strong>Ort:</strong> <a href="https://maps.app.goo.gl/dDAyGnimfYUQYJHU9" target="_blank" rel="noopener">Regenbogenschule in Herzogenrath</a></li>
-              <li><strong>Kosten:</strong> 200&nbsp;€ für 10× 45 Minuten (<em>10 Stunden á 20&nbsp;€</em>)</li>
-              <li><strong>Zahlungsart:</strong> {{ pm[booking.paymentMethod]|default(booking.paymentMethod) }}</li>
-              <li><strong>Kind:</strong> {{ booking.childName }} (geb. {{ booking.childBirthdate|date('d.m.Y') }})</li>
-              <li><strong>Adresse:</strong> {{ booking.childAddress|nl2br }}</li>
-              <li><strong>Schwimmerfahrung:</strong> {{ booking.hasSwimExperience ? 'Ja' : 'Nein' }}{% if booking.swimExperienceDetails %} — {{ booking.swimExperienceDetails }}{% endif %}</li>
-              <li><strong>Ohne Schwimmhilfe:</strong> {{ booking.maySwimWithoutAid ? 'Ja' : 'Nein' }}</li>
-              {% if booking.healthNotes %}
-                <li><strong>Gesundheitliche Hinweise:</strong> {{ booking.healthNotes }}</li>
-              {% endif %}
-              <li><strong>Elternteil:</strong> {{ booking.parentName }} — {{ booking.parentEmail }}{% if booking.parentPhone %} — {{ booking.parentPhone }}{% endif %}</li>
-              <li><strong>Mitglied:</strong> {{ booking.isMemberOfClub ? 'Ja' : 'Nein' }}</li>
-              <li><strong>Einverständnisse:</strong>
-                <ul class="mb-0">
-                  <li>Teilnahme: {{ booking.participationConsent ? 'Ja' : 'Nein' }}</li>
-                  <li>Haftungsausschluss: {{ booking.liabilityAcknowledged ? 'Ja' : 'Nein' }}</li>
-                  <li>Fotos/Videos: {{ booking.photoConsent ? 'Ja' : 'Nein' }}</li>
-                  <li>Datenverarbeitung: {{ booking.dataConsent ? 'Ja' : 'Nein' }}</li>
-                  <li>Verbindliche Anmeldung: {{ booking.bookingConfirmation ? 'Ja' : 'Nein' }}</li>
-                </ul>
-              </li>
-            </ul>
-            <div class="d-flex gap-2">
-              <button id="booking-print" type="button" class="btn btn-outline-secondary btn-sm">Drucken / als PDF speichern</button>
-            </div>
-          {% endif %}
+          {% include '_partials/booking_summary.html.twig' with { booking: booking|default(null) } %}
         {% endif %}
       </div>
 
@@ -129,7 +90,13 @@
 
       {{ form_start(form, {
         action: path('app_booking'),
-        attr: { class: 'vstack gap-3 mt-3 needs-validation', novalidate: 'novalidate' }
+        attr: {
+          class: 'vstack gap-3 mt-3 needs-validation',
+          novalidate: 'novalidate',
+          'data-api-url': path('api_booking'),
+          'data-success-target': 'booking-success',
+          'data-error-target': 'booking-error'
+        }
       }) }}
 
       <h2 class="h4 mt-2">Kurszeitraum</h2>
@@ -286,10 +253,9 @@
         </div>
       </div>
 
-      {# Honeypots (visually hidden) #}
-      <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
-        {{ form_row(form.website) }}
-        {{ form_row(form.emailrep) }}
+      {# Spam trap: display:none so browsers never autofill it #}
+      <div hidden aria-hidden="true">
+        {{ form_widget(form.hp_check) }}
       </div>
 
       <div class="d-flex flex-wrap gap-2 mt-3">
@@ -302,16 +268,6 @@
       {{ form_rest(form) }}
       {{ form_end(form) }}
 
-      <script>
-        (function () {
-          const btn = document.getElementById('booking-print');
-          if (btn) {
-            btn.addEventListener('click', function () {
-              window.print();
-            });
-          }
-        })();
-      </script>
     </div>
   </div>
 {% endblock %}

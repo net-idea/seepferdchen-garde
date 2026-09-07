@@ -17,25 +17,29 @@
     --sg-night: #162a45;
     --sg-ocean: #0a365d;
     --sg-navy: #12304a;
-    --sg-navy-tint: #e6edf5;
-    --sg-navy-tint-border: #b9c9dc;
-    --sg-text: #111827;
-    --sg-text-muted: #4b5563;
-    --sg-surface: #fff;
-    --sg-page-bg: #f3f4f6;
-    --sg-border: #d5deea;
+    --sg-accent: #9cc3e6;
+    --sg-accent-strong: #c5ddf2;
+    --sg-text: #e6eef7;
+    --sg-text-muted: #a9b8ca;
+    --sg-page-bg: var(--sg-navy-deep);
+    --sg-surface: var(--sg-navy);
+    --sg-surface-2: var(--sg-night);
+    --sg-border: rgb(255 255 255 / 14%);
+    --sg-border-strong: rgb(255 255 255 / 24%);
+    --sg-tint: rgb(255 255 255 / 6%);
+    --sg-tint-strong: rgb(255 255 255 / 10%);
 
     /* Bootstrap theme mapping */
     --bs-primary: var(--sg-ocean);
     --bs-primary-rgb: 10, 54, 93;
-    --bs-link-color: var(--sg-navy-classic);
-    --bs-link-color-rgb: 18, 53, 91;
-    --bs-link-hover-color: var(--sg-navy-deep);
-    --bs-link-hover-color-rgb: 11, 31, 58;
+    --bs-link-color: var(--sg-accent);
+    --bs-link-color-rgb: 156, 195, 230;
+    --bs-link-hover-color: var(--sg-accent-strong);
+    --bs-link-hover-color-rgb: 197, 221, 242;
     --bs-body-bg: var(--sg-page-bg);
     --bs-body-color: var(--sg-text);
-    --bs-heading-color: var(--sg-navy-deep);
-    --bs-focus-ring-color: rgb(10 54 93 / 25%);
+    --bs-heading-color: #fff;
+    --bs-focus-ring-color: rgb(156 195 230 / 35%);
 }
 
 /* === Base === */
@@ -46,8 +50,8 @@ body {
 }
 
 ::selection {
-    background-color: var(--sg-ocean);
-    color: #fff;
+    background-color: var(--sg-accent);
+    color: var(--sg-navy-deep);
 }
 
 .bi {
@@ -73,7 +77,8 @@ body {
     --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 
     background: linear-gradient(135deg, var(--sg-navy-deep) 0%, var(--sg-navy-classic) 55%, var(--sg-petrol) 100%);
-    border-bottom: 1px solid var(--sg-navy-deep) !important;
+    border-bottom: 1px solid rgb(255 255 255 / 10%) !important;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 25%);
 }
 
 .site-navbar .navbar-brand {
@@ -87,7 +92,6 @@ body {
 .site-navbar .navbar-brand:focus {
     color: #fff;
     text-decoration: none;
-    opacity: 0.9;
 }
 
 .site-navbar .navbar-brand:focus-visible {
@@ -110,20 +114,30 @@ body {
 .site-navbar .nav-link {
     color: #dbe6f3;
     font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
 }
 
 .site-navbar .nav-link:hover,
 .site-navbar .nav-link:focus {
     color: #fff;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    background-color: rgb(156 195 230 / 14%);
+    text-decoration: none;
 }
 
 .site-navbar .nav-link.active {
     color: #fff;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 3px;
+    background-color: rgb(156 195 230 / 22%);
+    text-decoration: none;
+}
+
+@media (width < 992px) {
+    .site-navbar .navbar-nav {
+        padding: 0.5rem 0 0.75rem;
+        gap: 0.15rem;
+    }
 }
 
 .site-navbar .navbar-toggler:focus {
@@ -132,16 +146,18 @@ body {
 
 /* === Links (global, content only – navbar/footer have their own rules) === */
 a:not(.btn, .navbar-brand, .nav-link) {
-    color: var(--sg-navy-classic);
+    color: var(--sg-accent);
     font-weight: 600;
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: rgb(156 195 230 / 35%);
+    text-underline-offset: 3px;
+    transition: color .15s ease, text-decoration-color .15s ease;
 }
 
 a:not(.btn, .navbar-brand, .nav-link):hover,
 a:not(.btn, .navbar-brand, .nav-link):focus {
-    color: var(--sg-navy-deep);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    color: var(--sg-accent-strong);
+    text-decoration-color: var(--sg-accent-strong);
 }
 
 /* === Buttons (one system, navy palette) === */
@@ -150,14 +166,14 @@ a:not(.btn, .navbar-brand, .nav-link):focus {
 .btn {
     --bs-btn-font-weight: 600;
     --bs-btn-border-radius: 0.6rem;
-    --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgb(10 54 93 / 30%);
+    --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgb(156 195 230 / 35%);
 
     letter-spacing: 0.1px;
-    transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease, transform .08s ease;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
 }
 
 .btn:focus-visible {
-    box-shadow: 0 0 0 0.25rem rgb(10 54 93 / 30%);
+    box-shadow: 0 0 0 0.25rem rgb(156 195 230 / 35%);
 }
 
 /* Links inside buttons should use button color, not link color */
@@ -173,63 +189,59 @@ a.btn:hover, a.btn:focus, a.btn:active {
     fill: currentcolor;
 }
 
-/* Solid: primary actions and calls to action – always white text on navy */
+/* Solid: primary actions and calls to action – light button, navy text (the accent on dark ground) */
 .btn-primary,
 .btn-cta {
-    --bs-btn-color: #fff;
-    --bs-btn-bg: var(--sg-ocean);
-    --bs-btn-border-color: var(--sg-ocean);
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: var(--sg-navy-classic);
-    --bs-btn-hover-border-color: var(--sg-navy-classic);
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--sg-navy-deep);
-    --bs-btn-active-border-color: var(--sg-navy-deep);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: var(--sg-navy);
-    --bs-btn-disabled-border-color: var(--sg-navy);
+    --bs-btn-color: var(--sg-navy-deep);
+    --bs-btn-bg: var(--sg-text);
+    --bs-btn-border-color: var(--sg-text);
+    --bs-btn-hover-color: var(--sg-navy-deep);
+    --bs-btn-hover-bg: var(--sg-accent-strong);
+    --bs-btn-hover-border-color: var(--sg-accent-strong);
+    --bs-btn-active-color: var(--sg-navy-deep);
+    --bs-btn-active-bg: var(--sg-accent);
+    --bs-btn-active-border-color: var(--sg-accent);
+    --bs-btn-disabled-color: var(--sg-navy-classic);
+    --bs-btn-disabled-bg: var(--sg-text-muted);
+    --bs-btn-disabled-border-color: var(--sg-text-muted);
 
-    background-image: linear-gradient(180deg, rgb(255 255 255 / 10%), rgb(255 255 255 / 0%));
-    box-shadow: 0 4px 12px rgb(11 31 58 / 22%), inset 0 1px 0 rgb(255 255 255 / 12%);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 30%);
 }
 
 .btn-primary:hover, .btn-primary:focus-visible,
 .btn-cta:hover, .btn-cta:focus-visible {
-    box-shadow: 0 6px 16px rgb(11 31 58 / 30%), inset 0 1px 0 rgb(255 255 255 / 12%);
-    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgb(0 0 0 / 30%), 0 0 0 4px rgb(156 195 230 / 22%);
 }
 
 .btn-primary:active,
 .btn-cta:active {
     box-shadow: inset 0 2px 4px rgb(0 0 0 / 20%);
-    transform: translateY(0);
 }
 
-/* Outline: secondary actions – navy text and border, tinted on hover */
+/* Outline: secondary actions – light text and border, tinted on hover */
 .btn-outline-secondary,
 .btn-outline-primary,
 .btn-success.contact-whatsapp {
-    --bs-btn-color: var(--sg-navy-classic);
-    --bs-btn-bg: var(--sg-surface);
-    --bs-btn-border-color: var(--sg-navy-tint-border);
-    --bs-btn-hover-color: var(--sg-navy-deep);
-    --bs-btn-hover-bg: var(--sg-navy-tint);
-    --bs-btn-hover-border-color: var(--sg-navy-classic);
+    --bs-btn-color: var(--sg-text);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-color: var(--sg-border-strong);
+    --bs-btn-hover-color: var(--sg-accent-strong);
+    --bs-btn-hover-bg: rgb(156 195 230 / 12%);
+    --bs-btn-hover-border-color: var(--sg-accent);
     --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: var(--sg-navy-classic);
-    --bs-btn-active-border-color: var(--sg-navy-classic);
+    --bs-btn-active-bg: rgb(156 195 230 / 24%);
+    --bs-btn-active-border-color: var(--sg-accent-strong);
     --bs-btn-disabled-color: var(--sg-text-muted);
-    --bs-btn-disabled-bg: var(--sg-surface);
+    --bs-btn-disabled-bg: transparent;
     --bs-btn-disabled-border-color: var(--sg-border);
 
-    box-shadow: 0 1px 2px rgb(11 31 58 / 8%);
+    box-shadow: none;
 }
 
 .btn-outline-secondary:hover, .btn-outline-secondary:focus-visible,
 .btn-outline-primary:hover, .btn-outline-primary:focus-visible,
 .btn-success.contact-whatsapp:hover, .btn-success.contact-whatsapp:focus-visible {
-    box-shadow: 0 3px 8px rgb(11 31 58 / 14%);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 4px rgb(156 195 230 / 14%);
 }
 
 /* WhatsApp: outline button, brand icon keeps its green */
@@ -246,7 +258,7 @@ a.btn:hover, a.btn:focus, a.btn:active {
 
 /* Hero buttons sit on a photo: slightly stronger shadow for separation */
 #main-carousel .btn {
-    box-shadow: 0 6px 18px rgb(11 31 58 / 35%), inset 0 1px 0 rgb(255 255 255 / 12%);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 45%);
 }
 
 /* WhatsApp icon sizing */
@@ -265,9 +277,9 @@ section#kontakt {
     background-repeat: no-repeat;
     background-size: 100% 35%, 100% 25%;
     background-position: top left, bottom left;
-    box-shadow: 0 12px 28px -18px rgb(11 31 58 / 12%), 0 4px 10px -4px rgb(11 31 58 / 8%), 0 0 0 1px rgb(11 31 58 / 5%);
+    box-shadow: 0 12px 28px -18px rgb(0 0 0 / 60%), 0 0 0 1px rgb(255 255 255 / 5%);
     overflow: hidden;
-    background-image: linear-gradient(180deg, rgb(18 53 91 / 6%), rgb(255 255 255 / 0%)), linear-gradient(0deg, rgb(255 255 255 / 0%), rgb(255 255 255 / 0%));
+    background-image: linear-gradient(180deg, rgb(255 255 255 / 4%), rgb(255 255 255 / 0%)), linear-gradient(0deg, rgb(255 255 255 / 2%), rgb(255 255 255 / 0%));
 }
 
 @media (width >= 992px) {
@@ -282,44 +294,40 @@ section#kontakt {
 .card {
     border-radius: 12px;
     border: 1px solid var(--sg-border);
-    box-shadow: 0 10px 30px rgb(11 31 58 / 8%);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 30%);
     background: var(--sg-surface);
 }
 
-/* === Alerts === */
-.alert-info {
-    --bs-alert-color: var(--sg-navy-deep);
-    --bs-alert-bg: var(--sg-navy-tint);
-    --bs-alert-border-color: var(--sg-navy-tint-border);
-    --bs-alert-link-color: var(--sg-navy-deep);
-}
-
+/* === Alerts (colors come from Bootstrap's dark subtle palette, see bootstrap.scss) === */
 .booking-notice {
-    border-left: 4px solid var(--sg-ocean);
+    border-left: 4px solid var(--sg-accent);
 }
 
 /* === Footer (Bottom) === */
 .footer {
     background: var(--sg-navy);
     color: #c5d3e3;
-    border-top: 1px solid var(--sg-navy-deep);
+    border-top: 1px solid rgb(255 255 255 / 10%);
 }
 
 .footer a,
 .footer .nav-link {
-    color: #e6eef7;
+    color: #c5d3e3;
+    text-decoration: none;
+    border-radius: 0.4rem;
+    transition: color .15s ease, background-color .15s ease;
 }
 
 .footer a:hover, .footer a:focus,
 .footer .nav-link:hover, .footer .nav-link:focus {
     color: #fff;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    background-color: rgb(156 195 230 / 14%);
+    text-decoration: none;
 }
 
 /* === Utilities === */
 .text-info {
-    color: var(--sg-petrol) !important;
+    color: var(--sg-accent) !important;
 }
 
 .text-body-secondary {
@@ -327,20 +335,52 @@ section#kontakt {
 }
 
 /* === Forms === */
+.form-control,
+.form-select {
+    background-color: var(--sg-surface-2);
+    color: var(--sg-text);
+    border-color: var(--sg-border-strong);
+}
+
+.form-control::placeholder {
+    color: var(--sg-text-muted);
+}
+
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--sg-navy-classic);
-    box-shadow: 0 0 0 0.25rem rgb(18 53 91 / 25%);
+    background-color: var(--sg-surface-2);
+    color: var(--sg-text);
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 0.25rem rgb(156 195 230 / 30%);
+}
+
+.form-floating > label {
+    color: var(--sg-text-muted);
+}
+
+.form-floating > .form-control:focus ~ label::after,
+.form-floating > .form-control:not(:placeholder-shown) ~ label::after,
+.form-floating > .form-select ~ label::after {
+    background-color: var(--sg-surface-2);
+}
+
+.form-check-input {
+    background-color: var(--sg-surface-2);
+    border-color: var(--sg-border-strong);
 }
 
 .form-check-input:focus {
-    border-color: var(--sg-navy-classic);
-    box-shadow: 0 0 0 0.25rem rgb(18 53 91 / 25%);
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 0.25rem rgb(156 195 230 / 30%);
 }
 
 .form-check-input:checked {
-    background-color: var(--sg-ocean);
-    border-color: var(--sg-ocean);
+    background-color: var(--sg-accent);
+    border-color: var(--sg-accent);
+}
+
+.form-text {
+    color: var(--sg-text-muted);
 }
 
 .choice-expanded {
@@ -354,20 +394,20 @@ section#kontakt {
     display: inline-flex;
     align-items: center;
     padding: 0.45rem 0.7rem;
-    border: 1px solid var(--sg-border);
+    border: 1px solid var(--sg-border-strong);
     border-radius: 0.5rem;
-    background: var(--sg-surface);
+    background: var(--sg-surface-2);
 }
 
 .choice-expanded > div:focus-within {
-    border-color: var(--sg-navy-classic);
-    box-shadow: 0 0 0 2px rgb(18 53 91 / 25%);
+    border-color: var(--sg-accent);
+    box-shadow: 0 0 0 2px rgb(156 195 230 / 30%);
 }
 
 .choice-expanded input[type="radio"],
 input[type="radio"],
 input[type="checkbox"] {
-    accent-color: var(--sg-ocean);
+    accent-color: var(--sg-accent);
 }
 
 .choice-expanded input[type="radio"] {
@@ -381,4 +421,11 @@ input[type="checkbox"] {
     line-height: 1.35;
     font-weight: 600;
     cursor: pointer;
+}
+
+/* === Form success: only the confirmation stays visible (works without JS via server-side body class) === */
+body.form-success-shown [data-hide-on-success],
+body.form-success-shown form[data-success-target],
+body.form-success-shown [data-error-target] {
+    display: none !important;
 }

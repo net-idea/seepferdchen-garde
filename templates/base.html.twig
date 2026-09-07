@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-bs-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
   {# SEO constants and computed values #}
   {% set baseUrl = 'https://seepferdchen-garde.de' %}
   {% set brandName = 'Seepferdchen‑Garde' %}
@@ -30,7 +31,7 @@
   <meta name="keywords" content="{{ pageKeywords }}">
   <meta name="robots" content="{{ robots }}">
   <link rel="canonical" href="{{ absolutCanonical }}">
-  <meta name="theme-color" content="#12304a">
+  <meta name="theme-color" content="#0b1f3a">
 
   {# Open Graph #}
   <meta property="og:site_name" content="{{ siteName }}">
@@ -84,7 +85,7 @@
     {{ encore_entry_link_tags('app') }}
   {% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
 {% include '_partials/navbar.html.twig' with { navItems: navItems|default([]), currentSlug: slug|default('') } %}
 
 {% block body %}{% endblock %}

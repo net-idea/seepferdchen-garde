@@ -2,6 +2,8 @@
 
 {% block title %}{{ pageMeta.title|default('Kontakt') ~ ' — Seepferdchen‑Garde' }}{% endblock %}
 
+{% block body_class %}{{ app.request.query.get('submit') ? 'form-success-shown' : '' }}{% endblock %}
+
 {% block body %}
   <div class="container my-4">
     <div class="row justify-content-center">
@@ -14,6 +16,7 @@
       {% set error = app.request.query.get('error') %}
 
       <div id="contact-success"
+           data-success-container
            class="{{ submit ? 'alert alert-success mb-3' : 'visually-hidden' }}"
            aria-hidden="{{ submit ? 'false' : 'true' }}"
            {% if submit %}role="alert"{% endif %}>
@@ -31,6 +34,8 @@
             Bitte warten Sie einen Moment, bevor Sie das Formular erneut absenden.
           {% elseif error == 'mail' %}
             Leider konnte die E‑Mail nicht versendet werden. Bitte versuchen Sie es in Kürze erneut.
+          {% elseif error == 'db' %}
+            Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es in wenigen Minuten erneut.
           {% else %}
             Es ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre Eingaben und versuchen Sie es erneut.
           {% endif %}
@@ -58,7 +63,13 @@
 
       {{ form_start(form, {
         action: path('app_contact'),
-        attr: { class: 'vstack gap-3 mt-3 needs-validation', novalidate: 'novalidate' }
+        attr: {
+          class: 'vstack gap-3 mt-3 needs-validation',
+          novalidate: 'novalidate',
+          'data-api-url': path('api_contact'),
+          'data-success-target': 'contact-success',
+          'data-error-target': 'contact-error'
+        }
       }) }}
       <div class="row g-3">
         <div class="col-12 col-md-6">
@@ -85,10 +96,9 @@
           <div class="invalid-feedback">Bitte geben Sie mindestens 10 Zeichen ein.</div>
           {{ form_errors(form.message) }}
         </div>
-        {# Honeypots (visually hidden) #}
-        <div style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;" aria-hidden="true">
-          {{ form_row(form.website) }}
-          {{ form_row(form.emailrep) }}
+        {# Spam trap: display:none so browsers never autofill it #}
+        <div hidden aria-hidden="true">
+          {{ form_widget(form.hp_check) }}
         </div>
         <div class="col-12 form-check">
           {{ form_widget(form.consent) }}

@@ -4,29 +4,43 @@
 
 {% block body %}
 <!-- Carousel Slider as hero banner -->
+{#
+  Currently a single slide. The second slide, the indicators and the prev/next controls are
+  parked in the Twig comment further below so the slider can be re-activated any time.
+#}
 <div id="main-carousel" class="carousel slide" data-bs-ride="carousel" aria-label="Hero Slider">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-  </div>
   <div class="carousel-inner">
-    <div class="carousel-item carousel-item-1 bg-secondary text-dark active" aria-label="Schwimmschule Vorstellung">
-      <div class="container py-5">
-        <h1 class="display-heading">
-          Seepferdchen-Garde<br>
-          Schwimmschule Riccardo Nappa
-        </h1>
-        <p class="lead mb-0">Kleine Gruppen, kindgerechtes Lernen und eine offizielle Seepferdchen‑Prüfung.</p>
-        <a href="/anmeldung" class="btn btn-cta btn-lg mt-3" role="button" aria-label="Kursplatz anfragen">Kursplatz anfragen</a>
+    <div class="carousel-item carousel-item-1 active" aria-label="Seepferdchen-Garde – Schwimmschule Riccardo Nappa">
+      <h1 class="visually-hidden">Seepferdchen-Garde – Schwimmschule Riccardo Nappa</h1>
+      <picture class="hero-picture">
+        <source type="image/webp"
+                srcset="{{ asset('build/images/riccardo-advertisement-960.webp') }} 960w, {{ asset('build/images/riccardo-advertisement.webp') }} 1672w"
+                sizes="100vw">
+        <img src="{{ asset('build/images/riccardo-advertisement.jpg') }}"
+             srcset="{{ asset('build/images/riccardo-advertisement-960.jpg') }} 960w, {{ asset('build/images/riccardo-advertisement.jpg') }} 1672w"
+             sizes="100vw"
+             width="1672" height="941"
+             fetchpriority="high" decoding="async"
+             alt="Riccardo Nappa, Trainer der Seepferdchen-Garde – Schwimmen lernen. Mit Sicherheit. Mit Freude. Fürs Leben.">
+      </picture>
+      <div class="hero-cta">
+        <a href="/anmeldung" class="btn btn-cta btn-lg" role="button" aria-label="Kursplatz anfragen">Kursplatz anfragen</a>
       </div>
     </div>
-    <div class="carousel-item carousel-item-2 bg-secondary text-dark" aria-label="Erfahrung und Sicherheit">
+    {#
+    <div class="carousel-item carousel-item-2" aria-label="Kursplatz anfragen">
       <div class="container py-5">
         <h2 class="h1 display-heading">Kursplatz für den nächsten Schwimmkurs anfragen</h2>
         <p class="lead mb-0">Jetzt einen Kursplatz anfragen – ich melde mich persönlich mit einer Bestätigung.</p>
         <a href="/anmeldung" class="btn btn-cta btn-lg mt-3" role="button" aria-label="Kursplatz anfragen">Kursplatz anfragen</a>
       </div>
     </div>
+    #}
+  </div>
+  {#
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#main-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#main-carousel" data-bs-slide="prev" aria-label="Vorheriger Slide">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -36,6 +50,7 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Weiter</span>
   </button>
+  #}
 </div>
 
 <main id="content">

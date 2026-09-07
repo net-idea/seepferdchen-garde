@@ -1,25 +1,53 @@
+/* ============================================================
+   Hero carousel
+   Slide 1: full-width poster image (assets/images/riccardo-advertisement.*)
+            with the booking CTA placed bottom-right, below the poster text.
+   Slide 2 (parked in start.html.twig): text on a photo background.
+   ============================================================ */
+
 .carousel-item {
-  height: 500px;
   font-weight: 900;
   font-variation-settings: 'wght' 900;
+  background-color: var(--sg-navy-deep, #0b1f3a);
 }
 
+/* --- Slide 1: poster --- */
 .carousel-item-1 {
-  background: linear-gradient(rgb(255 255 255 / 60%), rgb(255 255 255 / 10%)), url('../images/schwimmbad.jpg') center/cover no-repeat;
+  position: relative;
 }
 
+.hero-picture,
+.hero-picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hero-cta {
+  position: absolute;
+  right: 6%;
+  bottom: 7%;
+  z-index: 2;
+}
+
+@media (width < 768px) {
+  /* On small screens the poster text gets tiny – keep the CTA readable below the image */
+  .hero-cta {
+    position: static;
+    padding: 1rem 1.25rem 1.5rem;
+    text-align: right;
+    background: var(--sg-navy-deep, #0b1f3a);
+  }
+}
+
+/* --- Slide 2 (parked): text over photo --- */
 .carousel-item-2 {
-  background: linear-gradient(rgb(255 255 255 / 60%), rgb(255 255 255 / 10%)), url('../images/kinder-schwimmen.jpg') center/cover no-repeat;
+  height: 500px;
+  background: linear-gradient(90deg, rgb(11 31 58 / 85%) 0%, rgb(11 31 58 / 55%) 55%, rgb(11 31 58 / 25%) 100%), url('../images/kinder-schwimmen.jpg') center/cover no-repeat;
+  color: #fff;
 }
 
-/* override Bootstrap's lighter lead weight */
-.carousel-item .lead {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #162a45;
-}
-
-.carousel-item .container {
+.carousel-item-2 .container {
   padding-inline: 3rem;
   height: 100%;
   display: flex;
@@ -27,82 +55,39 @@
   justify-content: center;
 }
 
+.carousel-item-2 h1,
+.carousel-item-2 h2 {
+  color: #fff;
+  text-shadow: 0 2px 12px rgb(0 0 0 / 45%);
+}
+
+.carousel-item-2 .lead {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #e6eef7;
+  text-shadow: 0 1px 8px rgb(0 0 0 / 45%);
+}
+
 @media (width >= 576px) {
-  .carousel-item .container {
+  .carousel-item-2 .container {
     padding-inline: 4rem;
   }
 }
 
 @media (width >= 992px) {
-  .carousel-item .container {
+  .carousel-item-2 .container {
     padding-inline: 5rem;
   }
 }
 
-/* === White outline for carousel text (better readability) === */
-.carousel-item h1,
-.carousel-item h2,
-.carousel-item p,
-.carousel-item .lead {
-  -webkit-text-stroke: 1px #fff;
-  paint-order: stroke fill;
-  text-shadow: 0 0 2px #fff,
-  0 0 4px rgb(255 255 255 / 60%);
-}
-
-/* Remove glow on interactive elements for crisp readability */
-.carousel-item a,
+/* Buttons inside a text slide must not stretch to full width (flex column container) */
 .carousel-item .btn {
-  -webkit-text-stroke-width: 0 !important;
-  text-shadow: none !important;
+  align-self: flex-start;
 }
 
-/* Fallback when stroke unsupported: simulate outline with multi‑direction shadows */
-@supports not (-webkit-text-stroke: 1px #fff) {
-  .carousel-item h1,
-  .carousel-item h2,
-  .carousel-item p,
-  .carousel-item .lead {
-    text-shadow: 1px 0 0 #fff,
-    -1px 0 0 #fff,
-    0 1px 0 #fff,
-    0 -1px 0 #fff,
-    1px 1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px -1px 0 #fff;
-  }
-
-  .carousel-item a,
-  .carousel-item .btn {
-    text-shadow: none !important;
-  }
-}
-
-/* Optional utility class for other elements */
-.text-outline-white {
-  -webkit-text-stroke: 1px #fff;
-  paint-order: stroke fill;
-  text-shadow: 0 0 2px #fff,
-  0 0 4px rgb(255 255 255 / 60%);
-}
-
-@supports not (-webkit-text-stroke: 1px #fff) {
-  .text-outline-white {
-    text-shadow: 1px 0 0 #fff,
-    -1px 0 0 #fff,
-    0 1px 0 #fff,
-    0 -1px 0 #fff,
-    1px 1px 0 #fff,
-    -1px 1px 0 #fff,
-    1px -1px 0 #fff,
-    -1px -1px 0 #fff;
-  }
-}
-
-/* === Improve link visibility in carousel === */
+/* Links inside slides */
 .carousel-item a:not(.btn) {
-  color: #12355b; /* Klassisches Dunkelblau */
+  color: #c5ddf2;
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
@@ -110,10 +95,5 @@
 
 .carousel-item a:not(.btn):hover,
 .carousel-item a:not(.btn):focus {
-  color: #0b1f3a;
-}
-
-/* Buttons inside the hero must not stretch to full width (flex column container) */
-.carousel-item .btn {
-  align-self: flex-start;
+  color: #fff;
 }

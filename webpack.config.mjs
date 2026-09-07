@@ -22,6 +22,13 @@ Encore
      */
     .addEntry('app', './assets/app.js')
 
+    // Images referenced from Twig (asset('build/images/...')) – hashed and listed in manifest.json
+    .copyFiles({
+        from: './assets/images',
+        pattern: /riccardo-advertisement(-\d+)?\.(jpe?g|webp)$/,
+        to: 'images/[path][name].[hash:8].[ext]',
+    })
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 

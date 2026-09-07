@@ -194,9 +194,9 @@ class FormBookingEntity
     {
         return $this->hasSwimExperience;
     }
-    public function setHasSwimExperience(bool $b): self
+    public function setHasSwimExperience(?bool $b): self
     {
-        $this->hasSwimExperience = $b;
+        $this->hasSwimExperience = (bool)$b;
 
         return $this;
     }
@@ -227,9 +227,9 @@ class FormBookingEntity
     {
         return $this->maySwimWithoutAid;
     }
-    public function setMaySwimWithoutAid(bool $b): self
+    public function setMaySwimWithoutAid(?bool $b): self
     {
-        $this->maySwimWithoutAid = $b;
+        $this->maySwimWithoutAid = (bool)$b;
 
         return $this;
     }
@@ -271,9 +271,9 @@ class FormBookingEntity
     {
         return $this->isMemberOfClub;
     }
-    public function setIsMemberOfClub(bool $b): self
+    public function setIsMemberOfClub(?bool $b): self
     {
-        $this->isMemberOfClub = $b;
+        $this->isMemberOfClub = (bool)$b;
 
         return $this;
     }
@@ -293,9 +293,9 @@ class FormBookingEntity
     {
         return $this->participationConsent;
     }
-    public function setParticipationConsent(bool $b): self
+    public function setParticipationConsent(?bool $b): self
     {
-        $this->participationConsent = $b;
+        $this->participationConsent = (bool)$b;
 
         return $this;
     }
@@ -304,9 +304,9 @@ class FormBookingEntity
     {
         return $this->liabilityAcknowledged;
     }
-    public function setLiabilityAcknowledged(bool $b): self
+    public function setLiabilityAcknowledged(?bool $b): self
     {
-        $this->liabilityAcknowledged = $b;
+        $this->liabilityAcknowledged = (bool)$b;
 
         return $this;
     }
@@ -315,9 +315,9 @@ class FormBookingEntity
     {
         return $this->photoConsent;
     }
-    public function setPhotoConsent(bool $b): self
+    public function setPhotoConsent(?bool $b): self
     {
-        $this->photoConsent = $b;
+        $this->photoConsent = (bool)$b;
 
         return $this;
     }
@@ -326,9 +326,9 @@ class FormBookingEntity
     {
         return $this->dataConsent;
     }
-    public function setDataConsent(bool $b): self
+    public function setDataConsent(?bool $b): self
     {
-        $this->dataConsent = $b;
+        $this->dataConsent = (bool)$b;
 
         return $this;
     }
@@ -337,9 +337,9 @@ class FormBookingEntity
     {
         return $this->bookingConfirmation;
     }
-    public function setBookingConfirmation(bool $b): self
+    public function setBookingConfirmation(?bool $b): self
     {
-        $this->bookingConfirmation = $b;
+        $this->bookingConfirmation = (bool)$b;
 
         return $this;
     }
