@@ -26,8 +26,82 @@
 .hero-cta {
   position: absolute;
   right: 6%;
-  bottom: 7%;
+  bottom: 11%; /* high enough to stay clear of the sticky footer bar on desktop */
   z-index: 2;
+}
+
+/* Hero CTA: picks up the poster's language – seahorse orange, glossy white rim,
+   pill shape like the wave graphics. Only this button, the rest of the site keeps
+   the calm navy button system. Colors sampled from the poster (#f89800, #121d34). */
+#main-carousel .btn-cta {
+  --bs-btn-color: #121d34;
+  --bs-btn-bg: #f89800;
+  --bs-btn-border-color: rgb(255 255 255 / 85%);
+  --bs-btn-hover-color: #121d34;
+  --bs-btn-hover-bg: #ffa92a;
+  --bs-btn-hover-border-color: #fff;
+  --bs-btn-active-color: #121d34;
+  --bs-btn-active-bg: #e88900;
+  --bs-btn-active-border-color: #fff;
+  --bs-btn-padding-y: 0.9rem;
+  --bs-btn-padding-x: 2rem;
+  --bs-btn-font-size: 1.2rem;
+  --bs-btn-font-weight: 800;
+  --bs-btn-border-width: 3px;
+  --bs-btn-border-radius: 999px;
+  --bs-btn-focus-box-shadow: 0 0 0 0.3rem rgb(255 255 255 / 45%);
+
+  letter-spacing: 0.2px;
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 28%) 0%, rgb(255 255 255 / 0%) 55%);
+  box-shadow: 0 12px 32px rgb(248 152 0 / 45%), 0 4px 10px rgb(0 0 0 / 30%), inset 0 -2px 0 rgb(0 0 0 / 12%);
+  text-shadow: 0 1px 0 rgb(255 255 255 / 35%);
+  transition: background-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+#main-carousel .btn-cta::after {
+  content: "→";
+  display: inline-block;
+  margin-left: 0.55rem;
+  font-weight: 900;
+  transition: transform .15s ease;
+}
+
+#main-carousel .btn-cta:hover,
+#main-carousel .btn-cta:focus-visible {
+  box-shadow: 0 16px 40px rgb(248 152 0 / 60%), 0 6px 14px rgb(0 0 0 / 35%), inset 0 -2px 0 rgb(0 0 0 / 12%);
+  transform: translateY(-2px);
+}
+
+#main-carousel .btn-cta:hover::after,
+#main-carousel .btn-cta:focus-visible::after {
+  transform: translateX(4px);
+}
+
+#main-carousel .btn-cta:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgb(248 152 0 / 40%), inset 0 2px 4px rgb(0 0 0 / 20%);
+}
+
+@media (width < 768px) {
+  #main-carousel .btn-cta {
+    --bs-btn-padding-y: 0.75rem;
+    --bs-btn-padding-x: 1.5rem;
+    --bs-btn-font-size: 1.05rem;
+  }
+}
+
+/* On large screens the poster is huge – scale the CTA with it */
+@media (width >= 1200px) {
+  #main-carousel .btn-cta {
+    --bs-btn-padding-y: 1.1rem;
+    --bs-btn-padding-x: 2.6rem;
+    --bs-btn-font-size: 1.45rem;
+  }
+
+  .hero-cta {
+    right: 7%;
+    bottom: 13%;
+  }
 }
 
 @media (width < 768px) {
