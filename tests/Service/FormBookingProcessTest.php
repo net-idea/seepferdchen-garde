@@ -86,17 +86,28 @@ final class FormBookingProcessTest extends TestCase
         $this->assertArrayHasKey('dataConsent', $result->errors);
     }
 
-    public function testFullyBookedTimeSlotIsRejected(): void
+    public function testUnknownTimeSlotIsRejected(): void
     {
         [$svc, $request, $session] = $this->makeService();
 
         $form = $svc->getForm();
-        $form->submit(['desiredTimeSlot' => '16:00–16:45'] + self::validPayload());
+        $form->submit(['desiredTimeSlot' => '17:00–17:45'] + self::validPayload());
 
         $result = $svc->process($form, $request, $session);
 
         $this->assertSame(FormSubmissionStatus::Invalid, $result->status);
         $this->assertArrayHasKey('desiredTimeSlot', $result->errors);
+    }
+
+    public function testLateTimeSlotIsBookableAgain(): void
+    {
+        [$svc] = $this->makeService();
+
+        $form = $svc->getForm();
+        $form->submit(['desiredTimeSlot' => '16:00–16:45'] + self::validPayload());
+
+        $this->assertCount(0, $form->get('desiredTimeSlot')->getErrors(true));
+        $this->assertSame('16:00–16:45', $form->get('desiredTimeSlot')->getData());
     }
 
     public function testMailFailureStillKeepsTheBookingAndReportsMailError(): void
