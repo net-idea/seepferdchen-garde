@@ -19,11 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class FormBookingType extends AbstractType
 {
-    /** Kurszeiten, die aktuell buchbar sind. */
-    private const AVAILABLE_SLOTS = ['15:00–15:45'];
+    /** Alle angebotenen Kurszeiten. */
+    private const SLOTS = ['15:00–15:45', '16:00–16:45'];
 
-    /** Kurszeiten, die ausgebucht sind (werden angezeigt, sind aber nicht wählbar). */
-    private const FULLY_BOOKED_SLOTS = ['16:00–16:45'];
+    /** Kurszeiten, die ausgebucht sind (werden angezeigt, sind aber nicht wählbar), z. B. ['16:00–16:45']. */
+    private const FULLY_BOOKED_SLOTS = [];
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -37,10 +37,13 @@ class FormBookingType extends AbstractType
                 'required'    => true,
                 'empty_data'  => '',
                 'placeholder' => 'Bitte wählen…',
-                'choices'     => [
-                    '15:00–15:45 Uhr'              => '15:00–15:45',
-                    '16:00–16:45 Uhr (ausgebucht)' => '16:00–16:45',
-                ],
+                'choices'     => array_combine(
+                    array_map(
+                        static fn (string $slot): string => $slot . ' Uhr' . (\in_array($slot, self::FULLY_BOOKED_SLOTS, true) ? ' (ausgebucht)' : ''),
+                        self::SLOTS
+                    ),
+                    self::SLOTS
+                ),
                 // Ausgebuchte Kurszeiten: im Dropdown sichtbar, aber nicht wählbar
                 'choice_attr' => static fn (string $value): array => \in_array($value, self::FULLY_BOOKED_SLOTS, true)
                     ? ['disabled' => 'disabled']
@@ -48,7 +51,7 @@ class FormBookingType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(message: 'Bitte eine Kurszeit auswählen.'),
                     new Assert\Choice(
-                        choices: self::AVAILABLE_SLOTS,
+                        choices: array_values(array_diff(self::SLOTS, self::FULLY_BOOKED_SLOTS)),
                         message: 'Diese Kurszeit ist leider ausgebucht. Bitte wählen Sie eine andere Kurszeit.'
                     ),
                 ],

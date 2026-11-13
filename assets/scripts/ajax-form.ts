@@ -15,11 +15,17 @@ export interface ApiResponse {
   message?: string;
   errors?: Record<string, string[]>;
   summaryHtml?: string | null;
+  /** Next spam challenge, handed out whenever the previous one was consumed (contact form). */
+  challenge?: string;
 }
 
 export interface AjaxFormOptions {
   /** Called after a successful submission (form already hidden, success alert rendered). */
   onSuccess?: (form: HTMLFormElement, data: ApiResponse) => void;
+  /** Called after validation, right before the form data is read (e.g. to fill in a proof-of-work solution). */
+  beforeSubmit?: (form: HTMLFormElement) => Promise<void>;
+  /** Called with every parsed API answer, before it is presented. */
+  onResponse?: (form: HTMLFormElement, data: ApiResponse) => void;
 }
 
 export const GENERIC_ERROR = 'Es ist ein Fehler aufgetreten. Bitte versuchen Sie es in Kürze erneut oder kontaktieren Sie mich direkt.';
@@ -159,6 +165,7 @@ export function enhanceAjaxForm(form: HTMLFormElement, opts: AjaxFormOptions = {
     try {
       // Stateless CSRF: make sure the double-submit cookie + token are in place before reading the form data
       generateCsrfToken(form);
+      await opts.beforeSubmit?.(form);
       const body = new FormData(form);
 
       const response = await fetch(apiUrl, {
@@ -178,6 +185,8 @@ export function enhanceAjaxForm(form: HTMLFormElement, opts: AjaxFormOptions = {
       } catch {
         data = { status: 'error' };
       }
+
+      opts.onResponse?.(form, data);
 
       if (response.ok && data.status === 'ok') {
         form.classList.remove('was-validated');

@@ -42,13 +42,18 @@ final class FormApiController extends AbstractController
         return $this->respond(
             $result,
             'Vielen Dank! Ihre Nachricht wurde erfolgreich versendet. Ich melde mich zeitnah bei Ihnen.',
+            // A verified challenge is consumed: hand out the next one (not needed after invalid/rate-limited attempts)
+            extra: null !== $result && !\in_array($result->status, [FormSubmissionStatus::Invalid, FormSubmissionStatus::RateLimited], true)
+                ? ['challenge' => $service->issueChallenge()]
+                : [],
         );
     }
 
     /**
      * @param (\Closure(object): string)|null $summaryRenderer renders an HTML summary for the "ok" case
+     * @param array<string, mixed> $extra additional keys for the success-like and server-error answers
      */
-    private function respond(?FormSubmissionResult $result, string $successMessage, ?\Closure $summaryRenderer = null): JsonResponse
+    private function respond(?FormSubmissionResult $result, string $successMessage, ?\Closure $summaryRenderer = null, array $extra = []): JsonResponse
     {
         if (null === $result) {
             return $this->json(
@@ -62,9 +67,9 @@ final class FormApiController extends AbstractController
                 'status'      => 'ok',
                 'message'     => $successMessage,
                 'summaryHtml' => null !== $summaryRenderer && null !== $result->data ? $summaryRenderer($result->data) : null,
-            ]),
+            ] + $extra),
             // Do not tell bots they were detected; a real user cannot hit this path anymore (see honeypot notes).
-            FormSubmissionStatus::Spam    => $this->json(['status' => 'ok', 'message' => $successMessage, 'summaryHtml' => null]),
+            FormSubmissionStatus::Spam    => $this->json(['status' => 'ok', 'message' => $successMessage, 'summaryHtml' => null] + $extra),
             FormSubmissionStatus::Invalid => $this->json([
                 'status'  => 'invalid',
                 'message' => 'Bitte prüfen Sie Ihre Eingaben. Die markierten Felder sind unvollständig oder ungültig.',
@@ -77,11 +82,11 @@ final class FormApiController extends AbstractController
             FormSubmissionStatus::DbError => $this->json([
                 'status'  => 'db_error',
                 'message' => 'Es ist ein technischer Fehler aufgetreten und Ihre Angaben konnten nicht gespeichert werden. Bitte versuchen Sie es in wenigen Minuten erneut oder kontaktieren Sie mich direkt.',
-            ], Response::HTTP_INTERNAL_SERVER_ERROR),
+            ] + $extra, Response::HTTP_INTERNAL_SERVER_ERROR),
             FormSubmissionStatus::MailError => $this->json([
                 'status'  => 'mail_error',
                 'message' => 'Ihre Angaben wurden gespeichert, aber die Bestätigungs‑E‑Mail konnte nicht versendet werden. Ich melde mich umgehend bei Ihnen. Falls Sie innerhalb von 24 Stunden nichts hören, kontaktieren Sie mich bitte direkt.',
-            ], Response::HTTP_BAD_GATEWAY),
+            ] + $extra, Response::HTTP_BAD_GATEWAY),
         };
     }
 }
