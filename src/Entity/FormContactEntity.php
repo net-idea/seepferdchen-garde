@@ -45,6 +45,14 @@ class FormContactEntity
     #[ORM\JoinColumn(name: 'meta_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?FormSubmissionMetaEntity $meta = null;
 
+    // Suspected spam: stored for review, never mailed
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $quarantined = false;
+
+    // Comma-separated names of the spam checks that failed; null for regular submissions
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $quarantineReason = null;
+
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
@@ -179,5 +187,28 @@ class FormContactEntity
         }
 
         return $this->meta;
+    }
+
+    /**
+     * Hold the submission back as suspected spam.
+     *
+     * @param non-empty-list<string> $reasons
+     */
+    public function quarantine(array $reasons): self
+    {
+        $this->quarantined = true;
+        $this->quarantineReason = implode(',', $reasons);
+
+        return $this;
+    }
+
+    public function isQuarantined(): bool
+    {
+        return $this->quarantined;
+    }
+
+    public function getQuarantineReason(): ?string
+    {
+        return $this->quarantineReason;
     }
 }

@@ -8,6 +8,7 @@ use App\Service\AbstractFormService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -110,6 +111,18 @@ class FormContactType extends AbstractType
                     'tabindex'     => '-1',
                     'aria-hidden'  => 'true',
                 ],
+            ])
+            // Spam challenge: issued on render, solved by the browser before sending
+            ->add('challenge', HiddenType::class, [
+                'mapped'     => false,
+                'required'   => false,
+                'empty_data' => '',
+                'data'       => $options['challenge'],
+            ])
+            ->add('solution', HiddenType::class, [
+                'mapped'     => false,
+                'required'   => false,
+                'empty_data' => '',
             ]);
     }
 
@@ -118,6 +131,8 @@ class FormContactType extends AbstractType
         $resolver->setDefaults([
             'data_class'      => FormContactEntity::class,
             'csrf_protection' => true,
+            'challenge'       => '',
         ]);
+        $resolver->setAllowedTypes('challenge', 'string');
     }
 }

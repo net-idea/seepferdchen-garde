@@ -32,6 +32,7 @@ class FormContactService extends AbstractFormService
         private readonly UrlGeneratorInterface $urls,
         private readonly EntityManagerInterface $em,
         private readonly LoggerInterface $logger,
+        private readonly FormChallengeService $challenges,
     ) {
     }
 
@@ -41,7 +42,8 @@ class FormContactService extends AbstractFormService
             $data = $this->restoreFormData();
             $this->form = $this->forms->create(
                 FormContactType::class,
-                $data ?? new FormContactEntity()
+                $data ?? new FormContactEntity(),
+                ['challenge' => $this->challenges->issue()]
             );
         }
 
@@ -85,6 +87,14 @@ class FormContactService extends AbstractFormService
         }
     }
 
+    /**
+     * A fresh spam challenge for the next submission (every challenge is valid for one submission only).
+     */
+    public function issueChallenge(): string
+    {
+        return $this->challenges->issue();
+    }
+
     public function process(FormInterface $form, Request $request, SessionInterface $session): FormSubmissionResult
     {
         $rl = $this->rateLimitCheck(
@@ -102,18 +112,36 @@ class FormContactService extends AbstractFormService
         /** @var FormContactEntity $contactForm */
         $contactForm = $form->getData();
 
-        if ($this->isHoneypotFilled($form)) {
+        $honeypotFilled = $this->isHoneypotFilled($form);
+
+        if ($honeypotFilled && !$form->isValid()) {
             $this->logger->warning('Contact request rejected: honeypot field was filled', [
                 'ip'    => (string)$request->server->get('REMOTE_ADDR', ''),
                 'email' => $contactForm->getEmailAddress(),
             ]);
             $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
 
+            // Nothing storable; pretend success
             return FormSubmissionResult::spam();
         }
 
         if (!$form->isValid()) {
             return FormSubmissionResult::invalid($this->collectFormErrors($form));
+        }
+
+        // Spam checks: suspicious submissions are quarantined (stored, not mailed) instead of rejected
+        $spamReasons = $honeypotFilled ? ['honeypot'] : [];
+        $challengeFailure = $this->challenges->verify(
+            (string)$form->get('challenge')->getData(),
+            (string)$form->get('solution')->getData(),
+        );
+
+        if (null !== $challengeFailure) {
+            $spamReasons[] = $challengeFailure;
+        }
+
+        if ([] !== $spamReasons) {
+            $contactForm->quarantine($spamReasons);
         }
 
         $meta = (new FormSubmissionMetaEntity())
@@ -123,13 +151,33 @@ class FormContactService extends AbstractFormService
             ->setHost($request->getHost());
         $contactForm->setMeta($meta);
 
+        $storedInDatabase = true;
+
         try {
             $this->em->persist($contactForm);
             $this->em->flush();
         } catch (\Throwable $e) {
+            $storedInDatabase = false;
             $this->logger->error('Database error while saving contact request', ['exception' => $e->getMessage()]);
 
-            return FormSubmissionResult::dbError($contactForm);
+            if (!$contactForm->isQuarantined()) {
+                return FormSubmissionResult::dbError($contactForm);
+            }
+        }
+
+        if ($contactForm->isQuarantined()) {
+            $context = ['reasons' => $spamReasons, 'email' => $contactForm->getEmailAddress(), 'ip' => $meta->getIp()];
+
+            if ($storedInDatabase) {
+                $this->logger->notice('Contact form submission quarantined', $context);
+            } else {
+                $this->logger->error('Contact form submission quarantined but not stored', $context);
+            }
+
+            $this->rateLimitTickNow($session, self::SESSION_RATE_KEY);
+
+            // Pretend success: senders must not be able to tell that they were held back
+            return FormSubmissionResult::spam();
         }
 
         try {
